@@ -1,0 +1,11 @@
+Model Information:
+* title:	Chrysler Sebring Convertible
+* source:	https://sketchfab.com/3d-models/chrysler-sebring-convertible-dac8529f24754bbd936173cbe8da92b1
+* author:	BadKarma™ (https://sketchfab.com/890244234)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Chrysler Sebring Convertible" (https://sketchfab.com/3d-models/chrysler-sebring-convertible-dac8529f24754bbd936173cbe8da92b1) by BadKarma™ (https://sketchfab.com/890244234) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
