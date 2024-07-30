@@ -9,6 +9,8 @@ public class HeatmapReceiver : MonoBehaviour
     //private Vector3[] hitPoints;
     private int currentInd = 0;
 
+
+    private HeatmapLogger logger;
     //private void Start()
     //{
     //    //hitPoints = new Vector3[(int)maxParticles];
@@ -17,8 +19,13 @@ public class HeatmapReceiver : MonoBehaviour
 
     //private void LateUpdate()
     //{
-        
+
     //}
+
+    public void SetLogger(HeatmapLogger lg)
+    {
+        logger = lg;
+    }
 
     public void AddPoint(Vector3 point)
     {
@@ -42,6 +49,8 @@ public class HeatmapReceiver : MonoBehaviour
 
         // Apply the particle changes to the Particle System
         heatParticles.SetParticles(particles, currentAmount);
+
+        logger.LogPoint(localPoint);
 
         currentInd++;
 

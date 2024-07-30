@@ -12,28 +12,7 @@ public class HeatmapSender : MonoBehaviour
     [Range(1, 20)]
     public int rowCount = 2;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        StartCoroutine(AutomaticHeatTest(testIterations));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //InputHeat();
-    }
-
-    IEnumerator AutomaticHeatTest(int iterations)
-    {
-        for (int n = 0; n < iterations; n++)
-        {
-            AutomaticHeat();
-            yield return null;
-        }
-    }
-
-    void AutomaticHeat()
+    public void CameraViewHeat()
     {
         float radius = Mathf.Min(Screen.width - 1, Screen.height - 1); 
 
