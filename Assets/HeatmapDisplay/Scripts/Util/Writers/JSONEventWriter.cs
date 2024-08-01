@@ -11,7 +11,7 @@ public class JSONEventWriter : IEventWriter
 
     public JSONEventWriter(string path, bool createFileIfNonFound)
     {
-        this.path = path;
+        this.path = Application.persistentDataPath + "/" + path;
 
         this.createFileIfNonFound = createFileIfNonFound;
         hasFileToWrite = Startup();

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class HeatmapReceiver : MonoBehaviour
@@ -28,6 +29,13 @@ public class HeatmapReceiver : MonoBehaviour
     }
 
     public void AddPoint(Vector3 point)
+    {
+        Vector3 localPoint = heatParticles.transform.parent.InverseTransformPoint(point);
+
+        logger.LogPoint(localPoint);
+    }
+
+    public void DisplayPoint(Vector3 point)
     {
         Vector3 localPoint = heatParticles.transform.parent.InverseTransformPoint(point);
         //print(point + " vs " + localPoint);
