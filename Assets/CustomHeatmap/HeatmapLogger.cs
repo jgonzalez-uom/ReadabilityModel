@@ -30,7 +30,7 @@ public class HeatmapLogger : MonoBehaviour
     {
         if (currentInd >= points.Length)
             return;
-
+        Debug.Log("Added point " + pt.ToString()); 
         points[currentInd++] = pt;
         //print(points[currentInd]);
         //currentInd++;
@@ -67,15 +67,32 @@ public class HeatmapLogger : MonoBehaviour
             return;
         }
 
+        string readFile = File.ReadAllText(filePath);
 
-        string[] points = File.ReadAllText(filePath).Split(';');
+        if (!string.IsNullOrEmpty(readFile))
+        {
+            Debug.Log("Successfully loaded " + filePath);
+        }
+        else
+        {
+            Debug.Log("Failed to load " + filePath + " or file is empty.");
+        }
+
+        string[] textPoints = readFile.Split(';');
         Vector3[] newPoints = new Vector3[maxPoints];
         currentInd = 0;
 
-        foreach (string s in points)
+        foreach (string s in textPoints)
         {
+            if (currentInd >= newPoints.Length)
+                break;
+
             newPoints[currentInd++] = ParseVector3(s);
         }
+
+        points = new Vector3[currentInd];
+        for (int i = 0; i < currentInd; i++)
+            points[i] = newPoints[i];
     }
 
 
@@ -90,7 +107,9 @@ public class HeatmapLogger : MonoBehaviour
             return Vector3.zero;
         }
 
-        return new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
+        Vector3 result = new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
+        //Debug.Log("Parsed: " + result.ToString());
+        return result;
     }
 }
 

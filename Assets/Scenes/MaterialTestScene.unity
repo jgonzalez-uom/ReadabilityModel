@@ -402,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adb530776a9a884db33138692f757ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatParticles: {fileID: 1469961937}
+  referencePoint: {fileID: 203680015}
 --- !u!64 &192441076
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -527,6 +527,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8604973318442977854, guid: 5f4ac7334d422bd419d13bd1982ab3b1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.007297345
       objectReference: {fileID: 0}
     - target: {fileID: 8652146664239380887, guid: 5f4ac7334d422bd419d13bd1982ab3b1,
         type: 3}
@@ -684,7 +689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adb530776a9a884db33138692f757ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatParticles: {fileID: 1469961937}
+  referencePoint: {fileID: 203680015}
 --- !u!64 &203680025
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -719,7 +724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adb530776a9a884db33138692f757ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatParticles: {fileID: 1469961937}
+  referencePoint: {fileID: 203680015}
 --- !u!64 &203680027
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -754,7 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adb530776a9a884db33138692f757ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatParticles: {fileID: 1469961937}
+  referencePoint: {fileID: 203680015}
 --- !u!64 &203680029
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -5908,6 +5913,9 @@ MonoBehaviour:
   testIterations: 5
   angleCount: 36
   rowCount: 10
+  layersHit:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &815542700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6015,7 +6023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adb530776a9a884db33138692f757ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatParticles: {fileID: 325771008}
+  referencePoint: {fileID: 0}
 --- !u!65 &1013879251
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6115,7 +6123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adb530776a9a884db33138692f757ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatParticles: {fileID: 1469961937}
+  referencePoint: {fileID: 203680015}
 --- !u!64 &1218754857
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6218,7 +6226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adb530776a9a884db33138692f757ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatParticles: {fileID: 1469961937}
+  referencePoint: {fileID: 203680015}
 --- !u!64 &1240728944
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11275,7 +11283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adb530776a9a884db33138692f757ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatParticles: {fileID: 1469961937}
+  referencePoint: {fileID: 203680015}
 --- !u!64 &1532773036
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11310,7 +11318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adb530776a9a884db33138692f757ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heatParticles: {fileID: 1469961937}
+  referencePoint: {fileID: 203680015}
 --- !u!64 &1649333417
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -11619,7 +11627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: Sedan
-  maxPoints: 999999
+  maxPoints: 50
   points: []
 --- !u!65 &1897914700
 BoxCollider:
@@ -11658,6 +11666,7 @@ MonoBehaviour:
   layersHit:
     serializedVersion: 2
     m_Bits: 64
+  referencePoint: {fileID: 203680015}
   particleSize: 0.1
   particleSpacing: 0.01
   particleMaterial: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
@@ -11691,6 +11700,8 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 5
     m_NumAlphaKeys: 3
+  createNewSystemAlways: 1
+  particleSys: {fileID: 0}
 --- !u!1 &1992887701
 GameObject:
   m_ObjectHideFlags: 0

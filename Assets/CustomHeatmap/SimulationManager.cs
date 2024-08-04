@@ -26,9 +26,10 @@ public class SimulationManager : MonoBehaviour
             }
         }
 
-        foreach (var l in loggers)
-        {
+
+        //foreach (var l in loggers)
+        //{
             //l.SaveFile();
-        }
+        //}
     }
 }

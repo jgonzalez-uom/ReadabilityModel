@@ -12,6 +12,8 @@ public class HeatmapSender : MonoBehaviour
     [Range(1, 20)]
     public int rowCount = 2;
 
+    public LayerMask layersHit;
+
     public void CameraViewHeat()
     {
         float radius = Mathf.Min(Screen.width - 1, Screen.height - 1); 
@@ -51,8 +53,9 @@ public class HeatmapSender : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(pos);
 
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layersHit))
         {
+            //Debug.Log(hit.transform.name);
             if (hit.transform.TryGetComponent<HeatmapReceiver>(out HeatmapReceiver heatmapReceiver))
             {
                 heatmapReceiver.AddPoint(hit.point);
