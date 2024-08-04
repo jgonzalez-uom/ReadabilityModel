@@ -11667,7 +11667,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   referencePoint: {fileID: 203680015}
-  particleSize: 0.1
+  particleSize: 0.01
   particleSpacing: 0.01
   particleMaterial: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   heatmapColors:
