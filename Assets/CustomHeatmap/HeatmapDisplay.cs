@@ -6,16 +6,25 @@ using static UnityEngine.ParticleSystem;
 using System.IO;
 using System;
 using UnityEditor.TerrainTools;
+using System.Linq;
 
 public class HeatmapDisplay : MonoBehaviour
-{
+{    public enum MeshCheckType { None, DoubleRadius, DoubleRaycast };
+
     public Collider heatmapBoundBox;
     //private bool readyToDisplay = false;
+    [Header("Collider Settings")]
     public LayerMask layersHit;
     public GameObject referencePoint;
+    public Vector3 boundBoxMargins;
+
+    [Header("Point Space Check")]
+    public MeshCheckType checkForInsideMesh = MeshCheckType.DoubleRadius;
+    public float doubleRaycastDistance = 100f;
 
     [Header("Particle Settings")]
     public float particleSize = 1.0f;
+    [Range(0.0001f, 1.0f)]
     public float particleSpacing = 0.0f;
     public Material particleMaterial;
     public Gradient heatmapColors;
@@ -33,6 +42,8 @@ public class HeatmapDisplay : MonoBehaviour
     //private Vector3 maxPoint;
     private int maxHeat = 0;
     private Vector3 localMinPoint = Vector3.zero;
+    private float maxFrameLength = 0.016f;
+    private float doubleRadiusSmallRadius = 0.00001f;
 
     // Start is called before the first frame update
     void Start()
@@ -65,11 +76,11 @@ public class HeatmapDisplay : MonoBehaviour
         timeB = new TimeSpan(System.DateTime.Now.Ticks);
         Debug.Log("Box trimmed: " + (timeB - timeA).TotalSeconds);
         timeA = new TimeSpan(System.DateTime.Now.Ticks);
-        CreateDictionary(heatmapBoundBox);
+        yield return StartCoroutine(CreateDictionary(heatmapBoundBox));
         timeB = new TimeSpan(System.DateTime.Now.Ticks);
         Debug.Log("Dictionary Created: " + (timeB - timeA).TotalSeconds);
         timeA = new TimeSpan(System.DateTime.Now.Ticks);
-        LoadDictionary(points, heatmapBoundBox);
+        yield return StartCoroutine(LoadDictionary(points, heatmapBoundBox));
         timeB = new TimeSpan(System.DateTime.Now.Ticks);
         Debug.Log("Dictionary loaded: " + (timeB - timeA).TotalSeconds);
 
@@ -94,16 +105,21 @@ public class HeatmapDisplay : MonoBehaviour
         particleSys.GetParticles(particles);
 
         int index = 0;
-        float maxTime = 1 / 60f;
 
         //foreach (var p in points)
         //{
         //    DisplayPoint(particles, index++, p, 0);
         //}
 
+        var watch = new System.Diagnostics.Stopwatch();
+
+        long tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
+                                 * ((maxFrameLength)));
+        watch.Restart();
+
         foreach (KeyValuePair<Vector3Int, int> pair in gridValues)
         {
-            Vector3 finalPos = ((Vector3)pair.Key * (particleSize * 2 + particleSpacing))
+            Vector3 finalPos = ((Vector3)pair.Key * (particleSpacing))
                 + referencePoint.transform.TransformPoint(localMinPoint);
             finalPos = particleSys.transform.InverseTransformPoint(finalPos);
 
@@ -121,9 +137,10 @@ public class HeatmapDisplay : MonoBehaviour
             DisplayPoint(particles, index, finalPos, colorValue);
             index++;
 
-            if (Time.timeScale > maxTime)
+            if (watch.ElapsedTicks > tickBudget)
             {
                 yield return null;
+                watch.Restart();
             }
         }
 
@@ -145,16 +162,23 @@ public class HeatmapDisplay : MonoBehaviour
             + " with color value " + particles[particleIndex].startColor.ToString());
     }
 
-    private void LoadDictionary(Vector3[] points, Collider collider)
+    IEnumerator LoadDictionary(Vector3[] points, Collider collider)
     {
         //CreateDictionary(heatmapBoundBox);
 
         Debug.DebugBreak();
 
+        var watch = new System.Diagnostics.Stopwatch();
+
+        long tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
+                                 * ((maxFrameLength)));
+        watch.Restart();
+
+
         foreach (var point in points)
         {
-            Vector3 vec = (referencePoint.transform.TransformPoint(point) - collider.bounds.min) / 
-                (particleSize * 2 + particleSpacing);
+            Vector3 vec = (referencePoint.transform.TransformPoint(point - localMinPoint)) / 
+                (particleSpacing);
             Vector3Int index = new Vector3Int(Mathf.RoundToInt(vec.x), Mathf.RoundToInt(vec.y), Mathf.RoundToInt(vec.z));
 
             if (!gridValues.ContainsKey(index))
@@ -171,7 +195,10 @@ public class HeatmapDisplay : MonoBehaviour
                 maxHeat = gridValues[index];
             }
 
-            
+            if (watch.ElapsedTicks > tickBudget)
+            {
+                yield return null;
+            }
         }
     }
 
@@ -182,8 +209,8 @@ public class HeatmapDisplay : MonoBehaviour
         RaycastHit hit;
         Vector3 tempOrigin = Vector3.zero;
         Vector3 raycastThickness = heatmapBoundBox.bounds.extents * 2;
-        Vector3 maxPoint = heatmapBoundBox.bounds.center;
-        Vector3 minPoint = heatmapBoundBox.bounds.center;
+        Vector3 maxPoint = heatmapBoundBox.bounds.max;
+        Vector3 minPoint = heatmapBoundBox.bounds.min;
 
         //Positive max
         tempOrigin = transform.right * float.PositiveInfinity;
@@ -230,30 +257,33 @@ public class HeatmapDisplay : MonoBehaviour
             minPoint.z = hit.point.z;
         }
 
+        minPoint -= boundBoxMargins;
+        maxPoint += boundBoxMargins;
+
         //Calculate
         heatmapBoundBox.bounds.SetMinMax(minPoint, maxPoint);
     }
 
-    private void CreateDictionary(Collider boundingBox)
+    IEnumerator CreateDictionary(Collider boundingBox)
     {
+        var watch = new System.Diagnostics.Stopwatch();
+
+        long tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
+                                 * ((maxFrameLength)));
+        watch.Restart();
+
         gridValues.Clear();
 
         maxHeat = 0;
         Vector3Int gridDimensions = Vector3Int.zero;
 
-        gridDimensions.x = Mathf.RoundToInt((boundingBox.bounds.extents.x * 2 - particleSize * 2) / (particleSize * 2 + particleSpacing)) + 1;
-        gridDimensions.y = Mathf.RoundToInt((boundingBox.bounds.extents.y * 2 - particleSize * 2) / (particleSize * 2 + particleSpacing)) + 1;
-        gridDimensions.z = Mathf.RoundToInt((boundingBox.bounds.extents.z * 2 - particleSize * 2) / (particleSize * 2 + particleSpacing)) + 1;
+        gridDimensions.x = Mathf.FloorToInt((boundingBox.bounds.extents.x * 2 - particleSize * 2) / (particleSpacing));
+        gridDimensions.y = Mathf.FloorToInt((boundingBox.bounds.extents.y * 2 - particleSize * 2) / (particleSpacing));
+        gridDimensions.z = Mathf.FloorToInt((boundingBox.bounds.extents.z * 2 - particleSize * 2) / (particleSpacing));
 
-        Vector3 margins = ((boundingBox.bounds.extents * 2) - ((Vector3)gridDimensions * particleSize * 2) - ((gridDimensions - Vector3.one) * particleSpacing)) / 2;
+        Vector3 margins = ((boundingBox.bounds.extents * 2) - ((Vector3)gridDimensions * particleSpacing) - (Vector3.one * particleSize * 2)) / 2;
 
-        //Vector3 margins = new Vector3(
-        //    ((heatmapBoundBox.bounds.extents.x * 2) - (gridDimensions.x * particleSize * 2) - ((gridDimensions.x - 1) * particleSpacing))/2,
-        //    ((heatmapBoundBox.bounds.extents.y * 2) - (gridDimensions.y * particleSize * 2) - ((gridDimensions.y - 1) * particleSpacing))/2,
-        //    ((heatmapBoundBox.bounds.extents.z * 2) - (gridDimensions.z * particleSize * 2) - ((gridDimensions.z - 1) * particleSpacing))/2);
-
-
-        Vector3 minParticlePos = boundingBox.bounds.min + margins;
+        Vector3 minParticlePos = boundingBox.bounds.min + margins + Vector3.one * particleSize;
         localMinPoint = referencePoint.transform.InverseTransformPoint(minParticlePos);
         Debug.Log(minParticlePos.ToSafeString());
         Debug.Log("Grid Dimensions: " + gridDimensions.ToSafeString());
@@ -266,32 +296,76 @@ public class HeatmapDisplay : MonoBehaviour
                 {
                     
                     Vector3 tempPos = minParticlePos
-                        + Vector3.right * x * (particleSize * 2 + particleSpacing)
-                        + Vector3.up * y * (particleSize * 2 + particleSpacing)
-                        + Vector3.forward * z * (particleSize * 2 + particleSpacing);
+                        + Vector3.right * (x * particleSpacing)
+                        + Vector3.up * (y * particleSpacing)
+                        + Vector3.forward * (z * particleSpacing);
+
+                    //Vector3 tempPos = minParticlePos
+                    //    + boundingBox.transform.right * (x * particleSpacing + particleSize)
+                    //    + boundingBox.transform.up * (y * particleSpacing + particleSize)
+                    //    + boundingBox.transform.forward * (z * particleSpacing + particleSize);
+
+                    //tempPos = referencePoint.transform.TransformPoint(tempPos);
 
                     Collider[] results = new Collider[1];
-                    if (Physics.OverlapSphereNonAlloc(tempPos, particleSize, results, layersHit) > 0)
+
+                    bool radiusCollider;
+                    bool validPoint;
+
+                    switch (checkForInsideMesh)
                     {
-                        //Vector3 temp = boundingBox.transform.InverseTransformPoint(tempPos);
-                        //Vector3Int vector3Int = new Vector3Int(Mathf.FloorToInt(temp.x), Mathf.FloorToInt(temp.y), Mathf.FloorToInt(temp.z));
+                        case MeshCheckType.DoubleRadius:
+
+                            radiusCollider = (Physics.OverlapSphereNonAlloc(tempPos, doubleRadiusSmallRadius, results, layersHit) > 0);
+                            validPoint = !radiusCollider && (Physics.OverlapBoxNonAlloc(tempPos, particleSpacing * Vector3.one, 
+                                results, referencePoint.transform.rotation, layersHit) > 0);
+                            break;
+
+                        case MeshCheckType.DoubleRaycast:
+
+                            radiusCollider = (Physics.OverlapSphereNonAlloc(tempPos, doubleRadiusSmallRadius, results, layersHit) > 0);
+
+                            bool tempBackfaces = Physics.queriesHitBackfaces;
+                            Physics.queriesHitBackfaces = true;
+                            int raycastHitCount = Physics.RaycastAll(tempPos + Vector3.up * doubleRaycastDistance, Vector3.down, doubleRaycastDistance * 2).Count();
+                            raycastHitCount += Physics.RaycastAll(tempPos + Vector3.right * doubleRaycastDistance, Vector3.left, doubleRaycastDistance * 2).Count();
+                            raycastHitCount += Physics.RaycastAll(tempPos + Vector3.forward * doubleRaycastDistance, Vector3.back, doubleRaycastDistance * 2).Count();
+                            Physics.queriesHitBackfaces = tempBackfaces;
+                            validPoint = (radiusCollider && ((raycastHitCount) == 0 || (raycastHitCount) % 2 == 1));
+                            break;
+
+                        case MeshCheckType.None:
+                        default:
+                            validPoint = (Physics.OverlapSphereNonAlloc(tempPos, particleSize, results, layersHit) > 0);
+                            break;
+                    }
+
+                    if (validPoint)
+                    {
                         Vector3Int vector3Int = new Vector3Int(x, y, z);
-                        //Debug.Log(string.Format("Point found to collide with object ({0},{1},{2}): {3}", x, y, z, (tempPos.ToString())));
                         gridValues.Add(vector3Int, 0);
                         particleCount++;
 
                         if (particleCount > Constants.maxParticleCount)
                         {
                             Debug.LogError("ERROR, MAX PARTICLE SIZE REACHED");
-                            return;
+                            yield break;
                         }
-                    }
-                    else
-                    {
-                        //Debug.Log("Point is not touching the object: " + (tempPos.ToString()));
+                        else
+                        {
+                            Debug.Log(string.Format("Valid point at ({0},{1},{2})", x, y, z));
+                        }
+
                         //GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        //temp.transform.localScale = Vector3.one * particleSize;
                         //temp.transform.position = tempPos;
-                        //temp.transform.localScale = particleSize * Vector3.one;
+                        //temp.transform.rotation = referencePoint.transform.rotation;
+                    }
+
+                    if (watch.ElapsedTicks > tickBudget)
+                    {
+                        yield return null;
+                        watch.Restart();
                     }
                 }
             }

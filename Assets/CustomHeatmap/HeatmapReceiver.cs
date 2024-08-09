@@ -8,7 +8,7 @@ public class HeatmapReceiver : MonoBehaviour
     //public ParticleSystem heatParticles;
     //public int maxParticles;
     //private Vector3[] hitPoints;
-    private int currentInd = 0;
+    //private int currentInd = 0;
     public GameObject referencePoint; 
 
 
@@ -34,6 +34,6 @@ public class HeatmapReceiver : MonoBehaviour
         Vector3 localPoint = referencePoint.transform.InverseTransformPoint(point);
         //Vector3 localPoint = point - referencePoint.transform.position;
 
-        logger.LogPoint(localPoint);
+        //logger.LogPoint(localPoint);
     }
 }
