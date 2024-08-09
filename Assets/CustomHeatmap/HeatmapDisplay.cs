@@ -24,6 +24,8 @@ public class HeatmapDisplay : MonoBehaviour
 
     [Header("Particle Settings")]
     public float particleSize = 1.0f;
+    [Range(0, 10)]
+    public int brushSize = 1;
     [Range(0.0001f, 1.0f)]
     public float particleSpacing = 0.0f;
     public Material particleMaterial;
@@ -157,9 +159,9 @@ public class HeatmapDisplay : MonoBehaviour
     {
         particles[particleIndex].position = point;
         particles[particleIndex].startColor = heatmapColors.Evaluate(gradientColor);
-        Debug.Log("Particle " + particleIndex + " set to " 
-            + particles[particleIndex].position.ToSafeString() 
-            + " with color value " + particles[particleIndex].startColor.ToString());
+        //Debug.Log("Particle " + particleIndex + " set to " 
+        //    + particles[particleIndex].position.ToSafeString() 
+        //    + " with color value " + particles[particleIndex].startColor.ToString());
     }
 
     IEnumerator LoadDictionary(Vector3[] points, Collider collider)
@@ -177,27 +179,47 @@ public class HeatmapDisplay : MonoBehaviour
 
         foreach (var point in points)
         {
-            Vector3 vec = (referencePoint.transform.TransformPoint(point - localMinPoint)) / 
-                (particleSpacing);
+
+
+            //Vector3 vec = (referencePoint.transform.TransformPoint(point - localMinPoint)) / (particleSpacing);
+            Vector3 vec = (referencePoint.transform.TransformPoint(point) - referencePoint.transform.TransformPoint(localMinPoint)) / (particleSpacing);
+            vec = new Vector3(Mathf.Abs(vec.x), Math.Abs(vec.y), Mathf.Abs(vec.z));
+
             Vector3Int index = new Vector3Int(Mathf.RoundToInt(vec.x), Mathf.RoundToInt(vec.y), Mathf.RoundToInt(vec.z));
 
-            if (!gridValues.ContainsKey(index))
-            {
-                Debug.LogWarning("INDEX NOT FOUND: " + index.ToString() + "\nLOCAL POSITION: " + point.ToString());
-                
-                continue;
-            }
+            Debug.Log(string.Format("{0} point, {1} local min point, {2} world distance, {3} index", point.ToString(), localMinPoint.ToString(),
+                (referencePoint.transform.TransformPoint(point - localMinPoint)), index.ToString()));
 
-            gridValues[index]++;
-
-            if (gridValues[index] > maxHeat)
+            for (int x = -brushSize; x < brushSize; x++)
             {
-                maxHeat = gridValues[index];
-            }
+                for (int y = -brushSize; y < brushSize; y++)
+                {
+                    for (int z = -brushSize; z < brushSize; z++)
+                    {
+                        Vector3Int tempInd = index + new Vector3Int(x, y, z);
 
-            if (watch.ElapsedTicks > tickBudget)
-            {
-                yield return null;
+                        if (!gridValues.ContainsKey(tempInd))
+                        {
+                            //Debug.LogWarning("INDEX NOT FOUND: " + index.ToString() + "\nLOCAL POSITION: " + point.ToString());
+
+                            continue;
+                        }
+
+                        gridValues[tempInd]++;
+                        Debug.Log(string.Format("{0} new value is {1}", tempInd.ToString(), gridValues[tempInd]));
+
+                        if (gridValues[tempInd] > maxHeat)
+                        {
+                            maxHeat = gridValues[tempInd];
+                        }
+
+                        if (watch.ElapsedTicks > tickBudget)
+                        {
+                            yield return null;
+                        }
+
+                    }
+                }
             }
         }
     }

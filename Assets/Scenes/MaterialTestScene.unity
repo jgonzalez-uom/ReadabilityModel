@@ -11671,6 +11671,7 @@ MonoBehaviour:
   checkForInsideMesh: 1
   doubleRaycastDistance: 100
   particleSize: 0.05
+  brushSize: 5
   particleSpacing: 0.03
   particleMaterial: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   heatmapColors:
