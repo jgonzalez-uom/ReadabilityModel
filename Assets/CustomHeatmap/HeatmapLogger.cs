@@ -36,6 +36,12 @@ public class HeatmapLogger : MonoBehaviour
         //currentInd++;
     }
 
+    public void ClearPointCache()
+    {
+        points = new Vector3[maxPoints];
+        currentInd = 0;
+    }
+
     public void SaveFile(string subDirectory = "")
     {
         string filepath = Application.dataPath + "/" + subDirectory + fileName + ".txt";

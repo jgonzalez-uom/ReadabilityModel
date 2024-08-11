@@ -9,7 +9,9 @@ using UnityEditor.TerrainTools;
 using System.Linq;
 
 public class HeatmapDisplay : MonoBehaviour
-{    public enum MeshCheckType { None, DoubleRadius, DoubleRaycast };
+{
+    public enum brushes { Sphere, Cube, Point };
+    public enum MeshCheckType { None, DoubleRadius, DoubleRaycast };
 
     public Collider heatmapBoundBox;
     //private bool readyToDisplay = false;
@@ -24,14 +26,17 @@ public class HeatmapDisplay : MonoBehaviour
 
     [Header("Particle Settings")]
     public float particleSize = 1.0f;
-    [Range(0, 10)]
-    public int brushSize = 1;
     [Range(0.0001f, 1.0f)]
     public float particleSpacing = 0.0f;
     public Material particleMaterial;
     public Gradient heatmapColors;
     public bool createNewSystemAlways = false;
     public ParticleSystem particleSys;
+
+    [Header("Brush Size")]
+    public brushes brushType;
+    [Range(0, 10)]
+    public float brushSize = 1;
 
 
 
@@ -176,6 +181,14 @@ public class HeatmapDisplay : MonoBehaviour
                                  * ((maxFrameLength)));
         watch.Restart();
 
+        int minBound = 0, maxBound = 1;
+        int brushGridSize = Mathf.CeilToInt(brushSize / particleSpacing);
+
+        if (brushType != brushes.Point)
+        {
+            minBound = -brushGridSize;
+            maxBound = brushGridSize;
+        }
 
         foreach (var point in points)
         {
@@ -187,14 +200,14 @@ public class HeatmapDisplay : MonoBehaviour
 
             Vector3Int index = new Vector3Int(Mathf.RoundToInt(vec.x), Mathf.RoundToInt(vec.y), Mathf.RoundToInt(vec.z));
 
-            Debug.Log(string.Format("{0} point, {1} local min point, {2} world distance, {3} index", point.ToString(), localMinPoint.ToString(),
-                (referencePoint.transform.TransformPoint(point - localMinPoint)), index.ToString()));
+            //Debug.Log(string.Format("{0} point, {1} local min point, {2} world distance, {3} index", point.ToString(), localMinPoint.ToString(),
+            //    (referencePoint.transform.TransformPoint(point - localMinPoint)), index.ToString()));
 
-            for (int x = -brushSize; x < brushSize; x++)
+            for (int x = minBound; x < maxBound; x++)
             {
-                for (int y = -brushSize; y < brushSize; y++)
+                for (int y = minBound; y < maxBound; y++)
                 {
-                    for (int z = -brushSize; z < brushSize; z++)
+                    for (int z = minBound; z < maxBound; z++)
                     {
                         Vector3Int tempInd = index + new Vector3Int(x, y, z);
 
@@ -205,8 +218,13 @@ public class HeatmapDisplay : MonoBehaviour
                             continue;
                         }
 
+                        if (brushType == brushes.Sphere && (new Vector3(x, y, z) * particleSpacing).magnitude > brushSize)
+                        {
+                            continue;
+                        }
+
                         gridValues[tempInd]++;
-                        Debug.Log(string.Format("{0} new value is {1}", tempInd.ToString(), gridValues[tempInd]));
+                        //Debug.Log(string.Format("{0} new value is {1}", tempInd.ToString(), gridValues[tempInd]));
 
                         if (gridValues[tempInd] > maxHeat)
                         {
@@ -216,6 +234,7 @@ public class HeatmapDisplay : MonoBehaviour
                         if (watch.ElapsedTicks > tickBudget)
                         {
                             yield return null;
+                            watch.Restart();
                         }
 
                     }
@@ -375,7 +394,7 @@ public class HeatmapDisplay : MonoBehaviour
                         }
                         else
                         {
-                            Debug.Log(string.Format("Valid point at ({0},{1},{2})", x, y, z));
+                            //Debug.Log(string.Format("Valid point at ({0},{1},{2})", x, y, z));
                         }
 
                         //GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -391,6 +410,7 @@ public class HeatmapDisplay : MonoBehaviour
                     }
                 }
             }
+            Debug.Log(string.Format("{0}/{1} points checked.", x * gridDimensions.y * gridDimensions.z, gridDimensions.x * gridDimensions.y * gridDimensions.z));
         }
     }
 

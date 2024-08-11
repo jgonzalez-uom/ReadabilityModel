@@ -5910,7 +5910,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4708c99e3cca9a848b8c94bad7288d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testIterations: 5
+  projectionType: 1
+  DebugHitRays: 1
+  DebugMissedRays: 0
+  resolutionX: 160
+  resolutionY: 90
+  camera: {fileID: 815542697}
   angleCount: 36
   rowCount: 10
   layersHit:
@@ -11627,7 +11632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: Sedan
-  maxPoints: 50
+  maxPoints: 15000
   points: []
 --- !u!65 &1897914700
 BoxCollider:
@@ -11671,15 +11676,14 @@ MonoBehaviour:
   checkForInsideMesh: 1
   doubleRaycastDistance: 100
   particleSize: 0.05
-  brushSize: 5
   particleSpacing: 0.03
   particleMaterial: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   heatmapColors:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 0.5372549}
+    key0: {r: 1, g: 1, b: 1, a: 0}
     key1: {r: 0, g: 1, b: 0.95430183, a: 1}
     key2: {r: 1, g: 0.9789965, b: 0, a: 1}
-    key3: {r: 1, g: 0.7150621, b: 0, a: 0}
+    key3: {r: 1, g: 0.7150621, b: 0, a: 1}
     key4: {r: 1, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
@@ -11693,9 +11697,9 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 27062
-    atime2: 65535
-    atime3: 0
+    atime1: 7170
+    atime2: 27062
+    atime3: 65535
     atime4: 0
     atime5: 0
     atime6: 0
@@ -11703,9 +11707,11 @@ MonoBehaviour:
     m_Mode: 0
     m_ColorSpace: -1
     m_NumColorKeys: 5
-    m_NumAlphaKeys: 3
+    m_NumAlphaKeys: 4
   createNewSystemAlways: 1
   particleSys: {fileID: 0}
+  brushType: 2
+  brushSize: 0.09
 --- !u!1 &1992887701
 GameObject:
   m_ObjectHideFlags: 0

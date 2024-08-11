@@ -34,6 +34,6 @@ public class HeatmapReceiver : MonoBehaviour
         Vector3 localPoint = referencePoint.transform.InverseTransformPoint(point);
         //Vector3 localPoint = point - referencePoint.transform.position;
 
-        //logger.LogPoint(localPoint);
+        logger.LogPoint(localPoint);
     }
 }

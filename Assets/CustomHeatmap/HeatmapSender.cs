@@ -4,45 +4,97 @@ using UnityEngine;
 
 public class HeatmapSender : MonoBehaviour
 {
-    //public bool inputBased;
+    public enum heatmapProjectionType { Radial, Rectangular, Point};
 
-    public int testIterations = 1;
 
+    public heatmapProjectionType projectionType;
+    public bool DebugHitRays = true;
+    public bool DebugMissedRays = true;
+    private float maxFrameLength = 0.016f;
+
+    [Header("Rectangular Projection Settings")]
+    [Range(1, 160)]
+    public int resolutionX;
+    [Range(1, 160)]
+    public int resolutionY;
+    public Camera camera;
+    
+    [Header("Radial Projection Settings")]
     public int angleCount = 10;
     [Range(1, 20)]
     public int rowCount = 2;
 
     public LayerMask layersHit;
 
-    public void CameraViewHeat()
+    private void Start()
     {
-        float radius = Mathf.Min(Screen.width - 1, Screen.height - 1); 
-
-        for (int r = 0; r < rowCount; r++)
-        {
-            float polarR = (radius / rowCount) * (r + 1);
-            float polarA = 0;
-
-            for (int i = 0; i < angleCount; i++)
-            {
-                polarA = (360 / angleCount) * i;
-
-                Vector2 rayDir = new Vector2(
-                    Mathf.Cos(polarA) * polarR + radius, 
-                    Mathf.Sin(polarA) * polarR + radius);
-
-                CastRay(rayDir);
-            }
-        }
-
-        CastRay(new Vector2(radius, radius));
+        if (camera == null) 
+            camera = GetComponent<Camera>();
     }
 
-    void InputHeat()
-    {    
-        if (Input.GetButton("Fire1"))
+    public void CameraViewHeat()
+    {
+        StartCoroutine(CameraViewHeatCoroutine());
+    }
+
+    IEnumerator CameraViewHeatCoroutine()
+    {
+        var watch = new System.Diagnostics.Stopwatch();
+
+        long tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
+                                 * ((maxFrameLength)));
+        watch.Restart();
+
+        if (projectionType == heatmapProjectionType.Radial)
         {
-            CastRay(Input.mousePosition);
+            float radius = Mathf.Min(Screen.width - 1, Screen.height - 1);
+
+            for (int r = 0; r < rowCount; r++)
+            {
+                float polarR = (radius / rowCount) * (r + 1);
+                float polarA = 0;
+
+                for (int i = 0; i < angleCount; i++)
+                {
+                    polarA = (360 / angleCount) * i;
+
+                    Vector2 rayDir = new Vector2(
+                        Mathf.Cos(polarA) * polarR + radius,
+                        Mathf.Sin(polarA) * polarR + radius);
+
+                    CastRay(rayDir);
+
+                    if (watch.ElapsedTicks > tickBudget)
+                    {
+                        yield return null;
+                        watch.Restart();
+                    }
+                }
+            }
+
+            CastRay(new Vector2(radius, radius));
+        }
+        else if (projectionType == heatmapProjectionType.Rectangular)
+        {
+            Vector2Int steps = new Vector2Int(camera.pixelWidth / resolutionX, camera.pixelHeight / resolutionY);
+
+            for (int x = 0; x < camera.pixelWidth; x += steps.x)
+            {
+                for (int y = 0; y < camera.pixelHeight; y += steps.y)
+                {
+                    CastRay(new Vector2(x, y));
+
+                    if (watch.ElapsedTicks > tickBudget)
+                    {
+                        yield return null;
+                        watch.Restart();
+                    }
+                }
+            }
+        }
+        else
+        {
+            CastRay(new Vector2((Screen.width - 1) / 2, (Screen.height - 1) / 2));
         }
     }
 
@@ -60,18 +112,21 @@ public class HeatmapSender : MonoBehaviour
             {
                 heatmapReceiver.AddPoint(hit.point);
 
-                Debug.DrawRay(ray.origin, ray.direction * (hit.point - ray.origin).magnitude, Color.red, 5000);
+                if (DebugHitRays)
+                    Debug.DrawRay(ray.origin, ray.direction * (hit.point - ray.origin).magnitude, Color.red, 5000);
                 //Debug.Log(hit.point);
 
                 return;
             }
 
 
-            Debug.DrawRay(ray.origin, ray.direction * (hit.point - ray.origin).magnitude, Color.blue, 5000);
+            if (DebugMissedRays)
+                Debug.DrawRay(ray.origin, ray.direction * (hit.point - ray.origin).magnitude, Color.blue, 5000);
 
             return;
         }
 
-        Debug.DrawRay(ray.origin, ray.direction * 10, Color.blue, 5000);
+        if (DebugMissedRays)
+            Debug.DrawRay(ray.origin, ray.direction * 10, Color.blue, 5000);
     }
 }
