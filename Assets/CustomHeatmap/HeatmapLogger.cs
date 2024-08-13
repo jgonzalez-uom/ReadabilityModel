@@ -13,12 +13,13 @@ public class HeatmapLogger : MonoBehaviour
     private int currentInd = 0;
 
     //MOVE THIS TO THE MANAGER
-    public Vector3[] points;
+    //public Vector3[] points;
+    public List<Vector3> points = new List<Vector3>();
 
     // Start is called before the first frame update
     void Start()
     {
-        points = new Vector3[maxPoints];
+        //points = new Vector3[maxPoints];
 
         foreach (HeatmapReceiver r in GetComponentsInChildren<HeatmapReceiver>())
         {
@@ -28,18 +29,22 @@ public class HeatmapLogger : MonoBehaviour
 
     public void LogPoint(Vector3 pt)
     {
-        if (currentInd >= points.Length)
+        //if (currentInd >= points.Length)
+        //    return;
+        if (points.Count >= maxPoints)
             return;
         Debug.Log("Added point " + pt.ToString()); 
-        points[currentInd++] = pt;
+        points.Add(pt);
+        //points[currentInd++] = pt;
         //print(points[currentInd]);
         //currentInd++;
     }
 
     public void ClearPointCache()
     {
-        points = new Vector3[maxPoints];
-        currentInd = 0;
+        //points = new Vector3[maxPoints];
+        //currentInd = 0;
+        points.Clear();
     }
 
     public void SaveFile(string subDirectory = "")
@@ -63,6 +68,7 @@ public class HeatmapLogger : MonoBehaviour
 
         File.WriteAllText(Application.dataPath + "/" + subDirectory + fileName + ".txt", content);
     }
+
     public void LoadFile(string subDirectory = "")
     {
         string filePath = Application.dataPath + "/" + subDirectory + fileName + ".txt";
@@ -72,6 +78,12 @@ public class HeatmapLogger : MonoBehaviour
             Debug.LogError("PATH DOESN'T EXIST: " + Application.dataPath + "/" + subDirectory);
             return;
         }
+
+        LoadFileName(filePath);
+    }
+
+    public void LoadFileName(string filePath)
+    {
 
         string readFile = File.ReadAllText(filePath);
 
@@ -96,9 +108,12 @@ public class HeatmapLogger : MonoBehaviour
             newPoints[currentInd++] = ParseVector3(s);
         }
 
-        points = new Vector3[currentInd];
+        //points = new Vector3[currentInd];
+        //for (int i = 0; i < currentInd; i++)
+        //    points[i] = newPoints[i];
+
         for (int i = 0; i < currentInd; i++)
-            points[i] = newPoints[i];
+            points.Add(newPoints[i]);
     }
 
 

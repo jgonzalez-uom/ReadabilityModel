@@ -75,6 +75,59 @@ public class HeatmapDisplay : MonoBehaviour
         StartCoroutine(GenerateHeatmapCoroutine(points));
     }
 
+    public IEnumerator PrepareHeatmap(bool trimBox = true)
+    {
+        if (trimBox)
+            TrimHeatmapBoundBox();
+        
+        yield return StartCoroutine(CreateDictionary(heatmapBoundBox));
+        particleSys = CreateParticleSystem(particleCount, heatmapBoundBox);
+        yield return null;
+    }
+
+    public IEnumerator DisplayHeatmap()
+    {
+        var particles = new ParticleSystem.Particle[particleSys.main.maxParticles];
+        particleSys.GetParticles(particles);
+
+        int index = 0;
+
+        var watch = new System.Diagnostics.Stopwatch();
+
+        long tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
+                                 * ((maxFrameLength)));
+        watch.Restart();
+
+        foreach (KeyValuePair<Vector3Int, int> pair in gridValues)
+        {
+            Vector3 finalPos = ((Vector3)pair.Key * (particleSpacing))
+                + referencePoint.transform.TransformPoint(localMinPoint);
+            finalPos = particleSys.transform.InverseTransformPoint(finalPos);
+
+            float colorValue = 0;
+
+            if (maxHeat > 0)
+            {
+                colorValue = (float)pair.Value / (float)maxHeat;
+            }
+
+
+            DisplayPoint(particles, index, finalPos, colorValue);
+            index++;
+
+            if (watch.ElapsedTicks > tickBudget)
+            {
+                Debug.Log(string.Format("Particle #{0} being displayed.", index));
+                yield return null;
+                watch.Restart();
+            }
+        }
+
+        particleSys.SetParticles(particles);
+
+        yield return null;
+    }
+
     IEnumerator GenerateHeatmapCoroutine(Vector3[] points)
     {
         TimeSpan timeA, timeB;
@@ -169,11 +222,10 @@ public class HeatmapDisplay : MonoBehaviour
         //    + " with color value " + particles[particleIndex].startColor.ToString());
     }
 
-    IEnumerator LoadDictionary(Vector3[] points, Collider collider)
+    public IEnumerator LoadDictionary(Vector3[] points, Collider collider)
     {
         //CreateDictionary(heatmapBoundBox);
 
-        Debug.DebugBreak();
 
         var watch = new System.Diagnostics.Stopwatch();
 
@@ -200,8 +252,8 @@ public class HeatmapDisplay : MonoBehaviour
 
             Vector3Int index = new Vector3Int(Mathf.RoundToInt(vec.x), Mathf.RoundToInt(vec.y), Mathf.RoundToInt(vec.z));
 
-            //Debug.Log(string.Format("{0} point, {1} local min point, {2} world distance, {3} index", point.ToString(), localMinPoint.ToString(),
-            //    (referencePoint.transform.TransformPoint(point - localMinPoint)), index.ToString()));
+            Debug.Log(string.Format("{0} point, {1} local min point, {2} world distance, {3} index", point.ToString(), localMinPoint.ToString(),
+                (referencePoint.transform.TransformPoint(point - localMinPoint)), index.ToString()));
 
             for (int x = minBound; x < maxBound; x++)
             {
@@ -224,7 +276,7 @@ public class HeatmapDisplay : MonoBehaviour
                         }
 
                         gridValues[tempInd]++;
-                        //Debug.Log(string.Format("{0} new value is {1}", tempInd.ToString(), gridValues[tempInd]));
+                        Debug.Log(string.Format("{0} new value is {1}", tempInd.ToString(), gridValues[tempInd]));
 
                         if (gridValues[tempInd] > maxHeat)
                         {
@@ -412,6 +464,8 @@ public class HeatmapDisplay : MonoBehaviour
             }
             Debug.Log(string.Format("{0}/{1} points checked.", x * gridDimensions.y * gridDimensions.z, gridDimensions.x * gridDimensions.y * gridDimensions.z));
         }
+
+        Debug.Log("Heatmap grid defined.");
     }
 
     private ParticleSystem CreateParticleSystem(int partCount, Collider collider)

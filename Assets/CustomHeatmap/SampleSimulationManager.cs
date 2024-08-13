@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimulationManager : MonoBehaviour
+public class SampleSimulationManager : MonoBehaviour
 {
     public HeatmapSender[] senders;
     public HeatmapLogger[] loggers;
