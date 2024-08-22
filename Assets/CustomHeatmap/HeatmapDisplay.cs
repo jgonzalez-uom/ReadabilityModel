@@ -14,6 +14,7 @@ public class HeatmapDisplay : MonoBehaviour
     public enum MeshCheckType { None, DoubleRadius, DoubleRaycast };
 
     public Collider heatmapBoundBox;
+    public bool DEBUG = false;
     //private bool readyToDisplay = false;
     [Header("Collider Settings")]
     public LayerMask layersHit;
@@ -252,7 +253,8 @@ public class HeatmapDisplay : MonoBehaviour
 
             Vector3Int index = new Vector3Int(Mathf.RoundToInt(vec.x), Mathf.RoundToInt(vec.y), Mathf.RoundToInt(vec.z));
 
-            Debug.Log(string.Format("{0} point, {1} local min point, {2} world distance, {3} index", point.ToString(), localMinPoint.ToString(),
+            if (DEBUG)
+                Debug.Log(string.Format("{0} point, {1} local min point, {2} world distance, {3} index", point.ToString(), localMinPoint.ToString(),
                 (referencePoint.transform.TransformPoint(point - localMinPoint)), index.ToString()));
 
             for (int x = minBound; x < maxBound; x++)
@@ -276,7 +278,9 @@ public class HeatmapDisplay : MonoBehaviour
                         }
 
                         gridValues[tempInd]++;
-                        Debug.Log(string.Format("{0} new value is {1}", tempInd.ToString(), gridValues[tempInd]));
+
+                        if (DEBUG)
+                            Debug.Log(string.Format("{0} new value is {1}", tempInd.ToString(), gridValues[tempInd]));
 
                         if (gridValues[tempInd] > maxHeat)
                         {

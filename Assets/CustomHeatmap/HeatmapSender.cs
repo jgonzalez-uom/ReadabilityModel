@@ -102,7 +102,7 @@ public class HeatmapSender : MonoBehaviour
     {
         RaycastHit hit;
 
-        Ray ray = Camera.main.ScreenPointToRay(pos);
+        Ray ray = camera.ScreenPointToRay(pos);
 
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layersHit))

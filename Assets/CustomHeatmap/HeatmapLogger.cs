@@ -33,7 +33,7 @@ public class HeatmapLogger : MonoBehaviour
         //    return;
         if (points.Count >= maxPoints)
             return;
-        Debug.Log("Added point " + pt.ToString()); 
+        //Debug.Log("Added point " + pt.ToString()); 
         points.Add(pt);
         //points[currentInd++] = pt;
         //print(points[currentInd]);

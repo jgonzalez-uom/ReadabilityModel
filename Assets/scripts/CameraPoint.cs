@@ -9,10 +9,11 @@ public class CameraPoint : MonoBehaviour
     public float cameraSteps;
 
     [Header("Valid Directions")]
-    public bool front = true;
-    public bool right = true;
-    public bool back = true;
-    public bool left = true;
+    public Transform[] directions;
+    //public bool front = true;
+    //public bool right = true;
+    //public bool back = true;
+    //public bool left = true;
 
     [HideInInspector]
     public bool processing = false;
@@ -45,41 +46,53 @@ public class CameraPoint : MonoBehaviour
 
             camera.transform.position = newPos;
 
-            if (front)
+            foreach (var dir in directions)
             {
-                camera.transform.forward = this.transform.forward;
+                camera.transform.rotation = dir.rotation;
+
                 SimulationManager.Instance.Execute();
+
+                if (displayEachFrame)
+                    yield return null;
+
+                //camera.transform.rotation = Quaternion.LookRotation(this.transform.InverseTransformVector(dir), this.transform.up);
             }
 
-            if (displayEachFrame)
-                yield return null; 
+            //if (front)
+            //{
+            //    camera.transform.forward = this.transform.forward;
+            //    SimulationManager.Instance.Execute();
+            //}
 
-            if (right)
-            {
-                camera.transform.right = this.transform.right;
-                SimulationManager.Instance.Execute();
-            }
+            //if (displayEachFrame)
+            //    yield return null; 
 
-            if (displayEachFrame)
-                yield return null;
+            //if (right)
+            //{
+            //    camera.transform.right = this.transform.right;
+            //    SimulationManager.Instance.Execute();
+            //}
 
-            if (back)
-            {
-                camera.transform.forward = -this.transform.forward;
-                SimulationManager.Instance.Execute();
-            }
+            //if (displayEachFrame)
+            //    yield return null;
 
-            if (displayEachFrame)
-                yield return null;
+            //if (back)
+            //{
+            //    camera.transform.forward = -this.transform.forward;
+            //    SimulationManager.Instance.Execute();
+            //}
 
-            if (left)
-            {
-                camera.transform.right = -this.transform.right;
-                SimulationManager.Instance.Execute();
-            }
+            //if (displayEachFrame)
+            //    yield return null;
 
-            if (displayEachFrame)
-                yield return null;
+            //if (left)
+            //{
+            //    camera.transform.right = -this.transform.right;
+            //    SimulationManager.Instance.Execute();
+            //}
+
+            //if (displayEachFrame)
+            //    yield return null;
 
 
             if (watch.ElapsedTicks > tickBudget)

@@ -5293,6 +5293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heatmapBoundBox: {fileID: 4148631609078620189}
+  DEBUG: 0
   layersHit:
     serializedVersion: 2
     m_Bits: 64
@@ -5310,19 +5311,19 @@ MonoBehaviour:
     key2: {r: 1, g: 0.9789965, b: 0, a: 1}
     key3: {r: 1, g: 0.7150621, b: 0, a: 1}
     key4: {r: 1, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 1, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 16114
-    ctime2: 34772
-    ctime3: 53585
-    ctime4: 65535
-    ctime5: 0
+    ctime1: 13107
+    ctime2: 22937
+    ctime3: 32768
+    ctime4: 45875
+    ctime5: 65535
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 7170
+    atime1: 6245
     atime2: 27062
     atime3: 65535
     atime4: 0
@@ -5331,11 +5332,11 @@ MonoBehaviour:
     atime7: 0
     m_Mode: 0
     m_ColorSpace: -1
-    m_NumColorKeys: 5
+    m_NumColorKeys: 6
     m_NumAlphaKeys: 4
   createNewSystemAlways: 1
   particleSys: {fileID: 0}
-  brushType: 2
+  brushType: 0
   brushSize: 0.09
 --- !u!65 &4148631609078620189
 BoxCollider:
