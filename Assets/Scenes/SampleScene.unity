@@ -4794,6 +4794,7 @@ MonoBehaviour:
   projectionType: 1
   DebugHitRays: 0
   DebugMissedRays: 0
+  rayDuration: 1
   resolutionX: 160
   resolutionY: 90
   camera: {fileID: 815542697}
@@ -9601,7 +9602,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1700327916}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9617,7 +9618,7 @@ Transform:
   - {fileID: 1140540281}
   - {fileID: 1929697570}
   m_Father: {fileID: 1588179444}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &1737579260
 GameObject:
   m_ObjectHideFlags: 0
@@ -10291,7 +10292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directoryName: TestLogs
   tests:
-  - testName: Sedan
+  - testName: TEST
     prefab: {fileID: 9023544700464607981, guid: 0af35585dfc08264487af6b9112c746f,
       type: 3}
     fillerPrefab: {fileID: 264932593536830002, guid: 359b05b7ccb19944bae30bb015ac54c1,
@@ -10317,6 +10318,49 @@ MonoBehaviour:
       fillerVehicle: 0
     - objectPosition: {fileID: 1955129995}
       fillerVehicle: 0
+    cameraPoints:
+    - {fileID: 1174592840}
+    - {fileID: 2116684109}
+    - {fileID: 570371095}
+    - {fileID: 1167585344}
+    - {fileID: 417727392}
+    roadSetups:
+    - {fileID: 1507547562}
+    camera: {fileID: 815542697}
+    heatmapSender: {fileID: 815542699}
+    saveFileWithLogs: 0
+    OnStart:
+      m_PersistentCalls:
+        m_Calls: []
+    OnStop:
+      m_PersistentCalls:
+        m_Calls: []
+  - testName: Sedan
+    prefab: {fileID: 9023544700464607981, guid: 0af35585dfc08264487af6b9112c746f,
+      type: 3}
+    fillerPrefab: {fileID: 264932593536830002, guid: 359b05b7ccb19944bae30bb015ac54c1,
+      type: 3}
+    positions:
+    - objectPosition: {fileID: 1844608976}
+      fillerVehicle: 1
+    - objectPosition: {fileID: 11617678}
+      fillerVehicle: 1
+    - objectPosition: {fileID: 101255084}
+      fillerVehicle: 1
+    - objectPosition: {fileID: 1554673706}
+      fillerVehicle: 1
+    - objectPosition: {fileID: 423657239}
+      fillerVehicle: 1
+    - objectPosition: {fileID: 1478362648}
+      fillerVehicle: 1
+    - objectPosition: {fileID: 1003576910}
+      fillerVehicle: 1
+    - objectPosition: {fileID: 238544062}
+      fillerVehicle: 1
+    - objectPosition: {fileID: 1580351476}
+      fillerVehicle: 1
+    - objectPosition: {fileID: 1955129995}
+      fillerVehicle: 1
     cameraPoints:
     - {fileID: 1174592840}
     - {fileID: 2116684109}
@@ -10391,7 +10435,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   banishmentPoint: {fileID: 787612978}
-  testIndices: 0
+  testIndices: 1,2
   takePhotosAfterSimulation: 1
   hideMeshesInPhotography: 1
   photographyManager: {fileID: 1841744510}

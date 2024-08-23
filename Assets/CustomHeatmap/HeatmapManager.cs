@@ -48,7 +48,7 @@ public class HeatmapManager : MonoBehaviour
         for (int i = 0; i < tempArr.Length; i++)
         {
             tempArr[i] = HeatmapLogger.points[i];
-            //Debug.Log(tempArr[i].ToString());
+            Debug.Log(tempArr[i].ToString());
         }
 
         //yield return StartCoroutine(HeatmapDisplay.LoadDictionary(HeatmapLogger.points, HeatmapDisplay.heatmapBoundBox));

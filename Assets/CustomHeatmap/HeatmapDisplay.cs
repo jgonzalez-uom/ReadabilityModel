@@ -5,7 +5,6 @@ using UnityEngine;
 using static UnityEngine.ParticleSystem;
 using System.IO;
 using System;
-using UnityEditor.TerrainTools;
 using System.Linq;
 
 public class HeatmapDisplay : MonoBehaviour
@@ -474,11 +473,25 @@ public class HeatmapDisplay : MonoBehaviour
 
     private ParticleSystem CreateParticleSystem(int partCount, Collider collider)
     {
-        if (referencePoint.TryGetComponent<ParticleSystem>(out ParticleSystem output))
-            Destroy(output);
-            
+        ParticleSystem newParticleSystem;
 
-        ParticleSystem newParticleSystem = referencePoint.AddComponent<ParticleSystem>();
+        if (referencePoint.TryGetComponent<ParticleSystem>(out ParticleSystem output))
+        {
+            if (createNewSystemAlways)
+            {
+                Destroy(output);
+                newParticleSystem = referencePoint.AddComponent<ParticleSystem>();
+            }
+            else
+            {
+                newParticleSystem = output;
+            }
+        }
+        else
+        {
+            newParticleSystem = referencePoint.AddComponent<ParticleSystem>();
+        }
+
 
         EmissionModule emission = newParticleSystem.emission;
         emission.enabled = true;
@@ -495,7 +508,7 @@ public class HeatmapDisplay : MonoBehaviour
         //shape.shapeType = ParticleSystemShapeType.Sphere;
         //shape.radius = Mathf.Max(collider.bounds.extents.x, collider.bounds.extents.y, collider.bounds.extents.z);
 
-        ParticleSystemRenderer renderer = gameObject.GetComponent<ParticleSystemRenderer>();
+        ParticleSystemRenderer renderer = referencePoint.GetComponent<ParticleSystemRenderer>();
         renderer.sortMode = ParticleSystemSortMode.Distance;
         renderer.allowRoll = false;
         renderer.alignment = ParticleSystemRenderSpace.Facing;

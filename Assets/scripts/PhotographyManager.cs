@@ -17,12 +17,12 @@ public class PhotographyManager : MonoBehaviour
             c.enabled = false;
         }
     }
-    public void TakePhotos(string path, string fileName, string extension)
-    {
-        StartCoroutine(TakePhotosCoroutine(path, fileName, extension));
-    }
+    //public void TakePhotos(string path, string fileName, string extension)
+    //{
+    //    StartCoroutine(TakePhotosCoroutine(path, fileName, extension));
+    //}
 
-    IEnumerator TakePhotosCoroutine(string path, string fileName, string extension)
+    public IEnumerator TakePhotosCoroutine(string path, string fileName, string extension)
     {
         int cameraInd = 0;
         foreach (var c in cameras)

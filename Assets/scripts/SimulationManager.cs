@@ -35,6 +35,7 @@ public class SimulationManager : MonoBehaviour
         public Camera camera;
         public HeatmapSender heatmapSender;
 
+        [HideInInspector]
         public bool saveFileWithLogs;
 
         [System.Serializable]
@@ -129,7 +130,7 @@ public class SimulationManager : MonoBehaviour
                             Transform newfiller = Instantiate(tests[i].fillerPrefab, p.objectPosition.position, p.objectPosition.rotation, fillerParent.transform);
                             newfiller.gameObject.SetActive(false);
                             fillerCars.Add(newfiller);
-                            Debug.Log(newfiller.name);
+                            //Debug.Log(newfiller.name);
                         }
                     }
                     IEnumerable<IEnumerable<int>> indexes = new List<List<int>>();
@@ -187,8 +188,8 @@ public class SimulationManager : MonoBehaviour
                             var t = tests[i].positions[tp];
                             string fileName;
 
-                            ActiveTarget.transform.position = t.objectPosition.position;
-                            ActiveTarget.transform.rotation = t.objectPosition.rotation;
+                            ActiveTarget.HeatmapLogger.parentObject.transform.position = t.objectPosition.position;
+                            ActiveTarget.HeatmapLogger.parentObject.transform.rotation = t.objectPosition.rotation;
 
 
                             foreach (var item in tests[i].cameraPoints)
@@ -226,8 +227,8 @@ public class SimulationManager : MonoBehaviour
 
                 
 
-                ActiveTarget.transform.position = banishmentPoint.position;
-                ActiveTarget.transform.rotation = banishmentPoint.rotation;
+                ActiveTarget.HeatmapLogger.parentObject.transform.position = banishmentPoint.position;
+                ActiveTarget.HeatmapLogger.parentObject.transform.rotation = banishmentPoint.rotation;
 
 
                 yield return StartCoroutine(ActiveTarget.DisplayHeatmap());
@@ -240,10 +241,12 @@ public class SimulationManager : MonoBehaviour
                     }
 
                     if (hideMeshesInPhotography)
-                        photographyManager.HideMeshes(ActiveTarget.transform);
-                    
-                    photographyManager.TakePhotos(Application.persistentDataPath + "/" + directoryName + "/", tests[i].testName, ".png");
+                        photographyManager.HideMeshes(ActiveTarget.HeatmapLogger.parentObject.transform);
+
+                    yield return StartCoroutine(photographyManager.TakePhotosCoroutine(Application.persistentDataPath + "/" + directoryName + "/", tests[i].testName, ".png"));
                 }
+
+
 
                 tests[i].OnStop.Invoke(ActiveTarget);
             }

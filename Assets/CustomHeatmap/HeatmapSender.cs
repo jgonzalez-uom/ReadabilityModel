@@ -10,6 +10,7 @@ public class HeatmapSender : MonoBehaviour
     public heatmapProjectionType projectionType;
     public bool DebugHitRays = true;
     public bool DebugMissedRays = true;
+    public float rayDuration = 10.0f;
     private float maxFrameLength = 0.016f;
 
     [Header("Rectangular Projection Settings")]
@@ -113,7 +114,7 @@ public class HeatmapSender : MonoBehaviour
                 heatmapReceiver.AddPoint(hit.point);
 
                 if (DebugHitRays)
-                    Debug.DrawRay(ray.origin, ray.direction * (hit.point - ray.origin).magnitude, Color.red, 5000);
+                    Debug.DrawRay(ray.origin, ray.direction * (hit.point - ray.origin).magnitude, Color.red, rayDuration);
                 //Debug.Log(hit.point);
 
                 return;
@@ -121,12 +122,12 @@ public class HeatmapSender : MonoBehaviour
 
 
             if (DebugMissedRays)
-                Debug.DrawRay(ray.origin, ray.direction * (hit.point - ray.origin).magnitude, Color.blue, 5000);
+                Debug.DrawRay(ray.origin, ray.direction * (hit.point - ray.origin).magnitude, Color.blue, rayDuration);
 
             return;
         }
 
         if (DebugMissedRays)
-            Debug.DrawRay(ray.origin, ray.direction * 10, Color.blue, 5000);
+            Debug.DrawRay(ray.origin, ray.direction * 10, Color.blue, rayDuration);
     }
 }
