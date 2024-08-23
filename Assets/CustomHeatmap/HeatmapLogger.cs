@@ -5,6 +5,8 @@ using System.IO;
 
 public class HeatmapLogger : MonoBehaviour
 {
+    public GameObject parentObject;
+
     [Header("File Info")]
     public string fileName;
 
@@ -19,9 +21,12 @@ public class HeatmapLogger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (parentObject == null)
+            parentObject = this.transform.parent.gameObject;
+
         //points = new Vector3[maxPoints];
 
-        foreach (HeatmapReceiver r in GetComponentsInChildren<HeatmapReceiver>())
+        foreach (HeatmapReceiver r in parentObject.GetComponentsInChildren<HeatmapReceiver>())
         {
             r.SetLogger(this);
         }

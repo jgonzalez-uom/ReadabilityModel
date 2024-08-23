@@ -27,7 +27,7 @@ public class SimulationManager : MonoBehaviour
         }
 
         public string testName;
-        public HeatmapManager prefab;
+        public Transform prefab;
         public Transform fillerPrefab;
         public VehiclePosition[] positions;
         public CameraPoint[] cameraPoints;
@@ -100,7 +100,15 @@ public class SimulationManager : MonoBehaviour
             Debug.Log("Running test " + s);
             if (int.TryParse(s, out int i) && i >= 0 && i < tests.Length)
             {
-                ActiveTarget = Instantiate(tests[i].prefab, banishmentPoint.position, banishmentPoint.rotation);
+                Transform tempTransform = Instantiate(tests[i].prefab, banishmentPoint.position, banishmentPoint.rotation);
+
+                if ((ActiveTarget = tempTransform.GetComponentInChildren<HeatmapManager>()) == null)
+                {
+                    Debug.LogError("Scenario " + s + ": " + tests[i].testName + " couldn't be run. No HeatmapManager was found.");
+                    continue;
+                } 
+                    
+
                 ActiveTestInd = i;
 
                 tests[i].OnStart.Invoke(ActiveTarget);
