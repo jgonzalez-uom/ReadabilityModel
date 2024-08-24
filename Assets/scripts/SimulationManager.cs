@@ -23,20 +23,23 @@ public class SimulationManager : MonoBehaviour
         public class VehiclePosition
         {
             public Transform objectPosition;
+            public bool useDriverViewPoint = false;
+            public CameraPoint optionalDriverViewPoint;
             public bool fillerVehicle;
         }
 
         public string testName;
         public Transform prefab;
         public Transform fillerPrefab;
-        public VehiclePosition[] positions;
-        public CameraPoint[] cameraPoints;
+        public VehiclePosition[] vehiclePositions;
+        public CameraPoint[] pedestrianViewPoints;
         public Transform[] roadSetups;
         public Camera camera;
         public HeatmapSender heatmapSender;
 
         [HideInInspector]
         public bool saveFileWithLogs;
+        public bool cullUselessFillerScenarios = true;
 
         [System.Serializable]
         public class MyIntEvent : UnityEvent<HeatmapManager> { };
@@ -82,6 +85,11 @@ public class SimulationManager : MonoBehaviour
         //}
     }
 
+    public void SetSimulationsToRun(string simulationsToRun)
+    {
+        testIndices = simulationsToRun;
+    }
+
     public void StartSimulation()
     {
         if (SimulationRunning)
@@ -123,7 +131,7 @@ public class SimulationManager : MonoBehaviour
                     List<Transform> fillerCars = new List<Transform>();
                     GameObject fillerParent = new GameObject();
 
-                    foreach (var p in tests[i].positions)
+                    foreach (var p in tests[i].vehiclePositions)
                     {
                         if (p.fillerVehicle)
                         {
@@ -162,41 +170,103 @@ public class SimulationManager : MonoBehaviour
                     }    
                     Debug.Log(debug);
 
+                    //CameraPoint[] cameraPositions = new CameraPoint[tests[i].pedestrianViewPoints.Length + tests[i].driverViewPoints.Length];
+                    //tests[i].pedestrianViewPoints.CopyTo(cameraPositions, 0);
+                    //tests[i].driverViewPoints.CopyTo(cameraPositions, tests[i].pedestrianViewPoints.Length);
+
                     foreach (var index in indexes)
                     {
                         int cameraIndex = 0;
-                        for (int tp = 0; tp < tests[i].positions.Length; tp++)
+                        bool[] occupiedPositions = new bool[tests[i].vehiclePositions.Length];
+                        for (int tp = 0; tp < tests[i].vehiclePositions.Length; tp++)
                         {
+                            var t = tests[i].vehiclePositions[tp];
+
                             int binInd = 0;
-                            for (int ind = 0; ind < tests[i].positions.Length; ind++)
+                            for (int ind = 0; ind < tests[i].vehiclePositions.Length; ind++)
                             {
-                                if (!tests[i].positions[ind].fillerVehicle)
+                                if (!tests[i].vehiclePositions[ind].fillerVehicle)
                                 {
                                     continue;
                                 }
 
                                 if (ind == tp)
                                 {
+                                    occupiedPositions[ind] = true;
                                     binInd++;
                                     continue;
                                 }
 
-                                fillerCars[binInd].gameObject.SetActive(index.ElementAt(binInd) == 1);
+                                
+                                occupiedPositions[ind] = (index.ElementAt(binInd) == 1);
+                                fillerCars[binInd].gameObject.SetActive(occupiedPositions[ind]);
                                 binInd++;
                             }
-
-                            var t = tests[i].positions[tp];
-                            string fileName;
 
                             ActiveTarget.HeatmapLogger.parentObject.transform.position = t.objectPosition.position;
                             ActiveTarget.HeatmapLogger.parentObject.transform.rotation = t.objectPosition.rotation;
 
+                            //string fileName;
 
-                            foreach (var item in tests[i].cameraPoints)
+                            //foreach (var item in tests[i].pedestrianViewPoints)
+                            for (int vi = 0; vi < (tests[i].pedestrianViewPoints.Length + tests[i].vehiclePositions.Length); vi++)
                             {
+                                CameraPoint item = null;
+
+                                if (vi >= tests[i].pedestrianViewPoints.Length)
+                                {
+                                    int tempInd = vi - tests[i].pedestrianViewPoints.Length;
+
+                                    if (!tests[i].vehiclePositions[tempInd].useDriverViewPoint
+                                        || tp == tempInd
+                                        || tests[i].vehiclePositions[tempInd].optionalDriverViewPoint == null 
+                                        || occupiedPositions[tempInd])
+                                    {
+                                        Debug.Log("Skipping camera at " + tests[i].vehiclePositions[tempInd].objectPosition.name);
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        item = tests[i].vehiclePositions[tempInd].optionalDriverViewPoint;
+                                    }
+                                }
+                                else
+                                {
+                                    item = tests[i].pedestrianViewPoints[vi];
+                                }
+
+
                                 ActiveTarget.HeatmapLogger.ClearPointCache();
 
-                                yield return StartCoroutine(item.CycleThroughCameras(tests[i].camera));
+                                if (tests[i].cullUselessFillerScenarios)
+                                {
+                                    Vector3 cameraToTarget = (ActiveTarget.HeatmapLogger.parentObject.transform.position - item.transform.position).normalized;
+                                    Vector3 targetToFiller;
+                                    Vector3 cameraToFiller;
+                                    bool allFillerVisible = true;
+
+                                    foreach (var f in fillerCars)
+                                    {
+                                        if (f.gameObject.activeSelf)
+                                        {
+                                            targetToFiller = (f.transform.position - ActiveTarget.HeatmapLogger.parentObject.transform.position).normalized;
+                                            cameraToFiller = (f.transform.position - item.transform.position).normalized;
+
+                                            if (Vector3.Dot(cameraToTarget, cameraToFiller) < 0 || Vector3.Dot(cameraToTarget, targetToFiller) >= 0)
+                                            {
+                                                allFillerVisible = false;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    if (!allFillerVisible)
+                                    {
+                                        continue;
+                                    }
+                                }
+
+                                yield return StartCoroutine(item.CycleThroughCameras(tests[i].camera, true, ActiveTarget.HeatmapLogger.parentObject.transform));
 
                                 if (watch.ElapsedTicks > tickBudget)
                                 {
@@ -204,15 +274,15 @@ public class SimulationManager : MonoBehaviour
                                     watch.Restart();
                                 }
 
-                                if (tests[i].saveFileWithLogs)
-                                {
-                                    fileName = string.Format("{0}_{1},{2}_{3}", tests[i].testName, t.objectPosition.position.ToSafeString(), t.objectPosition.eulerAngles.ToSafeString(), cameraIndex);
+                                //if (tests[i].saveFileWithLogs)
+                                //{
+                                //    fileName = string.Format("{0}_{1},{2}_{3}", tests[i].testName, t.objectPosition.position.ToSafeString(), t.objectPosition.eulerAngles.ToSafeString(), cameraIndex);
 
-                                    ActiveTarget.HeatmapLogger.fileName = fileName;
-                                    ActiveTarget.HeatmapLogger.SaveFile(directoryName + "/" + tests[i].testName + "/");
+                                //    ActiveTarget.HeatmapLogger.fileName = fileName;
+                                //    ActiveTarget.HeatmapLogger.SaveFile(directoryName + "/" + tests[i].testName + "/");
 
-                                    cameraIndex++;
-                                }
+                                //    cameraIndex++;
+                                //}
 
                                 yield return StartCoroutine(ActiveTarget.LoadCurrentPointsIntoMatrix());
                             }
@@ -246,9 +316,9 @@ public class SimulationManager : MonoBehaviour
                     yield return StartCoroutine(photographyManager.TakePhotosCoroutine(Application.persistentDataPath + "/" + directoryName + "/", tests[i].testName, ".png"));
                 }
 
-
-
                 tests[i].OnStop.Invoke(ActiveTarget);
+
+                Destroy(ActiveTarget.HeatmapLogger.parentObject);
             }
         }
 

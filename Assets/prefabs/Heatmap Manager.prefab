@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heatmapBoundBox: {fileID: 9161034720237431701}
-  DEBUG: 0
+  DEBUG: 1
   layersHit:
     serializedVersion: 2
     m_Bits: 64
@@ -122,7 +122,7 @@ MonoBehaviour:
   createNewSystemAlways: 1
   particleSys: {fileID: 0}
   brushType: 0
-  brushSize: 0.09
+  brushSize: 0.06
 --- !u!65 &9161034720237431701
 BoxCollider:
   m_ObjectHideFlags: 0

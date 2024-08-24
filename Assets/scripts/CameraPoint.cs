@@ -26,7 +26,6 @@ public class CameraPoint : MonoBehaviour
 
     private void Start()
     {
-
         watch = new System.Diagnostics.Stopwatch();
 
         tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
@@ -34,6 +33,11 @@ public class CameraPoint : MonoBehaviour
     }
 
     public IEnumerator CycleThroughCameras(Camera camera)
+    {
+        yield return StartCoroutine(CycleThroughCameras(camera, false, this.transform));
+    }
+
+    public IEnumerator CycleThroughCameras(Camera camera, bool cullWhenTargetNotInView, Transform target)
     {
         Quaternion prevRotation = camera.transform.rotation;
         Vector3 prevPosition = camera.transform.position;
@@ -50,6 +54,14 @@ public class CameraPoint : MonoBehaviour
             {
                 camera.transform.rotation = dir.rotation;
 
+                if (cullWhenTargetNotInView)
+                { 
+                    if (Vector3.Dot(camera.transform.forward, (target.position - camera.transform.position).normalized) < 0)
+                    {
+                        continue;
+                    }
+                }
+
                 SimulationManager.Instance.Execute();
 
                 if (displayEachFrame)
@@ -57,42 +69,6 @@ public class CameraPoint : MonoBehaviour
 
                 //camera.transform.rotation = Quaternion.LookRotation(this.transform.InverseTransformVector(dir), this.transform.up);
             }
-
-            //if (front)
-            //{
-            //    camera.transform.forward = this.transform.forward;
-            //    SimulationManager.Instance.Execute();
-            //}
-
-            //if (displayEachFrame)
-            //    yield return null; 
-
-            //if (right)
-            //{
-            //    camera.transform.right = this.transform.right;
-            //    SimulationManager.Instance.Execute();
-            //}
-
-            //if (displayEachFrame)
-            //    yield return null;
-
-            //if (back)
-            //{
-            //    camera.transform.forward = -this.transform.forward;
-            //    SimulationManager.Instance.Execute();
-            //}
-
-            //if (displayEachFrame)
-            //    yield return null;
-
-            //if (left)
-            //{
-            //    camera.transform.right = -this.transform.right;
-            //    SimulationManager.Instance.Execute();
-            //}
-
-            //if (displayEachFrame)
-            //    yield return null;
 
 
             if (watch.ElapsedTicks > tickBudget)
