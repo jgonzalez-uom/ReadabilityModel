@@ -29,6 +29,10 @@ public class HeatmapDisplay : MonoBehaviour
     [Range(0.0001f, 1.0f)]
     public float particleSpacing = 0.0f;
     public Material particleMaterial;
+    public int minVisibleHeat = 0;
+    public int maxVisibleHeat = 100000;
+    public bool useHighestValueFound = false;
+    public bool limitHighestValueFound = true;
     public Gradient heatmapColors;
     public bool createNewSystemAlways = false;
     public ParticleSystem particleSys;
@@ -97,6 +101,11 @@ public class HeatmapDisplay : MonoBehaviour
         long tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
                                  * ((maxFrameLength)));
         watch.Restart();
+
+        if (!useHighestValueFound || (maxHeat > maxVisibleHeat && !limitHighestValueFound))
+        {
+            maxHeat = maxVisibleHeat;
+        }
 
         foreach (KeyValuePair<Vector3Int, int> pair in gridValues)
         {
@@ -176,6 +185,11 @@ public class HeatmapDisplay : MonoBehaviour
         long tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
                                  * ((maxFrameLength)));
         watch.Restart();
+
+        if (!useHighestValueFound || (maxHeat > maxVisibleHeat && !limitHighestValueFound))
+        {
+            maxHeat = maxVisibleHeat;
+        }
 
         foreach (KeyValuePair<Vector3Int, int> pair in gridValues)
         {
