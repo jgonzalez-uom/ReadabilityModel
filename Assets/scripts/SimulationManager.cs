@@ -51,6 +51,8 @@ public class SimulationManager : MonoBehaviour
     [Header("Test Settings")]
     public string directoryName;
     public Tests[] tests;
+    public Transform defaultTargetVehiclePrefab;
+    public Transform defaultFillerVehiclePrefab;
     public Transform banishmentPoint;
     [Tooltip("Separated by commas")]
     public string testIndices;
@@ -85,6 +87,19 @@ public class SimulationManager : MonoBehaviour
         //}
     }
 
+    public void SetDefaultTargetVehicle(Transform to)
+    {
+        defaultTargetVehiclePrefab = to;
+    }
+    public void SetDefaultFillerVehicle(Transform to)
+    {
+        defaultFillerVehiclePrefab = to;
+    }
+    public void SetFolderName(string to)
+    {
+        directoryName = to;
+    }
+
     public void SetSimulationsToRun(string simulationsToRun)
     {
         testIndices = simulationsToRun;
@@ -109,6 +124,9 @@ public class SimulationManager : MonoBehaviour
             Debug.Log("Running test " + s);
             if (int.TryParse(s, out int i) && i >= 0 && i < tests.Length)
             {
+                if (tests[i].prefab == null)
+                    tests[i].prefab = defaultTargetVehiclePrefab;
+
                 Transform tempTransform = Instantiate(tests[i].prefab, banishmentPoint.position, banishmentPoint.rotation);
 
                 if ((ActiveTarget = tempTransform.GetComponentInChildren<HeatmapManager>()) == null)
@@ -130,12 +148,16 @@ public class SimulationManager : MonoBehaviour
 
                     List<Transform> fillerCars = new List<Transform>();
                     GameObject fillerParent = new GameObject();
+                    Transform tempFV = tests[i].fillerPrefab;
+
+                    if (tempFV == null)
+                        tempFV = defaultFillerVehiclePrefab;
 
                     foreach (var p in tests[i].vehiclePositions)
                     {
                         if (p.fillerVehicle)
                         {
-                            Transform newfiller = Instantiate(tests[i].fillerPrefab, p.objectPosition.position, p.objectPosition.rotation, fillerParent.transform);
+                            Transform newfiller = Instantiate(tempFV, p.objectPosition.position, p.objectPosition.rotation, fillerParent.transform);
                             newfiller.gameObject.SetActive(false);
                             fillerCars.Add(newfiller);
                             //Debug.Log(newfiller.name);

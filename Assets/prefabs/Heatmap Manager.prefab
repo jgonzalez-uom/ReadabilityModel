@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5364484630778953389}
   - component: {fileID: 8414326239042182826}
   - component: {fileID: 9161034720237431701}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Heatmap Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
