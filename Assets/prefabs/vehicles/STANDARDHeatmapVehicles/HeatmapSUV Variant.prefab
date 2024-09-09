@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 582156728670010648, guid: 7d6a8dcd813af8040b6c5d5e8f03bdbf,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1374934917742664909, guid: 7d6a8dcd813af8040b6c5d5e8f03bdbf,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -215,6 +220,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Heatmap Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 6457663327430375546, guid: 0c09d9cd465fc484ab7380d14bf28966,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8414326239042182826, guid: 0c09d9cd465fc484ab7380d14bf28966,
         type: 3}

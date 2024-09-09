@@ -90,9 +90,9 @@ MonoBehaviour:
   particleSpacing: 0.03
   particleMaterial: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   minVisibleHeat: 0
-  maxVisibleHeat: 100000
-  useHighestValueFound: 0
-  limitHighestValueFound: 1
+  maxVisibleHeat: 2147483647
+  useHighestValueFound: 1
+  limitHighestValueFound: 0
   heatmapColors:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 0}

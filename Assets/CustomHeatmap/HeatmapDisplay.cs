@@ -6,6 +6,7 @@ using static UnityEngine.ParticleSystem;
 using System.IO;
 using System;
 using System.Linq;
+using UnityEditor.TerrainTools;
 
 public class HeatmapDisplay : MonoBehaviour
 {
@@ -48,10 +49,10 @@ public class HeatmapDisplay : MonoBehaviour
     //private Vector3Int gridDimensions = Vector3Int.zero;
     private int particleCount = 0;
     //private int[,,] dataGrid;
-    private Dictionary<Vector3Int, int> gridValues = new Dictionary<Vector3Int, int>();
+    private Dictionary<Vector3Int, long> gridValues = new Dictionary<Vector3Int, long>();
     //private Vector3 minPoint;
     //private Vector3 maxPoint;
-    private int maxHeat = 0;
+    private long maxHeat = 0;
     private Vector3 localMinPoint = Vector3.zero;
     private float maxFrameLength = 0.016f;
     private float doubleRadiusSmallRadius = 0.00001f;
@@ -107,7 +108,9 @@ public class HeatmapDisplay : MonoBehaviour
             maxHeat = maxVisibleHeat;
         }
 
-        foreach (KeyValuePair<Vector3Int, int> pair in gridValues)
+        string values = string.Empty;
+
+        foreach (KeyValuePair<Vector3Int, long> pair in gridValues)
         {
             Vector3 finalPos = ((Vector3)pair.Key * (particleSpacing))
                 + referencePoint.transform.TransformPoint(localMinPoint);
@@ -130,7 +133,11 @@ public class HeatmapDisplay : MonoBehaviour
                 yield return null;
                 watch.Restart();
             }
+
+            values = string.Format("{0}, ({1} = {2})", values, pair.Key.ToString(), pair.Value.ToSafeString());
         }
+
+        Debug.Log("Max heat recorder: " + maxHeat);
 
         particleSys.SetParticles(particles);
 
@@ -191,7 +198,7 @@ public class HeatmapDisplay : MonoBehaviour
             maxHeat = maxVisibleHeat;
         }
 
-        foreach (KeyValuePair<Vector3Int, int> pair in gridValues)
+        foreach (KeyValuePair<Vector3Int, long> pair in gridValues)
         {
             Vector3 finalPos = ((Vector3)pair.Key * (particleSpacing))
                 + referencePoint.transform.TransformPoint(localMinPoint);
@@ -225,7 +232,6 @@ public class HeatmapDisplay : MonoBehaviour
 
         yield return null;
     }
-
 
     private void DisplayPoint(Particle[] particles, int particleIndex, Vector3 point, float gradientColor)
     {
@@ -546,6 +552,21 @@ public class HeatmapDisplay : MonoBehaviour
 
     public void DeleteParticleSystem()
     {
+        Destroy(particleMaterial);
+    }
 
+    public Dictionary<Vector3Int, long> GetPointDictionary()
+    {
+        return gridValues;
+    }
+
+    public void SetPointDictionary(Dictionary<Vector3Int, long> to)
+    {
+        gridValues.Clear();
+
+        foreach (KeyValuePair<Vector3Int , long> pair in to)
+        {
+            gridValues.Add(pair.Key, pair.Value);
+        }
     }
 }

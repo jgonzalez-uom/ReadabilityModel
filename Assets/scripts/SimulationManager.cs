@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
 using Unity.VisualScripting;
@@ -39,14 +40,25 @@ public class SimulationManager : MonoBehaviour
 
         [HideInInspector]
         public bool saveFileWithLogs;
-        public bool cullUselessFillerScenarios = true;
+
+        //public enum fillerCullingTypes {None, CullBehindPlayer,  };
+        //public bool cullUselessFillerScenarios = true;
+
+        [Header("Scenario Culling")]
+        public bool cullFillerBehindCamera = true;
+        public bool cullFillerAfterTarget = true;
+        public bool cullCameraNegativeDot = true;
 
         [System.Serializable]
         public class MyIntEvent : UnityEvent<HeatmapManager> { };
 
+        [Header("Others")]
         public MyIntEvent OnStart;
         public MyIntEvent OnStop;
     }
+
+    [System.Serializable]
+    public class ProgressEvent : UnityEvent<float> { };
 
     [Header("Test Settings")]
     public string directoryName;
@@ -54,18 +66,41 @@ public class SimulationManager : MonoBehaviour
     public Transform defaultTargetVehiclePrefab;
     public Transform defaultFillerVehiclePrefab;
     public Transform banishmentPoint;
+    public bool overrideCullFillerBehindCamera = false;
+    public bool cullFillerBehindCamera = false;
+    public bool overrideCullFillerAfterTarget = false;
+    public bool cullFillerAfterTarget = false;
+    public bool overrideCullCameraNegativeDot = false;
+    public bool cullCameraNegativeDot = false;
     [Tooltip("Separated by commas")]
     public string testIndices;
+    [Header("Progress Bar")]
+    public ProgressEvent OnProgress;
+    public UnityEvent OnProgressCompleted;
+    private float _progress = 0;
+    private float progress
+    {
+        get { return _progress; }
+        set
+        {
+            _progress = value;
+            OnProgress.Invoke(_progress);
+            Debug.Log("Current progress: " + _progress.ToString());
+        }
+    }
 
     [Header("Photography")]
     public bool takePhotosAfterSimulation;
     public bool hideMeshesInPhotography;
     public PhotographyManager photographyManager;
+    public bool savePointsAfterSimulation;
+    public GridPointRecorderScript gridPointRecorderScript;
 
     private HeatmapManager ActiveTarget;
     private int ActiveTestInd = -1;
 
     private bool SimulationRunning = false;
+    private string savingFileName = string.Empty;
 
     // Start is called before the first frame update
     void Start()
@@ -87,6 +122,10 @@ public class SimulationManager : MonoBehaviour
         //}
     }
 
+    public void HideMeshDuringPhotos(bool to)
+    {
+        hideMeshesInPhotography = to;
+    }
     public void SetDefaultTargetVehicle(Transform to)
     {
         defaultTargetVehiclePrefab = to;
@@ -99,10 +138,34 @@ public class SimulationManager : MonoBehaviour
     {
         directoryName = to;
     }
+    public void SetFileName(string to)
+    {
+        savingFileName = to;
+    }
 
     public void SetSimulationsToRun(string simulationsToRun)
     {
         testIndices = simulationsToRun;
+    }
+
+    public void SetPhotographyManager(PhotographyManager to)
+    {
+        photographyManager = to;
+    }
+
+    public void SetCullFillerBehindCamera(bool to)
+    {
+        cullFillerBehindCamera = to;
+    }
+
+    public void SetCullFillerAfterTarget(bool to)
+    {
+        cullFillerAfterTarget = to;
+    }
+
+    public void SetCullCameraNegativeDot(bool to)
+    {
+        cullCameraNegativeDot = to;
     }
 
     public void StartSimulation()
@@ -134,7 +197,6 @@ public class SimulationManager : MonoBehaviour
                     Debug.LogError("Scenario " + s + ": " + tests[i].testName + " couldn't be run. No HeatmapManager was found.");
                     continue;
                 } 
-                    
 
                 ActiveTestInd = i;
 
@@ -142,9 +204,12 @@ public class SimulationManager : MonoBehaviour
 
                 yield return StartCoroutine(ActiveTarget.HeatmapSetup());
 
+                int currentRoadSetup = 0;
+
                 foreach (var currentSetup in tests[i].roadSetups)
                 {
                     currentSetup.gameObject.SetActive(true);
+                    progress = currentRoadSetup / tests[i].roadSetups.Length;
 
                     List<Transform> fillerCars = new List<Transform>();
                     GameObject fillerParent = new GameObject();
@@ -191,17 +256,34 @@ public class SimulationManager : MonoBehaviour
                         debug += "},";
                     }    
                     Debug.Log(debug);
+                    int indexesLength = indexes.Count();
 
                     //CameraPoint[] cameraPositions = new CameraPoint[tests[i].pedestrianViewPoints.Length + tests[i].driverViewPoints.Length];
                     //tests[i].pedestrianViewPoints.CopyTo(cameraPositions, 0);
                     //tests[i].driverViewPoints.CopyTo(cameraPositions, tests[i].pedestrianViewPoints.Length);
 
+
+                    int cameraIndex = 0;
                     foreach (var index in indexes)
                     {
-                        int cameraIndex = 0;
+                        Debug.Log("New layout");
                         bool[] occupiedPositions = new bool[tests[i].vehiclePositions.Length];
+
+                        progress = (float)(currentRoadSetup * indexesLength + cameraIndex) / (float)(indexesLength * tests[i].roadSetups.Length);
+
                         for (int tp = 0; tp < tests[i].vehiclePositions.Length; tp++)
                         {
+                            Debug.Log("New vehicle position");
+                            progress = (float)(
+                                (currentRoadSetup * indexesLength * tests[i].vehiclePositions.Length)
+                                + (cameraIndex * tests[i].vehiclePositions.Length)
+                                + tp)
+                                / 
+                                (float)(
+                                indexesLength 
+                                * tests[i].roadSetups.Length 
+                                * tests[i].vehiclePositions.Length);
+
                             var t = tests[i].vehiclePositions[tp];
 
                             int binInd = 0;
@@ -233,6 +315,26 @@ public class SimulationManager : MonoBehaviour
                             //foreach (var item in tests[i].pedestrianViewPoints)
                             for (int vi = 0; vi < (tests[i].pedestrianViewPoints.Length + tests[i].vehiclePositions.Length); vi++)
                             {
+                                //Debug.Log(string.Format("{0}/{1}", (float)(
+                                //    (currentRoadSetup * tests[i].vehiclePositions.Length * indexesLength * (tests[i].vehiclePositions.Length + tests[i].pedestrianViewPoints.Length))
+                                //    + (tp * indexesLength * (tests[i].vehiclePositions.Length + tests[i].pedestrianViewPoints.Length))
+                                //    + (cameraIndex * (tests[i].vehiclePositions.Length + tests[i].pedestrianViewPoints.Length))
+                                //    + vi), (float)(tests[i].roadSetups.Length
+                                //    * tests[i].vehiclePositions.Length
+                                //    * indexesLength
+                                //    * (tests[i].vehiclePositions.Length + tests[i].pedestrianViewPoints.Length)
+                                //    )));
+                                //progress = (float)(
+                                //    (currentRoadSetup * tests[i].vehiclePositions.Length * indexesLength * (tests[i].vehiclePositions.Length + tests[i].pedestrianViewPoints.Length))
+                                //    + (tp * indexesLength * (tests[i].vehiclePositions.Length + tests[i].pedestrianViewPoints.Length))
+                                //    + (cameraIndex * (tests[i].vehiclePositions.Length + tests[i].pedestrianViewPoints.Length))
+                                //    + vi)
+                                //    /
+                                //    (float)(tests[i].roadSetups.Length
+                                //    * tests[i].vehiclePositions.Length
+                                //    * indexesLength
+                                //    * (tests[i].vehiclePositions.Length + tests[i].pedestrianViewPoints.Length)
+                                //    );
                                 CameraPoint item = null;
 
                                 if (vi >= tests[i].pedestrianViewPoints.Length)
@@ -260,7 +362,11 @@ public class SimulationManager : MonoBehaviour
 
                                 ActiveTarget.HeatmapLogger.ClearPointCache();
 
-                                if (tests[i].cullUselessFillerScenarios)
+                                bool tempCFBC = (tests[i].cullFillerBehindCamera && !overrideCullFillerBehindCamera) || (this.cullFillerBehindCamera && overrideCullFillerBehindCamera);
+                                bool tempCFAT = (tests[i].cullFillerAfterTarget && !overrideCullFillerAfterTarget) || (this.cullFillerAfterTarget && overrideCullFillerAfterTarget);
+                                bool tempCCND = (tests[i].cullCameraNegativeDot && !overrideCullCameraNegativeDot) || (this.cullCameraNegativeDot && overrideCullCameraNegativeDot);
+
+                                if (tempCFBC || tempCFAT || tempCCND)
                                 {
                                     Vector3 cameraToTarget = (ActiveTarget.HeatmapLogger.parentObject.transform.position - item.transform.position).normalized;
                                     Vector3 targetToFiller;
@@ -271,10 +377,12 @@ public class SimulationManager : MonoBehaviour
                                     {
                                         if (f.gameObject.activeSelf)
                                         {
-                                            targetToFiller = (f.transform.position - ActiveTarget.HeatmapLogger.parentObject.transform.position).normalized;
+                                            targetToFiller = (f.transform.position - ActiveTarget.HeatmapDisplay.heatmapBoundBox.bounds.center).normalized;
+                                            //targetToFiller = (f.transform.position - ActiveTarget.HeatmapLogger.parentObject.transform.position).normalized;
                                             cameraToFiller = (f.transform.position - item.transform.position).normalized;
 
-                                            if (Vector3.Dot(cameraToTarget, cameraToFiller) < 0 || Vector3.Dot(cameraToTarget, targetToFiller) >= 0)
+                                            if ((tempCFBC && Vector3.Dot(cameraToTarget, cameraToFiller) < 0) 
+                                                || (tempCFAT && Vector3.Dot(cameraToTarget, targetToFiller) >= 0))
                                             {
                                                 allFillerVisible = false;
                                                 break;
@@ -288,7 +396,7 @@ public class SimulationManager : MonoBehaviour
                                     }
                                 }
 
-                                yield return StartCoroutine(item.CycleThroughCameras(tests[i].camera, true, ActiveTarget.HeatmapLogger.parentObject.transform));
+                                yield return StartCoroutine(item.CycleThroughCameras(tests[i].camera, tempCCND, ActiveTarget.HeatmapLogger.parentObject.transform));
 
                                 if (watch.ElapsedTicks > tickBudget)
                                 {
@@ -310,11 +418,16 @@ public class SimulationManager : MonoBehaviour
                             }
 
                         }
+
+                        cameraIndex++;
                     }
+
+                    OnProgressCompleted.Invoke();
 
                     currentSetup.gameObject.SetActive(false);
                     Destroy(fillerParent);
 
+                    currentRoadSetup++;
                 }
 
                 
@@ -325,26 +438,50 @@ public class SimulationManager : MonoBehaviour
 
                 yield return StartCoroutine(ActiveTarget.DisplayHeatmap());
 
+                if (savePointsAfterSimulation)
+                {
+                    gridPointRecorderScript.SetDataPoints(ActiveTarget.HeatmapDisplay.GetPointDictionary());
+                    gridPointRecorderScript.SaveFile(directoryName, savingFileName);
+                }
+
                 if (takePhotosAfterSimulation)
                 {
-                    if (!Directory.Exists(Application.persistentDataPath + "/" + directoryName + "/"))
-                    {
-                        Directory.CreateDirectory(Application.persistentDataPath + "/" + directoryName + "/");
-                    }
-
-                    if (hideMeshesInPhotography)
-                        photographyManager.HideMeshes(ActiveTarget.HeatmapLogger.parentObject.transform);
-
-                    yield return StartCoroutine(photographyManager.TakePhotosCoroutine(Application.persistentDataPath + "/" + directoryName + "/", tests[i].testName, ".png"));
+                    yield return StartCoroutine(TakePhoto(tests[i]));
                 }
 
                 tests[i].OnStop.Invoke(ActiveTarget);
 
-                Destroy(ActiveTarget.HeatmapLogger.parentObject);
+                //Destroy(ActiveTarget.HeatmapLogger.parentObject);
             }
         }
 
         SimulationRunning = false;
+    }
+
+    private IEnumerator TakePhoto(Tests test)
+    {
+        if (string.IsNullOrEmpty(savingFileName))
+        {
+            savingFileName = test.testName;
+        }
+
+        if (!Directory.Exists(Application.persistentDataPath + "/" + directoryName + "/"))
+        {
+            Directory.CreateDirectory(Application.persistentDataPath + "/" + directoryName + "/");
+        }
+
+        if (hideMeshesInPhotography)
+            photographyManager.HideMeshes(ActiveTarget.HeatmapLogger.parentObject.transform);
+
+        Debug.Log("Saving photo to " + Application.persistentDataPath + "/" + directoryName + "/" + savingFileName + ".png");
+
+        yield return StartCoroutine(photographyManager.TakePhotosCoroutine(Application.persistentDataPath + "/" + directoryName + "/", savingFileName, ".png"));
+    }
+
+    private void SaveCurrentPoints(HeatmapDisplay displayManager)
+    {
+        gridPointRecorderScript.SetDataPoints(displayManager.GetPointDictionary());
+        gridPointRecorderScript.SaveFile(this.directoryName, this.savingFileName);
     }
 
     public void Execute()

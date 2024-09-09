@@ -47,7 +47,7 @@ public class MenuScript : MonoBehaviour
 
     public void SetSimulationsIndList()
     {
-        if (simulationsToRun.Length <= selectionDropdown.value)
+        if (simulationIndexList.Count <= selectionDropdown.value)
             return;
 
         simulationsToRun = simulationIndexList[selectionDropdown.value].indexList;
@@ -58,10 +58,13 @@ public class MenuScript : MonoBehaviour
 
     public void SetSimulationsIndList(int to)
     {
-        if (simulationsToRun.Length <= to)
+        if (simulationIndexList.Count <= to)
             return;
+
+        Debug.Log("Setting selection to " + simulationIndexList[to].displayName);
         
-        simulationsToRun = simulationIndexList[to].indexList;
+        simulationsToRun
+            = simulationIndexList[to].indexList;
 
         OnValueChanged.Invoke(simulationsToRun);
         simulationIndexList[to].OnSelected.Invoke();

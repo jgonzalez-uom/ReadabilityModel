@@ -24,13 +24,6 @@ public class CameraPoint : MonoBehaviour
 
     public bool displayEachFrame = true;
 
-    private void Start()
-    {
-        watch = new System.Diagnostics.Stopwatch();
-
-        tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
-                                 * ((maxFrameLength)));
-    }
 
     public IEnumerator CycleThroughCameras(Camera camera)
     {
@@ -41,6 +34,12 @@ public class CameraPoint : MonoBehaviour
     {
         Quaternion prevRotation = camera.transform.rotation;
         Vector3 prevPosition = camera.transform.position;
+
+
+        watch = new System.Diagnostics.Stopwatch();
+
+        tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
+                                 * ((maxFrameLength)));
 
         for (int i = 0; i < heightCycles; i++)
         {
