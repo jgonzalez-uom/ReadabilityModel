@@ -101,4 +101,47 @@ public class GridPointRecorderScript : MonoBehaviour
 
         _saveFile = JsonUtility.FromJson<DataSavefile>(fileContent);
     }
+
+    public void LoadFiles(string directoryName, string[] fileNames)
+    {
+        if (!Directory.Exists(Application.persistentDataPath + "/" + directoryName + "/"))
+        {
+            Debug.LogError("Directory does not exist: " + Application.persistentDataPath + "/" + directoryName + "/");
+        }
+
+        Dictionary<Vector3Int, long> keyValuePairs = new Dictionary<Vector3Int, long>();
+
+        foreach (string savingFileName in fileNames)
+        {
+            if (!System.IO.File.Exists(Application.persistentDataPath + "/" + directoryName + "/" + savingFileName + ".json"))
+            {
+                Debug.LogError("File does not exist: " + Application.persistentDataPath + "/" + directoryName + "/" + savingFileName + ".json");
+                continue;
+            }
+
+            string fileContent = System.IO.File.ReadAllText(Application.persistentDataPath + "/" + directoryName + "/" + savingFileName + ".json");
+
+            var temp = JsonUtility.FromJson<DataSavefile>(fileContent);
+
+            foreach (KeyValuePair<Vector3Int, long> pair in temp.GetDataPointsAsDictionary())
+            {
+                if (keyValuePairs.ContainsKey(pair.Key))
+                {
+                    keyValuePairs[pair.Key] += pair.Value;
+                }
+                else
+                {
+                    keyValuePairs.Add(pair.Key, pair.Value);
+                }
+            }
+        }
+
+        _saveFile = new DataSavefile();
+        
+        foreach (KeyValuePair<Vector3Int, long> pair in keyValuePairs)
+        {
+            _saveFile.AddPoint(new DataPoint(pair.Key, pair.Value));
+
+        }
+    }
 }

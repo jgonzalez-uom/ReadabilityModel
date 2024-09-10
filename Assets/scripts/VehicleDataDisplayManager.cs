@@ -75,8 +75,8 @@ public class VehicleDataDisplayManager : MonoBehaviour
         if (hideMeshesInPhotography)
             photographyManager.HideMeshes(ActiveTarget.HeatmapLogger.parentObject.transform);
 
-        Debug.Log("Saving photo to " + Application.persistentDataPath + "/" + directoryName + "/" + fileName + ".png");
+        Debug.Log("Saving photo to " + Application.persistentDataPath + "/" + directoryName + "/" + fileName + ".json");
 
-        yield return StartCoroutine(photographyManager.TakePhotosCoroutine(Application.persistentDataPath + "/" + directoryName + "/", fileName, ".png"));
+        yield return StartCoroutine(photographyManager.TakePhotosCoroutine(Application.persistentDataPath + "/" + directoryName + "/", fileName, ".json"));
     }
 }
