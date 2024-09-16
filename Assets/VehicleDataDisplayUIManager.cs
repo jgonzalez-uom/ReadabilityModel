@@ -91,7 +91,7 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
         
         for (int n = 0; n < fileNames.Length; n++)
         {
-            fileNames[n] = loadedFilesList[n].fileName;
+            fileNames[n] = loadedFilesList[n].fullName;
         }
 
         mainManager.gridPointRecorderScript.LoadFiles(mainManager.directoryName, fileNames);
@@ -122,7 +122,9 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
 
                 temp.text.text = file.Name;
 
-                temp.fileName = file.FullName;
+                temp.fileName = file.Name;
+
+                temp.fullName = file.FullName;
 
                 //temp.button.onClick.AddListener(() => AddItemToLoaded(temp));
                 temp.AddEvent(() => AddItemToLoaded(temp));

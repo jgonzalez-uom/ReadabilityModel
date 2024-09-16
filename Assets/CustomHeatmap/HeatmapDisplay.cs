@@ -31,7 +31,7 @@ public class HeatmapDisplay : MonoBehaviour
     public float particleSpacing = 0.0f;
     public Material particleMaterial;
     public int minVisibleHeat = 0;
-    public int maxVisibleHeat = 100000;
+    public long maxVisibleHeat = 100000;
     public bool useHighestValueFound = false;
     public bool limitHighestValueFound = true;
     public Gradient heatmapColors;
@@ -90,8 +90,9 @@ public class HeatmapDisplay : MonoBehaviour
         yield return null;
     }
 
-    public IEnumerator DisplayHeatmap()
+    public IEnumerator DisplayHeatmap(long maxTempHeat = -1)
     {
+        Debug.Log("max heat is " + maxHeat);
         var particles = new ParticleSystem.Particle[particleSys.main.maxParticles];
         particleSys.GetParticles(particles);
 
@@ -103,15 +104,26 @@ public class HeatmapDisplay : MonoBehaviour
                                  * ((maxFrameLength)));
         watch.Restart();
 
-        if (!useHighestValueFound || (maxHeat > maxVisibleHeat && !limitHighestValueFound))
+        if (maxTempHeat < 0)
         {
-            maxHeat = maxVisibleHeat;
+            maxTempHeat = maxVisibleHeat;
         }
 
+        if (!useHighestValueFound || (limitHighestValueFound && maxHeat > maxTempHeat))
+        {
+            maxHeat = maxTempHeat;
+        }
+        //Debug.Log("New value of max heat is " + maxHeat);
         string values = string.Empty;
 
         foreach (KeyValuePair<Vector3Int, long> pair in gridValues)
         {
+            if (index >= particles.Length)
+            {
+                Debug.LogError("ERROR: More datapoints than particles in the system! (" + gridValues.Count + ")");
+                break;
+            }
+
             Vector3 finalPos = ((Vector3)pair.Key * (particleSpacing))
                 + referencePoint.transform.TransformPoint(localMinPoint);
             finalPos = particleSys.transform.InverseTransformPoint(finalPos);
@@ -122,6 +134,10 @@ public class HeatmapDisplay : MonoBehaviour
             {
                 colorValue = (float)pair.Value / (float)maxHeat;
             }
+            else
+            {
+                colorValue = (colorValue > 0 ? 1f : 0f);
+            }
 
 
             DisplayPoint(particles, index, finalPos, colorValue);
@@ -129,7 +145,7 @@ public class HeatmapDisplay : MonoBehaviour
 
             if (watch.ElapsedTicks > tickBudget)
             {
-                Debug.Log(string.Format("Particle #{0} being displayed.", index));
+                Debug.Log(string.Format("Particle #{0} being displayed with value {1}.", index, pair.Value));
                 yield return null;
                 watch.Restart();
             }
@@ -137,7 +153,8 @@ public class HeatmapDisplay : MonoBehaviour
             values = string.Format("{0}, ({1} = {2})", values, pair.Key.ToString(), pair.Value.ToSafeString());
         }
 
-        Debug.Log("Max heat recorder: " + maxHeat);
+        //Debug.Log("Max heat recorder: " + maxHeat);
+        Debug.Log(values);
 
         particleSys.SetParticles(particles);
 
@@ -193,7 +210,7 @@ public class HeatmapDisplay : MonoBehaviour
                                  * ((maxFrameLength)));
         watch.Restart();
 
-        if (!useHighestValueFound || (maxHeat > maxVisibleHeat && !limitHighestValueFound))
+        if (!useHighestValueFound || (maxHeat > maxVisibleHeat && limitHighestValueFound))
         {
             maxHeat = maxVisibleHeat;
         }
@@ -560,13 +577,35 @@ public class HeatmapDisplay : MonoBehaviour
         return gridValues;
     }
 
-    public void SetPointDictionary(Dictionary<Vector3Int, long> to)
+    public void SetPointDictionary(Dictionary<Vector3Int, long> from)
     {
         gridValues.Clear();
 
-        foreach (KeyValuePair<Vector3Int , long> pair in to)
+        foreach (KeyValuePair<Vector3Int , long> pair in from)
         {
+            //Debug.Log(string.Format("Setting {0} to {1}", pair.Key, pair.Value));
             gridValues.Add(pair.Key, pair.Value);
+        }
+    }
+
+    public void SetMaxHeat(long to)
+    {
+        maxHeat = to;
+        Debug.Log("Max Heat is now " + maxHeat);
+    }
+
+    public void AddPointsToDictionary(Dictionary<Vector3Int, long> from)
+    {
+        foreach (KeyValuePair<Vector3Int, long> pair in from)
+        {
+            if (gridValues.ContainsKey(pair.Key))
+            {
+                gridValues[pair.Key] += pair.Value;
+            }
+            else
+            {
+                gridValues.Add(pair.Key, pair.Value);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.Events;
 
 public class VehicleDataDisplayManager : MonoBehaviour
 {
@@ -9,10 +10,14 @@ public class VehicleDataDisplayManager : MonoBehaviour
     public GridPointRecorderScript gridPointRecorderScript;
     public PhotographyManager photographyManager;
     private HeatmapManager ActiveTarget;
-    public Transform vehiclePrefab; 
+    public Transform vehiclePrefab;
+    public Transform vehicleTransformProperties;
     public string directoryName;
     public string fileName = string.Empty;
     public bool hideMeshesInPhotography;
+
+    public UnityEvent OnDisplayStart;
+    public UnityEvent OnDisplayEnd;
 
     public void SetVehiclePrefab(Transform to)
     {
@@ -26,7 +31,10 @@ public class VehicleDataDisplayManager : MonoBehaviour
 
     public void SpawnVehiclePrefab()
     {
-        if ((ActiveTarget = Instantiate(vehiclePrefab).GetComponentInChildren<HeatmapManager>()) == null)
+        if (!vehicleTransformProperties)
+            vehicleTransformProperties = transform;
+
+        if ((ActiveTarget = Instantiate(vehiclePrefab, vehicleTransformProperties.position, vehicleTransformProperties.rotation).GetComponentInChildren<HeatmapManager>()) == null)
         {
             Debug.LogError("Vehicle Prefab does not contain a HeatmapManager!");
             return;
@@ -38,20 +46,26 @@ public class VehicleDataDisplayManager : MonoBehaviour
         }
     }
 
-    public void LoadDataIntoVehicle()
+    public void SetDataIntoVehicle()
     {
-        StartCoroutine(LoadVehicleGridPoints());
+        StartCoroutine(SetVehicleGridPoints());
     }
 
-    IEnumerator LoadVehicleGridPoints()
-    {
-        gridPointRecorderScript.LoadFile(directoryName, fileName);
+    IEnumerator SetVehicleGridPoints()
+    { 
+        //gridPointRecorderScript.LoadFile(directoryName, fileName);
 
-        ActiveTarget.HeatmapDisplay.SetPointDictionary(gridPointRecorderScript.GetDataPoints());
+        OnDisplayStart.Invoke();
 
         yield return StartCoroutine(ActiveTarget.HeatmapSetup());
 
+        ActiveTarget.HeatmapDisplay.AddPointsToDictionary(gridPointRecorderScript.GetDataPoints());
+
+        ActiveTarget.HeatmapDisplay.SetMaxHeat(gridPointRecorderScript.GetMaxValueInSaveFile());
+
         yield return StartCoroutine(ActiveTarget.DisplayHeatmap());
+
+        OnDisplayEnd.Invoke();
 
     }
 

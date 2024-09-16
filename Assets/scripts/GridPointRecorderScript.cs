@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 public class GridPointRecorderScript : MonoBehaviour
 {
@@ -21,7 +22,9 @@ public class GridPointRecorderScript : MonoBehaviour
     [System.Serializable]
     public class DataSavefile
     {
-        List<DataPoint> points = new List<DataPoint>();
+        public string FileName;
+        public long maxValue = 0;
+        public List<DataPoint> points = new List<DataPoint>();
 
         public void AddPoint(DataPoint point)
         {
@@ -45,32 +48,64 @@ public class GridPointRecorderScript : MonoBehaviour
 
             foreach (DataPoint point in points)
             {
+                //Debug.Log("Loading point " + point.point.ToString() + ": " + point.value.ToString());  
                 output.Add(point.point, point.value);
             }
-
             return output;
         }
     }
 
     private DataSavefile _saveFile;
+    private System.Diagnostics.Stopwatch watch;
+    private float maxFrameLength = 0.01666f;
+    private long tickBudget;
 
-    public void SetDataPoints(Dictionary<Vector3Int, long> input)
+    private void Start()
+    {
+
+        watch = new System.Diagnostics.Stopwatch();
+        tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
+                                 * ((maxFrameLength)));
+    }
+
+    public IEnumerator SetDataPoints(Dictionary<Vector3Int, long> input)
     {
         _saveFile = new DataSavefile();
+        //string finalOutput = "";
+
+        watch.Restart();
 
         foreach (KeyValuePair<Vector3Int, long> pair in input)
         {
+            //finalOutput += (string.Format("{0}:{1}", pair.Key, pair.Value.ToString())) + "\n";
             _saveFile.AddPoint(new DataPoint(pair.Key, pair.Value));
+
+            if (pair.Value > _saveFile.maxValue)
+            {
+                _saveFile.maxValue = pair.Value;
+            }
+
+            if (watch.ElapsedTicks > tickBudget)
+            {
+                yield return null;
+                watch.Restart();
+            }
         }
+        //Debug.Log(finalOutput);
     }
 
     public Dictionary<Vector3Int, long> GetDataPoints()
     {
-        if (_saveFile == null)
+        if (_saveFile != null)
             return _saveFile.GetDataPointsAsDictionary();
 
         Debug.LogError("NO Data File found. Did you use LoadFile first?");
         return null;
+    }
+
+    public long GetMaxValueInSaveFile()
+    {
+        return _saveFile.maxValue;
     }
 
     public void SaveFile(string directoryName, string savingFileName)
@@ -79,7 +114,9 @@ public class GridPointRecorderScript : MonoBehaviour
         {
             Directory.CreateDirectory(Application.persistentDataPath + "/" + directoryName + "/");
         }
+        _saveFile.FileName = savingFileName;
         string dataFile = JsonUtility.ToJson(_saveFile);
+        
         System.IO.File.WriteAllText(Application.persistentDataPath + "/" + directoryName + "/" + savingFileName + ".json", dataFile);
 
         Debug.Log("Saved point file to " + Application.persistentDataPath + "/" + directoryName + "/" + savingFileName + ".json");
@@ -109,17 +146,18 @@ public class GridPointRecorderScript : MonoBehaviour
             Debug.LogError("Directory does not exist: " + Application.persistentDataPath + "/" + directoryName + "/");
         }
 
+        _saveFile = new DataSavefile();
         Dictionary<Vector3Int, long> keyValuePairs = new Dictionary<Vector3Int, long>();
 
         foreach (string savingFileName in fileNames)
         {
-            if (!System.IO.File.Exists(Application.persistentDataPath + "/" + directoryName + "/" + savingFileName + ".json"))
+            if (!System.IO.File.Exists(savingFileName))
             {
-                Debug.LogError("File does not exist: " + Application.persistentDataPath + "/" + directoryName + "/" + savingFileName + ".json");
+                Debug.LogError("File does not exist: " + savingFileName);
                 continue;
             }
 
-            string fileContent = System.IO.File.ReadAllText(Application.persistentDataPath + "/" + directoryName + "/" + savingFileName + ".json");
+            string fileContent = System.IO.File.ReadAllText(savingFileName);
 
             var temp = JsonUtility.FromJson<DataSavefile>(fileContent);
 
@@ -133,10 +171,15 @@ public class GridPointRecorderScript : MonoBehaviour
                 {
                     keyValuePairs.Add(pair.Key, pair.Value);
                 }
+
+                if (keyValuePairs[pair.Key] > _saveFile.maxValue)
+                {
+                    _saveFile.maxValue = keyValuePairs[pair.Key];
+                }
             }
         }
 
-        _saveFile = new DataSavefile();
+        Debug.Log("Loading loaded file into object.");
         
         foreach (KeyValuePair<Vector3Int, long> pair in keyValuePairs)
         {

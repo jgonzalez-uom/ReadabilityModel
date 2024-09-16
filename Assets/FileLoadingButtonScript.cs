@@ -11,6 +11,7 @@ public class FileLoadingButtonScript : MonoBehaviour
     public TextMeshProUGUI text;
     [HideInInspector]
     public string fileName;
+    public string fullName;
 
     public void AddEvent(UnityAction action)
     {

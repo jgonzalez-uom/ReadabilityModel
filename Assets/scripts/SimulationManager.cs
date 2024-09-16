@@ -93,8 +93,14 @@ public class SimulationManager : MonoBehaviour
     public bool takePhotosAfterSimulation;
     public bool hideMeshesInPhotography;
     public PhotographyManager photographyManager;
+
+    [Header("Data Point Saving")]
     public bool savePointsAfterSimulation;
     public GridPointRecorderScript gridPointRecorderScript;
+    public UnityEvent OnDatapointSavingStart;
+    public UnityEvent OnDatapointSavingFinished;
+    //public UnityEvent OnDatapointLoadingStart;
+    //public UnityEvent OnDatapointLoadingFinished;
 
     private HeatmapManager ActiveTarget;
     private int ActiveTestInd = -1;
@@ -189,6 +195,9 @@ public class SimulationManager : MonoBehaviour
             {
                 if (tests[i].prefab == null)
                     tests[i].prefab = defaultTargetVehiclePrefab;
+
+                if (tests[i].fillerPrefab == null)
+                    tests[i].fillerPrefab = defaultFillerVehiclePrefab;
 
                 Transform tempTransform = Instantiate(tests[i].prefab, banishmentPoint.position, banishmentPoint.rotation);
 
@@ -440,8 +449,10 @@ public class SimulationManager : MonoBehaviour
 
                 if (savePointsAfterSimulation)
                 {
-                    gridPointRecorderScript.SetDataPoints(ActiveTarget.HeatmapDisplay.GetPointDictionary());
+                    OnDatapointSavingStart.Invoke();
+                    yield return StartCoroutine(gridPointRecorderScript.SetDataPoints(ActiveTarget.HeatmapDisplay.GetPointDictionary()));
                     gridPointRecorderScript.SaveFile(directoryName, savingFileName);
+                    OnDatapointSavingFinished.Invoke();
                 }
 
                 if (takePhotosAfterSimulation)
@@ -451,7 +462,11 @@ public class SimulationManager : MonoBehaviour
 
                 tests[i].OnStop.Invoke(ActiveTarget);
 
+                OnProgress.Invoke(1);
+
                 //Destroy(ActiveTarget.HeatmapLogger.parentObject);
+
+                OnProgressCompleted.Invoke();
             }
         }
 
