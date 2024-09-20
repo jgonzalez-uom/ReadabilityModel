@@ -63,16 +63,26 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
         foreach (var s in photographyManagers)
             list.Add(s.name);
 
-        objectSelectionDropdown.AddOptions(list);
+        cameraSelectionDropdown.AddOptions(list);
 
         SetCamera(cameraSelectionDropdown.value);
     }
 
     public void SetCamera(int ind)
     {
-        if (ind > 0 && ind < photographyManagers.Length)
+        foreach (var m in photographyManagers)
+        {
+            m.gameObject.SetActive(false);
+        }
+
+        if (ind >= 0 && ind < photographyManagers.Length)
         {
             mainManager.photographyManager = photographyManagers[ind];
+            mainManager.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log("Photography manager not found: " + ind);
         }
     }
 

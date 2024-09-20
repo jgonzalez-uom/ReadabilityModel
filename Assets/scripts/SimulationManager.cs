@@ -74,6 +74,7 @@ public class SimulationManager : MonoBehaviour
     public bool cullCameraNegativeDot = false;
     [Tooltip("Separated by commas")]
     public string testIndices;
+    public string roadSetupsList;
     [Header("Progress Bar")]
     public ProgressEvent OnProgress;
     public UnityEvent OnProgressCompleted;
@@ -190,7 +191,8 @@ public class SimulationManager : MonoBehaviour
         SimulationRunning = true;
         foreach (var s in testIndices.Split(','))
         {
-            Debug.Log("Running test " + s);
+            Debug.Log("Running test " + s);  
+
             if (int.TryParse(s, out int i) && i >= 0 && i < tests.Length)
             {
                 if (tests[i].prefab == null)

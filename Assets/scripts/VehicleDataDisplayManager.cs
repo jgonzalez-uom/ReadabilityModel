@@ -12,12 +12,16 @@ public class VehicleDataDisplayManager : MonoBehaviour
     private HeatmapManager ActiveTarget;
     public Transform vehiclePrefab;
     public Transform vehicleTransformProperties;
+    public Transform vehicleTransformParent;
     public string directoryName;
     public string fileName = string.Empty;
     public bool hideMeshesInPhotography;
 
     public UnityEvent OnDisplayStart;
     public UnityEvent OnDisplayEnd;
+
+    public UnityEvent OnPhotoStart;
+    public UnityEvent OnPhotoEnd;
 
     public void SetVehiclePrefab(Transform to)
     {
@@ -39,6 +43,9 @@ public class VehicleDataDisplayManager : MonoBehaviour
             Debug.LogError("Vehicle Prefab does not contain a HeatmapManager!");
             return;
         }
+        vehicleTransformParent.position = ActiveTarget.HeatmapDisplay.heatmapBoundBox.bounds.center;
+
+        ActiveTarget.HeatmapDisplay.referencePoint.transform.SetParent(vehicleTransformParent, true);
 
         if (string.IsNullOrEmpty(fileName))
         {
@@ -76,6 +83,8 @@ public class VehicleDataDisplayManager : MonoBehaviour
 
     private IEnumerator TakePhotoCoroutine()
     {
+        OnPhotoStart.Invoke();
+
         if (string.IsNullOrEmpty(fileName))
         {
             fileName = ActiveTarget.name;
@@ -89,8 +98,10 @@ public class VehicleDataDisplayManager : MonoBehaviour
         if (hideMeshesInPhotography)
             photographyManager.HideMeshes(ActiveTarget.HeatmapLogger.parentObject.transform);
 
-        Debug.Log("Saving photo to " + Application.persistentDataPath + "/" + directoryName + "/" + fileName + ".json");
+        Debug.Log("Saving photo to " + Application.persistentDataPath + "/" + directoryName + "/" + fileName + ".png");
 
-        yield return StartCoroutine(photographyManager.TakePhotosCoroutine(Application.persistentDataPath + "/" + directoryName + "/", fileName, ".json"));
+        yield return StartCoroutine(photographyManager.TakePhotosCoroutine(Application.persistentDataPath + "/" + directoryName + "/", fileName, ".png"));
+
+        OnPhotoEnd.Invoke();
     }
 }

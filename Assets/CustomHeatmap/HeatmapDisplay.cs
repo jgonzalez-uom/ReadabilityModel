@@ -145,7 +145,7 @@ public class HeatmapDisplay : MonoBehaviour
 
             if (watch.ElapsedTicks > tickBudget)
             {
-                Debug.Log(string.Format("Particle #{0} being displayed with value {1}.", index, pair.Value));
+                //Debug.Log(string.Format("Particle #{0} being displayed with value {1}.", index, pair.Value));
                 yield return null;
                 watch.Restart();
             }

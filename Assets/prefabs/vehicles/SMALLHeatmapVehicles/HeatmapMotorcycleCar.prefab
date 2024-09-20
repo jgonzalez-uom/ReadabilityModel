@@ -1,0 +1,316 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1866681337705054740
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6483667537689621678}
+  - component: {fileID: 3368293196187578737}
+  - component: {fileID: 8051750994707235907}
+  - component: {fileID: 8732018888052986119}
+  - component: {fileID: 1863938245131307217}
+  m_Layer: 2
+  m_Name: Heatmap Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6483667537689621678
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866681337705054740}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8079664026228552583}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3368293196187578737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866681337705054740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 285c4164d2cc84e4d98f1d23aef26214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HeatmapDisplay: {fileID: 8732018888052986119}
+  HeatmapLogger: {fileID: 8051750994707235907}
+--- !u!114 &8051750994707235907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866681337705054740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0843c973aa845de449dccb47a22183e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentObject: {fileID: 8824482494223561586}
+  fileName: Motorcycle
+  maxPoints: 15000
+  points: []
+--- !u!114 &8732018888052986119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866681337705054740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c781b6105df1a0e47b2a415a7292b8b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heatmapBoundBox: {fileID: 1863938245131307217}
+  DEBUG: 0
+  layersHit:
+    serializedVersion: 2
+    m_Bits: 64
+  referencePoint: {fileID: 8824482494223561586}
+  boundBoxMargins: {x: 0.01, y: 0.01, z: 0.01}
+  checkForInsideMesh: 1
+  doubleRaycastDistance: 100
+  particleSize: 0.05
+  particleSpacing: 0.03
+  particleMaterial: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  minVisibleHeat: 0
+  maxVisibleHeat: 2147483647
+  useHighestValueFound: 1
+  limitHighestValueFound: 0
+  heatmapColors:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 0}
+    key1: {r: 0, g: 1, b: 0.95430183, a: 1}
+    key2: {r: 1, g: 0.9789965, b: 0, a: 1}
+    key3: {r: 1, g: 0.7150621, b: 0, a: 0}
+    key4: {r: 1, g: 0, b: 0, a: 0}
+    key5: {r: 1, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 13107
+    ctime2: 26214
+    ctime3: 39321
+    ctime4: 52428
+    ctime5: 65535
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 6245
+    atime2: 65535
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 6
+    m_NumAlphaKeys: 3
+  createNewSystemAlways: 1
+  particleSys: {fileID: 0}
+  brushType: 0
+  brushSize: 0.06
+--- !u!65 &1863938245131307217
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866681337705054740}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.99, y: 1.233019, z: 2.2316234}
+  m_Center: {x: -0.025030613, y: 0.60027426, z: -1.0488421}
+--- !u!1 &8824482494223561586
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8079664026228552583}
+  m_Layer: 0
+  m_Name: HeatmapMotorcycleCar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8079664026228552583
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8824482494223561586}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.7560492, y: -0.00000333786, z: -18.82307}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6096043485715512538}
+  - {fileID: 6483667537689621678}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &5986346299225889585
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8079664026228552583}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.119
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f0fae9593ec9c95419bff81abd1a27c8, type: 2}
+    - target: {fileID: 919132149155446097, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_Name
+      value: Honda Shadow RS  2010 by Alex.Ka.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8164078558771037576, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8336809595764608798}
+    - targetCorrespondingSourceObject: {fileID: 8164078558771037576, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 72136097321519335}
+  m_SourcePrefab: {fileID: 100100000, guid: 82bd01126951e6947a9943bc7bfe3ff6, type: 3}
+--- !u!1 &2476808324226162361 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8164078558771037576, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5986346299225889585}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8336809595764608798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2476808324226162361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7adb530776a9a884db33138692f757ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  referencePoint: {fileID: 8824482494223561586}
+--- !u!64 &72136097321519335
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2476808324226162361}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: 82bd01126951e6947a9943bc7bfe3ff6, type: 3}
+--- !u!4 &6096043485715512538 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 82bd01126951e6947a9943bc7bfe3ff6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5986346299225889585}
+  m_PrefabAsset: {fileID: 0}

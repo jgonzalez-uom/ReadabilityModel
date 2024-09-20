@@ -5716,6 +5716,52 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 900, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1007721123
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1007721125}
+  - component: {fileID: 1007721124}
+  m_Layer: 0
+  m_Name: Turntable
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1007721124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007721123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d47300be6928da4fac6d735eeca45d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  degreesPerSecond: 10
+  paused: 1
+--- !u!4 &1007721125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007721123}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1020629357
 GameObject:
   m_ObjectHideFlags: 0
@@ -5972,6 +6018,7 @@ MonoBehaviour:
   photographyManager: {fileID: 0}
   vehiclePrefab: {fileID: 0}
   vehicleTransformProperties: {fileID: 1537371951}
+  vehicleTransformParent: {fileID: 1007721125}
   directoryName: HeatmapPictures
   fileName: 
   hideMeshesInPhotography: 0
@@ -6017,6 +6064,60 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1007721124}
+        m_TargetAssemblyTypeName: RotationShowcaseScript, Assembly-CSharp
+        m_MethodName: SetPause
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPhotoStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1007721124}
+        m_TargetAssemblyTypeName: RotationShowcaseScript, Assembly-CSharp
+        m_MethodName: SetPause
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1007721124}
+        m_TargetAssemblyTypeName: RotationShowcaseScript, Assembly-CSharp
+        m_MethodName: Reset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPhotoEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1007721124}
+        m_TargetAssemblyTypeName: RotationShowcaseScript, Assembly-CSharp
+        m_MethodName: SetPause
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1087969032
 Transform:
   m_ObjectHideFlags: 0
@@ -6056,7 +6157,37 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   simulationIndexList:
-  - displayName: Carryall - Right Side (US)
+  - displayName: Motorcycle
+    indexList: 2
+    OnSelected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetVehiclePrefab
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 8079664026228552583, guid: 940dfa8d98d634749a4d3b62f4990c23,
+              type: 3}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: MotorcycleHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Carryall
     indexList: 2
     OnSelected:
       m_PersistentCalls:
@@ -6074,7 +6205,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Smart Car - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: CarryallHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Smart Car
     indexList: 2
     OnSelected:
       m_PersistentCalls:
@@ -6092,7 +6235,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Panel Van - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: SmartCarHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Panel Van
     indexList: 4
     OnSelected:
       m_PersistentCalls:
@@ -6110,7 +6265,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Pickup Truck - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: PanelVanHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Pickup Truck
     indexList: 4
     OnSelected:
       m_PersistentCalls:
@@ -6128,7 +6295,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Sedan - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: PickupTruckHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Sedan
     indexList: 4
     OnSelected:
       m_PersistentCalls:
@@ -6146,7 +6325,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Station Wagon - Left Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: SedanHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Station Wagon
     indexList: 4
     OnSelected:
       m_PersistentCalls:
@@ -6164,7 +6355,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: SUV - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: StationWagonHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: SUV
     indexList: 4
     OnSelected:
       m_PersistentCalls:
@@ -6182,7 +6385,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Topless Convertible - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: SUVHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Topless Convertible
     indexList: 4
     OnSelected:
       m_PersistentCalls:
@@ -6200,7 +6415,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Four Wheeler - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: ToplessConvertibleHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Four Wheeler
     indexList: 6
     OnSelected:
       m_PersistentCalls:
@@ -6218,7 +6445,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Minibus - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: FourWheelerHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Minibus
     indexList: 6
     OnSelected:
       m_PersistentCalls:
@@ -6236,7 +6475,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Moving Truck - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: MinibusHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Moving Truck
     indexList: 6
     OnSelected:
       m_PersistentCalls:
@@ -6254,7 +6505,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Single Decker Bus - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: MovingTruckHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Single Decker Bus
     indexList: 6
     OnSelected:
       m_PersistentCalls:
@@ -6272,7 +6535,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Double Decker Bus - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: SingleDeckerBusHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Double Decker Bus
     indexList: 6
     OnSelected:
       m_PersistentCalls:
@@ -6290,7 +6565,19 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - displayName: Motorhome - Right Side (US)
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: DoubleDeckerBusHeatmapResults
+            m_BoolArgument: 0
+          m_CallState: 2
+  - displayName: Motorhome
     indexList: 6
     OnSelected:
       m_PersistentCalls:
@@ -6306,6 +6593,18 @@ MonoBehaviour:
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1087969031}
+          m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+          m_MethodName: SetFileName
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: MotorhomeHeatmapResults
             m_BoolArgument: 0
           m_CallState: 2
   OnObjectValueChanged:
@@ -6993,7 +7292,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1191237534}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1087969031}
+        m_TargetAssemblyTypeName: VehicleDataDisplayManager, Assembly-CSharp
+        m_MethodName: TakePhoto
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1191237534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12404,3 +12715,4 @@ SceneRoots:
   - {fileID: 121826759}
   - {fileID: 1087969032}
   - {fileID: 1537371951}
+  - {fileID: 1007721125}
