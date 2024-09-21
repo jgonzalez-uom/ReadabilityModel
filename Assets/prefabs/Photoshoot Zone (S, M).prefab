@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2294890879325298510}
   - component: {fileID: 5061597620474423862}
   m_Layer: 2
-  m_Name: Camera 1
+  m_Name: Right
   m_TagString: Photography
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 200386185341200572}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 6, y: 0.75, z: -2.2}
+  m_LocalPosition: {x: 6, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -100,8 +100,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -139,13 +138,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2681860484639461526}
   - component: {fileID: 1266873477515355690}
+  - component: {fileID: 2706937971623597870}
   m_Layer: 6
   m_Name: Photoshoot Zone (S, M)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2681860484639461526
 Transform:
   m_ObjectHideFlags: 0
@@ -154,7 +154,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 577404271632095827}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -105.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -163,11 +163,11 @@ Transform:
   - {fileID: 7428458729782087948}
   - {fileID: 2139400426942048724}
   - {fileID: 8302360980205192272}
+  - {fileID: 4067469610871523084}
   - {fileID: 7935044138190094368}
   - {fileID: 8633683354947087726}
   - {fileID: 6990710761723042164}
   - {fileID: 5882086014113790087}
-  - {fileID: 4067469610871523084}
   - {fileID: 8962090452306603278}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -194,6 +194,209 @@ MonoBehaviour:
   - {fileID: 7123908558677290212}
   - {fileID: 1160300760052183553}
   renderTextureBuffer: {fileID: 8400000, guid: 07bc811f866fd494b9b64b1987b7d1b5, type: 2}
+--- !u!114 &2706937971623597870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577404271632095827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8872dd3a50dd57643b081ecb0fb3f8ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - name: Main
+    OnSelected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+          m_MethodName: ActivateOnlyOne
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Camera, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDeselected:
+      m_PersistentCalls:
+        m_Calls: []
+  - name: Front
+    OnSelected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+          m_MethodName: ActivateOnlyOne
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 467236750714597347}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Camera, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDeselected:
+      m_PersistentCalls:
+        m_Calls: []
+  - name: Front-Right
+    OnSelected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+          m_MethodName: ActivateOnlyOne
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 7123908558677290212}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Camera, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDeselected:
+      m_PersistentCalls:
+        m_Calls: []
+  - name: Right
+    OnSelected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+          m_MethodName: ActivateOnlyOne
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2294890879325298510}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Camera, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDeselected:
+      m_PersistentCalls:
+        m_Calls: []
+  - name: Back-Right
+    OnSelected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+          m_MethodName: ActivateOnlyOne
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 2597014546382924192}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Camera, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDeselected:
+      m_PersistentCalls:
+        m_Calls: []
+  - name: Back
+    OnSelected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+          m_MethodName: ActivateOnlyOne
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 5829828834367250592}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Camera, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDeselected:
+      m_PersistentCalls:
+        m_Calls: []
+  - name: Back-Left
+    OnSelected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+          m_MethodName: ActivateOnlyOne
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 6069840894449370383}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Camera, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDeselected:
+      m_PersistentCalls:
+        m_Calls: []
+  - name: Left
+    OnSelected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+          m_MethodName: ActivateOnlyOne
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 5878223042378058488}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Camera, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDeselected:
+      m_PersistentCalls:
+        m_Calls: []
+  - name: Front-Left
+    OnSelected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+          m_MethodName: ActivateOnlyOne
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 428156633121671207}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Camera, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDeselected:
+      m_PersistentCalls:
+        m_Calls: []
+  - name: Top
+    OnSelected:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CameraManager, Assembly-CSharp
+          m_MethodName: ActivateOnlyOne
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1160300760052183553}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Camera, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnDeselected:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &757636359944756154
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +409,7 @@ GameObject:
   - component: {fileID: 7123908558677290212}
   - component: {fileID: 1425753092307663109}
   m_Layer: 2
-  m_Name: Camera 4 (1)
+  m_Name: Front-Right
   m_TagString: Photography
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -220,13 +423,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 757636359944756154}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.92387956, z: -0, w: -0.38268343}
-  m_LocalPosition: {x: 6.18, y: 0.75, z: 3.89}
+  m_LocalRotation: {x: -0, y: 0.38268343, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: -3.535534, y: 0.75, z: -3.535534}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2681860484639461526}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &7123908558677290212
 Camera:
   m_ObjectHideFlags: 0
@@ -294,8 +497,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -335,7 +537,7 @@ GameObject:
   - component: {fileID: 428156633121671207}
   - component: {fileID: 4775457376206243596}
   m_Layer: 2
-  m_Name: Camera 2 (1)
+  m_Name: Front-Left
   m_TagString: Photography
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -349,13 +551,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2875714499800425716}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9238795, z: -0, w: 0.38268346}
-  m_LocalPosition: {x: -5.24, y: 0.75, z: 3.07}
+  m_LocalRotation: {x: -0, y: 0.92387956, z: -0, w: -0.38268343}
+  m_LocalPosition: {x: 3.535534, y: 0.75, z: 3.535534}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2681860484639461526}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!20 &428156633121671207
 Camera:
   m_ObjectHideFlags: 0
@@ -423,8 +625,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -464,9 +665,9 @@ GameObject:
   - component: {fileID: 467236750714597347}
   - component: {fileID: 6987350772899408659}
   m_Layer: 2
-  m_Name: Camera 4
+  m_Name: Front
   m_TagString: Photography
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -552,8 +753,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -593,7 +793,7 @@ GameObject:
   - component: {fileID: 5829828834367250592}
   - component: {fileID: 4114165236075839131}
   m_Layer: 2
-  m_Name: Camera 3
+  m_Name: Back
   m_TagString: Photography
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -681,8 +881,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -722,7 +921,7 @@ GameObject:
   - component: {fileID: 1160300760052183553}
   - component: {fileID: 2537980470226121695}
   m_Layer: 2
-  m_Name: Camera 4 (2)
+  m_Name: Top
   m_TagString: Photography
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -737,7 +936,7 @@ Transform:
   m_GameObject: {fileID: 7135861596968302145}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 4.57, z: -2.18}
+  m_LocalPosition: {x: 0, y: 4.57, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -810,8 +1009,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -851,7 +1049,7 @@ GameObject:
   - component: {fileID: 6069840894449370383}
   - component: {fileID: 7950429477091756130}
   m_Layer: 2
-  m_Name: Camera 3 (1)
+  m_Name: Back-Left
   m_TagString: Photography
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -865,13 +1063,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7878948015599470237}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.38268343, z: -0, w: 0.92387956}
-  m_LocalPosition: {x: -2.91, y: 0.75, z: -5.09}
+  m_LocalRotation: {x: -0, y: -0.38268346, z: -0, w: 0.9238795}
+  m_LocalPosition: {x: 3.535534, y: 0.75, z: -3.535534}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2681860484639461526}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!20 &6069840894449370383
 Camera:
   m_ObjectHideFlags: 0
@@ -939,8 +1137,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -993,7 +1190,7 @@ Transform:
   m_GameObject: {fileID: 8305943077427556210}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 3, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1011,7 +1208,7 @@ GameObject:
   - component: {fileID: 5878223042378058488}
   - component: {fileID: 7301095274494273462}
   m_Layer: 2
-  m_Name: Camera 2
+  m_Name: Left
   m_TagString: Photography
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1026,7 +1223,7 @@ Transform:
   m_GameObject: {fileID: 8606774925074463399}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -5, y: 0.75, z: -2.2}
+  m_LocalPosition: {x: -5, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1099,8 +1296,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -1140,7 +1336,7 @@ GameObject:
   - component: {fileID: 2597014546382924192}
   - component: {fileID: 3764576551536050835}
   m_Layer: 2
-  m_Name: Camera 1 (1)
+  m_Name: Back-Right
   m_TagString: Photography
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1154,13 +1350,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9124419574675178267}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.38268346, z: -0, w: 0.9238795}
-  m_LocalPosition: {x: 4.05, y: 0.75, z: -6.5}
+  m_LocalRotation: {x: -0, y: 0.9238795, z: -0, w: 0.38268346}
+  m_LocalPosition: {x: -3.535534, y: 0.75, z: 3.535534}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2681860484639461526}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!20 &2597014546382924192
 Camera:
   m_ObjectHideFlags: 0
@@ -1228,8 +1424,7 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras:
-  - {fileID: 0}
+  m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2

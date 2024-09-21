@@ -29,7 +29,7 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
     public TMP_Dropdown objectSelectionDropdown;
 
     [Header("Camera Selection")]
-    public PhotographyManager[] photographyManagers;
+    public SimulationIndexList[] photographyManagers;
     public TMP_Dropdown cameraSelectionDropdown;
 
     // Start is called before the first frame update
@@ -61,7 +61,7 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
         List<string> list = new List<string>();
 
         foreach (var s in photographyManagers)
-            list.Add(s.name);
+            list.Add(s.displayName);
 
         cameraSelectionDropdown.AddOptions(list);
 
@@ -70,15 +70,16 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
 
     public void SetCamera(int ind)
     {
-        foreach (var m in photographyManagers)
-        {
-            m.gameObject.SetActive(false);
-        }
+        //foreach (var m in photographyManagers)
+        //{
+        //    m.gameObject.SetActive(false);
+        //}
 
         if (ind >= 0 && ind < photographyManagers.Length)
         {
-            mainManager.photographyManager = photographyManagers[ind];
-            mainManager.gameObject.SetActive(true);
+            //mainManager.photographyManager = photographyManagers[ind];
+            //mainManager.photographyManager.gameObject.SetActive(true);
+            photographyManagers[ind].OnSelected.Invoke();
         }
         else
         {

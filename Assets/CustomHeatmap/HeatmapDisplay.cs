@@ -6,7 +6,6 @@ using static UnityEngine.ParticleSystem;
 using System.IO;
 using System;
 using System.Linq;
-using UnityEditor.TerrainTools;
 
 public class HeatmapDisplay : MonoBehaviour
 {
@@ -114,7 +113,7 @@ public class HeatmapDisplay : MonoBehaviour
             maxHeat = maxTempHeat;
         }
         //Debug.Log("New value of max heat is " + maxHeat);
-        string values = string.Empty;
+        //string values = string.Empty;
 
         foreach (KeyValuePair<Vector3Int, long> pair in gridValues)
         {
@@ -150,11 +149,11 @@ public class HeatmapDisplay : MonoBehaviour
                 watch.Restart();
             }
 
-            values = string.Format("{0}, ({1} = {2})", values, pair.Key.ToString(), pair.Value.ToSafeString());
+            //values = string.Format("{0}, ({1} = {2})", values, pair.Key.ToString(), pair.Value.ToSafeString());
         }
 
         //Debug.Log("Max heat recorder: " + maxHeat);
-        Debug.Log(values);
+        //Debug.Log(values);
 
         particleSys.SetParticles(particles);
 
@@ -416,10 +415,13 @@ public class HeatmapDisplay : MonoBehaviour
 
         Vector3 margins = ((boundingBox.bounds.extents * 2) - ((Vector3)gridDimensions * particleSpacing) - (Vector3.one * particleSize * 2)) / 2;
 
-        Vector3 minParticlePos = boundingBox.bounds.min + margins + Vector3.one * particleSize;
+        Vector3 minParticlePos = boundingBox.transform.TransformPoint(boundingBox.bounds.min) + margins + Vector3.one * particleSize;
         localMinPoint = referencePoint.transform.InverseTransformPoint(minParticlePos);
         Debug.Log(minParticlePos.ToSafeString());
+        //Debug.Log(referencePoint.transform.position);
+        //Debug.Log(boundingBox.bounds.min);
         Debug.Log("Grid Dimensions: " + gridDimensions.ToSafeString());
+        int debugRadiusPoints = 0;
 
         for (int x = 0; x < gridDimensions.x; x++)
         {
@@ -433,6 +435,7 @@ public class HeatmapDisplay : MonoBehaviour
                         + Vector3.up * (y * particleSpacing)
                         + Vector3.forward * (z * particleSpacing);
 
+                    //Debug.Log(string.Format("{0} = {1} + {2} + {3}", minParticlePos, Vector3.right * (x * particleSpacing), Vector3.up * (y * particleSpacing), Vector3.forward * (z * particleSpacing)));
                     //Vector3 tempPos = minParticlePos
                     //    + boundingBox.transform.right * (x * particleSpacing + particleSize)
                     //    + boundingBox.transform.up * (y * particleSpacing + particleSize)
@@ -450,6 +453,7 @@ public class HeatmapDisplay : MonoBehaviour
                         case MeshCheckType.DoubleRadius:
 
                             radiusCollider = (Physics.OverlapSphereNonAlloc(tempPos, doubleRadiusSmallRadius, results, layersHit) > 0);
+                            debugRadiusPoints += (radiusCollider ? 1 : 0);
                             validPoint = !radiusCollider && (Physics.OverlapBoxNonAlloc(tempPos, particleSpacing * Vector3.one, 
                                 results, referencePoint.transform.rotation, layersHit) > 0);
                             break;
@@ -504,7 +508,8 @@ public class HeatmapDisplay : MonoBehaviour
             }
             Debug.Log(string.Format("{0}/{1} points checked.", x * gridDimensions.y * gridDimensions.z, gridDimensions.x * gridDimensions.y * gridDimensions.z));
         }
-
+        Debug.Log(particleCount + " valid points found.");
+        Debug.Log(debugRadiusPoints + " debug points found.");
         Debug.Log("Heatmap grid defined.");
     }
 

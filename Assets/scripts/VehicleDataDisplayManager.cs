@@ -16,6 +16,7 @@ public class VehicleDataDisplayManager : MonoBehaviour
     public string directoryName;
     public string fileName = string.Empty;
     public bool hideMeshesInPhotography;
+    public bool centerMesh;
 
     public UnityEvent OnDisplayStart;
     public UnityEvent OnDisplayEnd;
@@ -43,9 +44,20 @@ public class VehicleDataDisplayManager : MonoBehaviour
             Debug.LogError("Vehicle Prefab does not contain a HeatmapManager!");
             return;
         }
+
         vehicleTransformParent.position = ActiveTarget.HeatmapDisplay.heatmapBoundBox.bounds.center;
 
         ActiveTarget.HeatmapDisplay.referencePoint.transform.SetParent(vehicleTransformParent, true);
+        ActiveTarget.HeatmapDisplay.referencePoint.transform.localScale = Vector3.one;
+
+        if (centerMesh)
+        {
+            //ActiveTarget.HeatmapDisplay.referencePoint.transform.Translate(
+            //    vehicleTransformProperties.position - vehicleTransformParent.position
+            //    );
+
+            vehicleTransformParent.position = new Vector3(vehicleTransformProperties.position.x, vehicleTransformParent.position.y, vehicleTransformProperties.position.z);
+        }
 
         if (string.IsNullOrEmpty(fileName))
         {
@@ -74,6 +86,11 @@ public class VehicleDataDisplayManager : MonoBehaviour
 
         OnDisplayEnd.Invoke();
 
+    }
+
+    public void SetPhotoManager(PhotographyManager to)
+    {
+        photographyManager = to;
     }
 
     public void TakePhoto()
