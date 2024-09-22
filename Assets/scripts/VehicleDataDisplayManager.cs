@@ -39,11 +39,14 @@ public class VehicleDataDisplayManager : MonoBehaviour
         if (!vehicleTransformProperties)
             vehicleTransformProperties = transform;
 
-        if ((ActiveTarget = Instantiate(vehiclePrefab, vehicleTransformProperties.position, vehicleTransformProperties.rotation).GetComponentInChildren<HeatmapManager>()) == null)
+        if ((ActiveTarget = Instantiate(vehiclePrefab, vehicleTransformProperties.position, vehicleTransformProperties.rotation)
+            .GetComponentInChildren<HeatmapManager>()) == null)
         {
             Debug.LogError("Vehicle Prefab does not contain a HeatmapManager!");
             return;
         }
+
+        Debug.Log(ActiveTarget.HeatmapDisplay.heatmapBoundBox.bounds.min);
 
         vehicleTransformParent.position = ActiveTarget.HeatmapDisplay.heatmapBoundBox.bounds.center;
 
@@ -58,6 +61,9 @@ public class VehicleDataDisplayManager : MonoBehaviour
 
             vehicleTransformParent.position = new Vector3(vehicleTransformProperties.position.x, vehicleTransformParent.position.y, vehicleTransformProperties.position.z);
         }
+
+        Debug.Log(ActiveTarget.HeatmapDisplay.heatmapBoundBox.bounds.min);
+
 
         if (string.IsNullOrEmpty(fileName))
         {
@@ -119,6 +125,17 @@ public class VehicleDataDisplayManager : MonoBehaviour
 
         yield return StartCoroutine(photographyManager.TakePhotosCoroutine(Application.persistentDataPath + "/" + directoryName + "/", fileName, ".png"));
 
+        if (hideMeshesInPhotography)
+            photographyManager.ShowMeshes(ActiveTarget.HeatmapLogger.parentObject.transform);
+
         OnPhotoEnd.Invoke();
+    }
+
+    public void ShowMeshes(bool to)
+    {
+        if (to)
+            photographyManager.ShowMeshes(ActiveTarget.HeatmapLogger.parentObject.transform);
+        else
+            photographyManager.HideMeshes(ActiveTarget.HeatmapLogger.parentObject.transform);
     }
 }

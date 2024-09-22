@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
-using System.IO;
 using System;
 using System.Linq;
 
@@ -19,6 +18,8 @@ public class HeatmapDisplay : MonoBehaviour
     public LayerMask layersHit;
     public GameObject referencePoint;
     public Vector3 boundBoxMargins;
+    [Tooltip("Whether the script should allow multiple points to be loaded at the same time. Useful when data is points are logged multiple times and we want to make sure multiple rays aren't rounded to the same grid point.")]
+    public bool allowDuplicatesWhenLoadingData = false;
 
     [Header("Point Space Check")]
     public MeshCheckType checkForInsideMesh = MeshCheckType.DoubleRadius;
@@ -35,7 +36,7 @@ public class HeatmapDisplay : MonoBehaviour
     public bool limitHighestValueFound = true;
     public Gradient heatmapColors;
     public bool createNewSystemAlways = false;
-    public ParticleSystem particleSys;
+    public ParticleSystem[] particleSystems;
 
     [Header("Brush Size")]
     public brushes brushType;
@@ -47,6 +48,7 @@ public class HeatmapDisplay : MonoBehaviour
     //private Vector3 boundDimensions = Vector3.zero;
     //private Vector3Int gridDimensions = Vector3Int.zero;
     private int particleCount = 0;
+    private int MAX_PARTICLE_PER_HEATMAP = int.MaxValue;
     //private int[,,] dataGrid;
     private Dictionary<Vector3Int, long> gridValues = new Dictionary<Vector3Int, long>();
     //private Vector3 minPoint;
@@ -85,77 +87,87 @@ public class HeatmapDisplay : MonoBehaviour
             TrimHeatmapBoundBox();
         
         yield return StartCoroutine(CreateDictionary(heatmapBoundBox));
-        particleSys = CreateParticleSystem(particleCount, heatmapBoundBox);
+        particleSystems = CreateParticleSystems(particleCount, heatmapBoundBox);
         yield return null;
     }
 
     public IEnumerator DisplayHeatmap(long maxTempHeat = -1)
     {
+        List<Vector3Int> pointKeys = new List<Vector3Int>(gridValues.Keys);
+        int keyInd = 0;
+
         Debug.Log("max heat is " + maxHeat);
-        var particles = new ParticleSystem.Particle[particleSys.main.maxParticles];
-        particleSys.GetParticles(particles);
 
-        int index = 0;
+        foreach (var particleSystem in particleSystems)
+        { 
+            var particles = new ParticleSystem.Particle[particleSystem.main.maxParticles];
+            particleSystem.GetParticles(particles);
 
-        var watch = new System.Diagnostics.Stopwatch();
+            int index = 0;
 
-        long tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
-                                 * ((maxFrameLength)));
-        watch.Restart();
+            var watch = new System.Diagnostics.Stopwatch();
 
-        if (maxTempHeat < 0)
-        {
-            maxTempHeat = maxVisibleHeat;
+            long tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
+                                     * ((maxFrameLength)));
+            watch.Restart();
+
+            if (maxTempHeat < 0)
+            {
+                maxTempHeat = maxVisibleHeat;
+            }
+
+            if (!useHighestValueFound || (limitHighestValueFound && maxHeat > maxTempHeat))
+            {
+                maxHeat = maxTempHeat;
+            }
+            //Debug.Log("New value of max heat is " + maxHeat);
+            //string values = string.Empty;
+
+            int endInd = Mathf.Clamp(keyInd + particleSystem.main.maxParticles, keyInd, pointKeys.Count);
+
+            //foreach (KeyValuePair<Vector3Int, long> pair in gridValues)
+            for (; keyInd < endInd; keyInd++)
+            {
+                if (index >= particles.Length)
+                {
+                    Debug.LogError("ERROR: More datapoints than particles in the system! (" + gridValues.Count + ")");
+                    break;
+                }
+
+                Vector3 finalPos = ((Vector3)pointKeys[keyInd] * (particleSpacing))
+                    + referencePoint.transform.TransformPoint(localMinPoint);
+                finalPos = particleSystem.transform.InverseTransformPoint(finalPos);
+
+                float colorValue = 0;
+
+                if (maxHeat > 0)
+                {
+                    colorValue = (float)gridValues[pointKeys[keyInd]] / (float)maxHeat;
+                }
+                else
+                {
+                    colorValue = (colorValue > 0 ? 1f : 0f);
+                }
+
+
+                DisplayPoint(particles, index, finalPos, colorValue);
+                index++;
+
+                if (watch.ElapsedTicks > tickBudget)
+                {
+                    //Debug.Log(string.Format("Particle #{0} being displayed with value {1}.", index, pair.Value));
+                    yield return null;
+                    watch.Restart();
+                }
+
+                //values = string.Format("{0}, ({1} = {2})", values, pair.Key.ToString(), pair.Value.ToSafeString());
+            }
+
+            //Debug.Log("Max heat recorder: " + maxHeat);
+            //Debug.Log(values);
+
+            particleSystem.SetParticles(particles);
         }
-
-        if (!useHighestValueFound || (limitHighestValueFound && maxHeat > maxTempHeat))
-        {
-            maxHeat = maxTempHeat;
-        }
-        //Debug.Log("New value of max heat is " + maxHeat);
-        //string values = string.Empty;
-
-        foreach (KeyValuePair<Vector3Int, long> pair in gridValues)
-        {
-            if (index >= particles.Length)
-            {
-                Debug.LogError("ERROR: More datapoints than particles in the system! (" + gridValues.Count + ")");
-                break;
-            }
-
-            Vector3 finalPos = ((Vector3)pair.Key * (particleSpacing))
-                + referencePoint.transform.TransformPoint(localMinPoint);
-            finalPos = particleSys.transform.InverseTransformPoint(finalPos);
-
-            float colorValue = 0;
-
-            if (maxHeat > 0)
-            {
-                colorValue = (float)pair.Value / (float)maxHeat;
-            }
-            else
-            {
-                colorValue = (colorValue > 0 ? 1f : 0f);
-            }
-
-
-            DisplayPoint(particles, index, finalPos, colorValue);
-            index++;
-
-            if (watch.ElapsedTicks > tickBudget)
-            {
-                //Debug.Log(string.Format("Particle #{0} being displayed with value {1}.", index, pair.Value));
-                yield return null;
-                watch.Restart();
-            }
-
-            //values = string.Format("{0}, ({1} = {2})", values, pair.Key.ToString(), pair.Value.ToSafeString());
-        }
-
-        //Debug.Log("Max heat recorder: " + maxHeat);
-        //Debug.Log(values);
-
-        particleSys.SetParticles(particles);
 
         yield return null;
     }
@@ -177,7 +189,7 @@ public class HeatmapDisplay : MonoBehaviour
         Debug.Log("Dictionary loaded: " + (timeB - timeA).TotalSeconds);
 
         timeA = new TimeSpan(System.DateTime.Now.Ticks);
-        particleSys = CreateParticleSystem(particleCount, heatmapBoundBox);
+        particleSystems = CreateParticleSystems(particleCount, heatmapBoundBox);
         timeB = new TimeSpan(System.DateTime.Now.Ticks);
         Debug.Log("Particle System created: " + (timeB - timeA).TotalSeconds);
 
@@ -193,55 +205,64 @@ public class HeatmapDisplay : MonoBehaviour
         Debug.Log("Particles Emitted: " + particleCount);
         timeA = new TimeSpan(System.DateTime.Now.Ticks);
 
-        var particles = new ParticleSystem.Particle[particleSys.main.maxParticles];
-        particleSys.GetParticles(particles);
+        List<Vector3Int> pointKeys = new List<Vector3Int>(gridValues.Keys);
+        int keyInd = 0;
 
-        int index = 0;
-
-        //foreach (var p in points)
-        //{
-        //    DisplayPoint(particles, index++, p, 0);
-        //}
-
-        var watch = new System.Diagnostics.Stopwatch();
-
-        long tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
-                                 * ((maxFrameLength)));
-        watch.Restart();
-
-        if (!useHighestValueFound || (maxHeat > maxVisibleHeat && limitHighestValueFound))
+        foreach (var particleSystem in particleSystems)
         {
-            maxHeat = maxVisibleHeat;
-        }
+            var particles = new ParticleSystem.Particle[particleSystem.main.maxParticles];
+            particleSystem.GetParticles(particles);
 
-        foreach (KeyValuePair<Vector3Int, long> pair in gridValues)
-        {
-            Vector3 finalPos = ((Vector3)pair.Key * (particleSpacing))
-                + referencePoint.transform.TransformPoint(localMinPoint);
-            finalPos = particleSys.transform.InverseTransformPoint(finalPos);
+            int index = 0;
 
-            //finalPos = (Vector3)pair.Key;
+            //foreach (var p in points)
+            //{
+            //    DisplayPoint(particles, index++, p, 0);
+            //}
 
-            float colorValue = 0;
+            var watch = new System.Diagnostics.Stopwatch();
 
-            if (maxHeat > 0)
+            long tickBudget = (long)(System.Diagnostics.Stopwatch.Frequency
+                                     * ((maxFrameLength)));
+            watch.Restart();
+
+            if (!useHighestValueFound || (maxHeat > maxVisibleHeat && limitHighestValueFound))
             {
-                colorValue = (float)pair.Value / (float)maxHeat;
+                maxHeat = maxVisibleHeat;
             }
 
+            int endInd = Mathf.Clamp(keyInd + particleSystem.main.maxParticles, keyInd, pointKeys.Count);
 
-            //DisplayPoint(particles, index, referencePoint.transform.TransformPoint(finalPos), colorValue);
-            DisplayPoint(particles, index, finalPos, colorValue);
-            index++;
-
-            if (watch.ElapsedTicks > tickBudget)
+            //foreach (KeyValuePair<Vector3Int, long> pair in gridValues)
+            for (; keyInd < endInd; keyInd++)
             {
-                yield return null;
-                watch.Restart();
-            }
-        }
+                Vector3 finalPos = ((Vector3)pointKeys[keyInd] * (particleSpacing))
+                    + referencePoint.transform.TransformPoint(localMinPoint);
+                finalPos = particleSystem.transform.InverseTransformPoint(finalPos);
 
-        particleSys.SetParticles(particles);
+                //finalPos = (Vector3)pair.Key;
+
+                float colorValue = 0;
+
+                if (maxHeat > 0)
+                {
+                    colorValue = (float)gridValues[pointKeys[keyInd]] / (float)maxHeat;
+                }
+
+
+                //DisplayPoint(particles, index, referencePoint.transform.TransformPoint(finalPos), colorValue);
+                DisplayPoint(particles, index, finalPos, colorValue);
+                index++;
+
+                if (watch.ElapsedTicks > tickBudget)
+                {
+                    yield return null;
+                    watch.Restart();
+                }
+            }
+
+            particleSystem.SetParticles(particles);
+        }
 
         timeB = new TimeSpan(System.DateTime.Now.Ticks);
         Debug.Log("Points Displayed. " + (timeB - timeA).TotalSeconds);
@@ -262,6 +283,7 @@ public class HeatmapDisplay : MonoBehaviour
     {
         //CreateDictionary(heatmapBoundBox);
 
+        //HashSet<Vector3Int> uniqueVectors = new HashSet<Vector3Int>();
 
         var watch = new System.Diagnostics.Stopwatch();
 
@@ -280,8 +302,8 @@ public class HeatmapDisplay : MonoBehaviour
 
         foreach (var point in points)
         {
-
-
+            List<Vector3Int> uniqueVectors = new List<Vector3Int>();
+            //Dictionary<Vector3Int, bool> uniqueVectors = new Dictionary<Vector3Int, bool>();
             //Vector3 vec = (referencePoint.transform.TransformPoint(point - localMinPoint)) / (particleSpacing);
             Vector3 vec = (referencePoint.transform.TransformPoint(point) - referencePoint.transform.TransformPoint(localMinPoint)) / (particleSpacing);
             vec = new Vector3(Mathf.Abs(vec.x), Math.Abs(vec.y), Mathf.Abs(vec.z));
@@ -312,7 +334,15 @@ public class HeatmapDisplay : MonoBehaviour
                             continue;
                         }
 
-                        gridValues[tempInd]++;
+                        if (allowDuplicatesWhenLoadingData)
+                            gridValues[tempInd]++;
+                        //else
+                        //else if (!uniqueVectors.ContainsKey(tempInd))
+                        else if (uniqueVectors.FindIndex(x => x == tempInd) == -1)
+                        {
+                            //uniqueVectors.Add(tempInd, true);
+                            uniqueVectors.Add(tempInd);
+                        }
 
                         if (DEBUG)
                             Debug.Log(string.Format("{0} new value is {1}", tempInd.ToString(), gridValues[tempInd]));
@@ -329,6 +359,16 @@ public class HeatmapDisplay : MonoBehaviour
                         }
 
                     }
+                }
+            }
+
+            if (!allowDuplicatesWhenLoadingData)
+            {
+                foreach (var tempInd in uniqueVectors)
+                //foreach (KeyValuePair<Vector3Int, bool> tempInd in uniqueVectors)
+                {
+                    //gridValues[tempInd.Key]++;
+                    gridValues[tempInd]++;
                 }
             }
         }
@@ -415,11 +455,12 @@ public class HeatmapDisplay : MonoBehaviour
 
         Vector3 margins = ((boundingBox.bounds.extents * 2) - ((Vector3)gridDimensions * particleSpacing) - (Vector3.one * particleSize * 2)) / 2;
 
-        Vector3 minParticlePos = boundingBox.transform.TransformPoint(boundingBox.bounds.min) + margins + Vector3.one * particleSize;
+        Vector3 minParticlePos = boundingBox.bounds.min + margins + Vector3.one * particleSize;
         localMinPoint = referencePoint.transform.InverseTransformPoint(minParticlePos);
-        Debug.Log(minParticlePos.ToSafeString());
+        //Debug.Log(minParticlePos.ToSafeString());
         //Debug.Log(referencePoint.transform.position);
         //Debug.Log(boundingBox.bounds.min);
+        //Debug.Log(localMinPoint);
         Debug.Log("Grid Dimensions: " + gridDimensions.ToSafeString());
         int debugRadiusPoints = 0;
 
@@ -483,7 +524,7 @@ public class HeatmapDisplay : MonoBehaviour
                         gridValues.Add(vector3Int, 0);
                         particleCount++;
 
-                        if (particleCount > Constants.maxParticleCount)
+                        if (particleCount > MAX_PARTICLE_PER_HEATMAP)
                         {
                             Debug.LogError("ERROR, MAX PARTICLE SIZE REACHED");
                             yield break;
@@ -513,63 +554,71 @@ public class HeatmapDisplay : MonoBehaviour
         Debug.Log("Heatmap grid defined.");
     }
 
-    private ParticleSystem CreateParticleSystem(int partCount, Collider collider)
+    private ParticleSystem[] CreateParticleSystems(int partCount, Collider collider)
     {
-        ParticleSystem newParticleSystem;
 
-        if (referencePoint.TryGetComponent<ParticleSystem>(out ParticleSystem output))
+        int particleSystemsCount = Mathf.CeilToInt((float)partCount / Constants.maxParticleCount);
+
+        ParticleSystem[] finalOutput = new ParticleSystem[particleSystemsCount];
+
+        for (int i = 0; i < particleSystemsCount; i++)
         {
-            if (createNewSystemAlways)
-            {
-                Destroy(output);
-                newParticleSystem = referencePoint.AddComponent<ParticleSystem>();
-            }
-            else
-            {
-                newParticleSystem = output;
-            }
+
+            //if (referencePoint.TryGetComponent<ParticleSystem>(out ParticleSystem output))
+            //{
+            //    if (createNewSystemAlways)
+            //    {
+            //        Destroy(output);
+            //        finalOutput[i] = referencePoint.AddComponent<ParticleSystem>();
+            //    }
+            //    else
+            //    {
+            //        finalOutput[i] = output;
+            //    }
+            //}
+            //else
+            //{
+            //    finalOutput[i] = referencePoint.AddComponent<ParticleSystem>();
+            //}
+
+            finalOutput[i] = referencePoint.AddComponent<ParticleSystem>();
+
+            EmissionModule emission = finalOutput[i].emission;
+            emission.enabled = true;
+            emission.rateOverDistance = 0;
+            emission.rateOverTime = 0;
+            Burst[] bursts = new Burst[1];
+            bursts[0].count = partCount;
+            bursts[0].time = 0;
+            emission.SetBursts(bursts);
+
+
+            ShapeModule shape = finalOutput[i].shape;
+            shape.enabled = false;
+            //shape.shapeType = ParticleSystemShapeType.Sphere;
+            //shape.radius = Mathf.Max(collider.bounds.extents.x, collider.bounds.extents.y, collider.bounds.extents.z);
+
+            ParticleSystemRenderer renderer = referencePoint.GetComponent<ParticleSystemRenderer>();
+            renderer.sortMode = ParticleSystemSortMode.Distance;
+            renderer.allowRoll = false;
+            renderer.alignment = ParticleSystemRenderSpace.Facing;
+
+            MainModule main = finalOutput[i].main;
+            main.loop = false;
+            //main.duration = 1;
+            main.simulationSpace = ParticleSystemSimulationSpace.Local;
+            //main.simulationSpace = ParticleSystemSimulationSpace.World;
+            main.startSize = particleSize;
+            main.startLifetime = 9999f;
+            main.maxParticles = partCount;
+            main.playOnAwake = true;
+            main.startSpeed = 0;
+
+
+            renderer.material = particleMaterial;
         }
-        else
-        {
-            newParticleSystem = referencePoint.AddComponent<ParticleSystem>();
-        }
 
-
-        EmissionModule emission = newParticleSystem.emission;
-        emission.enabled = true;
-        emission.rateOverDistance = 0;
-        emission.rateOverTime = 0;
-        Burst[] bursts = new Burst[1];
-        bursts[0].count = partCount;
-        bursts[0].time = 0;
-        emission.SetBursts(bursts);
-
-
-        ShapeModule shape = newParticleSystem.shape;
-        shape.enabled = false;
-        //shape.shapeType = ParticleSystemShapeType.Sphere;
-        //shape.radius = Mathf.Max(collider.bounds.extents.x, collider.bounds.extents.y, collider.bounds.extents.z);
-
-        ParticleSystemRenderer renderer = referencePoint.GetComponent<ParticleSystemRenderer>();
-        renderer.sortMode = ParticleSystemSortMode.Distance;
-        renderer.allowRoll = false;
-        renderer.alignment = ParticleSystemRenderSpace.Facing;
-
-        MainModule main = newParticleSystem.main;
-        main.loop = false;
-        //main.duration = 1;
-        main.simulationSpace = ParticleSystemSimulationSpace.Local;
-        //main.simulationSpace = ParticleSystemSimulationSpace.World;
-        main.startSize = particleSize;
-        main.startLifetime = 9999f;
-        main.maxParticles = partCount;
-        main.playOnAwake = true;
-        main.startSpeed = 0;
-
-
-        renderer.material = particleMaterial;
-
-        return newParticleSystem;
+        return finalOutput;
     }
 
     public void DeleteParticleSystem()
@@ -588,7 +637,7 @@ public class HeatmapDisplay : MonoBehaviour
 
         foreach (KeyValuePair<Vector3Int , long> pair in from)
         {
-            //Debug.Log(string.Format("Setting {0} to {1}", pair.Key, pair.Value));
+            Debug.Log(string.Format("Setting {0} to {1}", pair.Key, pair.Value));
             gridValues.Add(pair.Key, pair.Value);
         }
     }

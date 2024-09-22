@@ -357,7 +357,7 @@ public class SimulationManager : MonoBehaviour
                                         || tests[i].vehiclePositions[tempInd].optionalDriverViewPoint == null 
                                         || occupiedPositions[tempInd])
                                     {
-                                        Debug.Log("Skipping camera at " + tests[i].vehiclePositions[tempInd].objectPosition.name);
+                                        //Debug.Log("Skipping camera at " + tests[i].vehiclePositions[tempInd].objectPosition.name);
                                         continue;
                                     }
                                     else

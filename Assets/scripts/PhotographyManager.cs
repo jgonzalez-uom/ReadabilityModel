@@ -9,12 +9,22 @@ public class PhotographyManager : MonoBehaviour
     public Camera[] cameras;
     [SerializeField]
     public RenderTexture renderTextureBuffer;
+    MeshRenderer[] renderers;
 
     public void HideMeshes(Transform target)
     {
-        foreach (var c in target.GetComponentsInChildren<MeshRenderer>())
+        renderers = target.GetComponentsInChildren<MeshRenderer>();
+        foreach (var c in renderers)
         {
             c.enabled = false;
+        }
+    }
+
+    public void ShowMeshes(Transform target)
+    {
+        foreach (var c in renderers)
+        {
+            c.enabled = true;
         }
     }
     //public void TakePhotos(string path, string fileName, string extension)

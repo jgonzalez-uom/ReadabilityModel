@@ -84,6 +84,7 @@ MonoBehaviour:
     m_Bits: 64
   referencePoint: {fileID: 0}
   boundBoxMargins: {x: 0.01, y: 0.01, z: 0.01}
+  allowDuplicatesWhenLoadingData: 0
   checkForInsideMesh: 1
   doubleRaycastDistance: 100
   particleSize: 0.05
@@ -124,7 +125,7 @@ MonoBehaviour:
     m_NumColorKeys: 6
     m_NumAlphaKeys: 3
   createNewSystemAlways: 1
-  particleSys: {fileID: 0}
+  particleSystems: []
   brushType: 0
   brushSize: 0.06
 --- !u!65 &9161034720237431701

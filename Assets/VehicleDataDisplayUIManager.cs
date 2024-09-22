@@ -32,9 +32,14 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
     public SimulationIndexList[] photographyManagers;
     public TMP_Dropdown cameraSelectionDropdown;
 
+    [Header("Info")]
+    //public TMP_InputField nameInputField;
+    public TextMeshProUGUI pathDisplay;
+
     // Start is called before the first frame update
     void Start()
     {
+        pathDisplay.text = Application.persistentDataPath + "/" + mainManager.directoryName + "/";
         LoadFilesFromPath(Application.persistentDataPath + "/" + mainManager.directoryName + "/");
         PopulateObjectDropdown();
         PopulateCameraDropdown();
@@ -53,6 +58,14 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
 
         SetVehicle();
     }
+
+    //public void UpdateFileInputField()
+    //{
+    //    if (simulationIndexList.Count <= objectSelectionDropdown.value)
+    //        return;
+
+    //    nameInputField.text = simulationIndexList[objectSelectionDropdown.value].displayName;
+    //}
 
     public void PopulateCameraDropdown()
     {
@@ -106,6 +119,19 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
         }
 
         mainManager.gridPointRecorderScript.LoadFiles(mainManager.directoryName, fileNames);
+    }
+
+    public void DisplaySelectedVehicleWithData()
+    {
+        StartCoroutine(DisplaySelectedVehicleWithDataCoroutine());
+    }
+
+    IEnumerator DisplaySelectedVehicleWithDataCoroutine()
+    {
+        mainManager.SpawnVehiclePrefab();
+        yield return null;
+        LoadSelection();
+        mainManager.SetDataIntoVehicle();
     }
 
     void LoadFilesFromPath(string path)
