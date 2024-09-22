@@ -610,7 +610,8 @@ public class HeatmapDisplay : MonoBehaviour
             //main.simulationSpace = ParticleSystemSimulationSpace.World;
             main.startSize = particleSize;
             main.startLifetime = 9999f;
-            main.maxParticles = partCount;
+            //main.maxParticles = partCount;
+            main.maxParticles = Constants.maxParticleCount;
             main.playOnAwake = true;
             main.startSpeed = 0;
 
