@@ -46,7 +46,7 @@ PrefabInstance:
     - target: {fileID: 4615663923491612693, guid: b5511816087c3f7439a87f2f818ffdf9,
         type: 3}
       propertyPath: m_Name
-      value: HeatmapNovingTruck
+      value: HeatmapMovingTruck
       objectReference: {fileID: 0}
     - target: {fileID: 5050649140665572202, guid: b5511816087c3f7439a87f2f818ffdf9,
         type: 3}
@@ -893,7 +893,7 @@ PrefabInstance:
     - target: {fileID: 9161034720237431701, guid: 0c09d9cd465fc484ab7380d14bf28966,
         type: 3}
       propertyPath: m_Size.x
-      value: 2.26
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 9161034720237431701, guid: 0c09d9cd465fc484ab7380d14bf28966,
         type: 3}
@@ -903,7 +903,7 @@ PrefabInstance:
     - target: {fileID: 9161034720237431701, guid: 0c09d9cd465fc484ab7380d14bf28966,
         type: 3}
       propertyPath: m_Size.z
-      value: 6.4045267
+      value: 6.460382
       objectReference: {fileID: 0}
     - target: {fileID: 9161034720237431701, guid: 0c09d9cd465fc484ab7380d14bf28966,
         type: 3}
@@ -918,7 +918,7 @@ PrefabInstance:
     - target: {fileID: 9161034720237431701, guid: 0c09d9cd465fc484ab7380d14bf28966,
         type: 3}
       propertyPath: m_Center.z
-      value: -3.1169057
+      value: -3.088978
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
