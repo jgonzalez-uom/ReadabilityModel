@@ -82,11 +82,19 @@ public class VehicleDataDisplayManager : MonoBehaviour
 
         OnDisplayStart.Invoke();
 
+        bool oldVal = Physics.autoSyncTransforms;
+        Physics.autoSyncTransforms = true;
+        Physics.SyncTransforms();
+        yield return null;
+        Physics.autoSyncTransforms = oldVal;
+
         yield return StartCoroutine(ActiveTarget.HeatmapSetup());
 
         ActiveTarget.HeatmapDisplay.AddPointsToDictionary(gridPointRecorderScript.GetDataPoints());
 
         ActiveTarget.HeatmapDisplay.SetMaxHeat(gridPointRecorderScript.GetMaxValueInSaveFile());
+
+        yield return null;
 
         yield return StartCoroutine(ActiveTarget.DisplayHeatmap());
 
