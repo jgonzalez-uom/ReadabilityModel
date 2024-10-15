@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEditor.Rendering;
 using static MenuScript;
 using TMPro;
+using System.Runtime.InteropServices;
 
 public class VehicleDataDisplayUIManager : MonoBehaviour
 {
@@ -32,6 +33,10 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
     public SimulationIndexList[] photographyManagers;
     public TMP_Dropdown cameraSelectionDropdown;
 
+    [Header("Colors")]
+    public TMP_InputField minValueField;
+    public TMP_InputField maxValueField;
+
     [Header("Info")]
     //public TMP_InputField nameInputField;
     public TextMeshProUGUI pathDisplay;
@@ -41,6 +46,7 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
     {
         pathDisplay.text = Application.persistentDataPath + "/" + mainManager.directoryName + "/";
         LoadFilesFromPath(Application.persistentDataPath + "/" + mainManager.directoryName + "/");
+
         PopulateObjectDropdown();
         PopulateCameraDropdown();
     }
@@ -121,6 +127,13 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
         mainManager.gridPointRecorderScript.LoadFiles(mainManager.directoryName, fileNames);
     }
 
+    public void LoadColorSettings()
+    {
+
+        minValueField.text = mainManager.GetMinVisibleHeat().ToString();
+        maxValueField.text = mainManager.GetMaxHeat().ToString();
+    }
+
     public void DisplaySelectedVehicleWithData()
     {
         StartCoroutine(DisplaySelectedVehicleWithDataCoroutine());
@@ -193,5 +206,22 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
         item.AddEvent(() => AddItemToLoaded(item));
 
         OnItemMovedToFound.Invoke(item);
+    }
+
+    public void UpdateHeatmapDisplay()
+    {
+        if (long.TryParse(minValueField.text, out long mValue))
+        {
+            if (long.TryParse(maxValueField.text, out long MValue))
+            {
+                StartCoroutine(mainManager.RefreshHeatmapDisplay(mValue, MValue));
+                return;
+            }
+        }
+
+        Debug.LogError("Incorrect value found in the field.");
+
+        return;
+
     }
 }

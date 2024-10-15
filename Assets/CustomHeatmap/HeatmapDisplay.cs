@@ -30,7 +30,7 @@ public class HeatmapDisplay : MonoBehaviour
     [Range(0.0001f, 1.0f)]
     public float particleSpacing = 0.0f;
     public Material particleMaterial;
-    public int minVisibleHeat = 0;
+    public long minVisibleHeat = 0;
     public long maxVisibleHeat = 100000;
     public bool useHighestValueFound = false;
     public bool limitHighestValueFound = true;
@@ -111,14 +111,16 @@ public class HeatmapDisplay : MonoBehaviour
                                      * ((maxFrameLength)));
             watch.Restart();
 
+            long internalMaxHeat = maxHeat;
+
             if (maxTempHeat < 0)
             {
                 maxTempHeat = maxVisibleHeat;
             }
 
-            if (!useHighestValueFound || (limitHighestValueFound && maxHeat > maxTempHeat))
+            if (!useHighestValueFound || (limitHighestValueFound && internalMaxHeat > maxTempHeat))
             {
-                maxHeat = maxTempHeat;
+                internalMaxHeat = maxTempHeat;
             }
             //Debug.Log("New value of max heat is " + maxHeat);
             //string values = string.Empty;
@@ -140,9 +142,10 @@ public class HeatmapDisplay : MonoBehaviour
 
                 float colorValue = 0;
 
-                if (maxHeat > 0)
+                if (internalMaxHeat > 0)
                 {
-                    colorValue = (float)gridValues[pointKeys[keyInd]] / (float)maxHeat;
+                    colorValue = Mathf.InverseLerp(minVisibleHeat, internalMaxHeat, (float)gridValues[pointKeys[keyInd]]);
+                    //colorValue = (float)gridValues[pointKeys[keyInd]] / (float)internalMaxHeat;
                 }
                 else
                 {
@@ -643,10 +646,24 @@ public class HeatmapDisplay : MonoBehaviour
         }
     }
 
+    public void SetMinVisibleHeat(long to)
+    {
+        minVisibleHeat = to;
+    }
+    public void SetMaxVisibleHeat(long to)
+    {
+        maxVisibleHeat = to;
+    }
+
     public void SetMaxHeat(long to)
     {
         maxHeat = to;
         Debug.Log("Max Heat is now " + maxHeat);
+    }
+
+    public long GetMaxHeat()
+    {
+        return maxHeat;
     }
 
     public void AddPointsToDictionary(Dictionary<Vector3Int, long> from)

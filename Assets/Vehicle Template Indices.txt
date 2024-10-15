@@ -1,0 +1,41 @@
+0	Test
+
+1	UK Small None
+2	UK Small Hydrant
+3	UK Small Signs
+4	UK Small Lamps
+
+5	US Small None
+6	US Small Hydrant
+7	US Small Signs
+8	US Small Lamps
+
+9	UK Medium None
+10	UK Medium Hydrant
+11	UK Medium Signs
+12	UK Medium Lamps
+
+13	US Medium None
+14	US Medium Hydrant
+15	US Medium Signs
+16	US Medium Lamps
+
+17	UK Large None
+18	UK Large Hydrant
+19	UK Large Signs
+20	UK Large Lamps
+
+21	US Large None
+22	US Large Hydrant
+23	US Large Signs
+24	US Large Lamps
+
+25	UK Huge None
+26	UK Huge Hydrant
+27	UK Huge Signs
+28	UK Huge Lamps
+
+29	US Huge None
+30	US Huge Hydrant
+31	US Huge Signs
+32	US Huge Lamps

@@ -24,6 +24,9 @@ public class VehicleDataDisplayManager : MonoBehaviour
     public UnityEvent OnPhotoStart;
     public UnityEvent OnPhotoEnd;
 
+    public UnityEvent OnStartColorChange;
+    public UnityEvent OnFinishColorChange;
+
     public void SetVehiclePrefab(Transform to)
     {
         vehiclePrefab = to;
@@ -32,6 +35,33 @@ public class VehicleDataDisplayManager : MonoBehaviour
     public void SetFileName(string to)
     {
         fileName = to; 
+    }
+
+    public IEnumerator RefreshHeatmapDisplay(long minValue, long maxValue)
+    {
+        OnStartColorChange.Invoke();
+
+        ActiveTarget.HeatmapDisplay.SetMinVisibleHeat(minValue);
+        ActiveTarget.HeatmapDisplay.SetMaxVisibleHeat(maxValue);
+
+        yield return ActiveTarget.HeatmapDisplay.DisplayHeatmap();
+
+        OnFinishColorChange.Invoke();
+    }
+
+    public long GetMinVisibleHeat()
+    {
+        return ActiveTarget.HeatmapDisplay.minVisibleHeat;
+    }
+    
+    public long GetMaxVisibleHeat()
+    {
+        return ActiveTarget.HeatmapDisplay.maxVisibleHeat;
+    }
+
+    public long GetMaxHeat()
+    {
+        return ActiveTarget.HeatmapDisplay.GetMaxHeat();
     }
 
     public void SpawnVehiclePrefab()
@@ -75,7 +105,6 @@ public class VehicleDataDisplayManager : MonoBehaviour
     {
         StartCoroutine(SetVehicleGridPoints());
     }
-
     IEnumerator SetVehicleGridPoints()
     { 
         //gridPointRecorderScript.LoadFile(directoryName, fileName);
