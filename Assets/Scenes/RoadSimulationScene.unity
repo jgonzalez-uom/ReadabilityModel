@@ -5281,7 +5281,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Pickup Truck (No Obstacles) - Left Side (UK)
-    indexList: 9
+    indexList: 17
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -5324,7 +5324,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Pickup Truck (Hydrants) - Left Side (UK)
-    indexList: 10
+    indexList: 18
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -5367,7 +5367,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Pickup Truck (Signs) - Left Side (UK)
-    indexList: 11
+    indexList: 19
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -5410,7 +5410,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Pickup Truck (Lamp Posts) - Left Side (UK)
-    indexList: 12
+    indexList: 20
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -5453,7 +5453,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Pickup Truck (No Obstacles) - Right Side (US)
-    indexList: 13
+    indexList: 21
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -5496,7 +5496,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Pickup Truck (Hydrants) - Right Side (US)
-    indexList: 14
+    indexList: 22
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -5539,7 +5539,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Pickup Truck (Signs) - Right Side (US)
-    indexList: 15
+    indexList: 23
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -5582,7 +5582,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Pickup Truck (Lamp Posts) - Right Side (US)
-    indexList: 16
+    indexList: 24
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -7044,7 +7044,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Four Wheeler (Hydrants) - Left Side (UK)
-    indexList: 17
+    indexList: 18
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -7087,7 +7087,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Four Wheeler (Signs) - Left Side (UK)
-    indexList: 18
+    indexList: 19
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -7130,7 +7130,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Four Wheeler (Lamp Posts) - Left Side (UK)
-    indexList: 19
+    indexList: 20
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -7388,7 +7388,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Minibus (Hydrants) - Left Side (UK)
-    indexList: 17
+    indexList: 18
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -7431,7 +7431,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Minibus (Signs) - Left Side (UK)
-    indexList: 18
+    indexList: 19
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -7474,7 +7474,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Minibus (Lamp Posts) - Left Side (UK)
-    indexList: 19
+    indexList: 20
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -7732,7 +7732,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Moving Truck (Hydrants) - Left Side (UK)
-    indexList: 17
+    indexList: 18
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -7775,7 +7775,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Moving Truck (Signs) - Left Side (UK)
-    indexList: 18
+    indexList: 19
     OnSelected:
       m_PersistentCalls:
         m_Calls:
@@ -7818,7 +7818,7 @@ MonoBehaviour:
             m_BoolArgument: 0
           m_CallState: 2
   - displayName: Moving Truck (Lamp Posts) - Left Side (UK)
-    indexList: 19
+    indexList: 20
     OnSelected:
       m_PersistentCalls:
         m_Calls:
