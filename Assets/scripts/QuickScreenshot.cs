@@ -12,6 +12,8 @@ public class QuickScreenshot : MonoBehaviour
     public RenderTexture renderTextureBuffer;
     private Camera m_Camera;
     public string folderName;
+    public enum method { ScreenshotFunction, TargetTexture};
+    public method ScreenshotMethod;
 
     // Start is called before the first frame update
     void Start()
@@ -24,9 +26,14 @@ public class QuickScreenshot : MonoBehaviour
     {
         if (Input.GetKeyDown(key))
         {
-            string fileName = System.DateTime.UtcNow.ToString("HHmmddMMMMyyyy") + transform.name;
+            string fileName = System.DateTime.UtcNow.ToString("HHmmss_ddMMyyyy") + transform.name;
 
-            StartCoroutine(TakePhotosCoroutine(Application.persistentDataPath + "/", fileName, ".png"));
+            if (ScreenshotMethod == method.TargetTexture)
+                StartCoroutine(TakePhotosCoroutine(Application.persistentDataPath + "/", fileName, ".png"));
+            else
+                ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/" + fileName + ".png");
+
+            Debug.Log("Screenshot taken: " + fileName);
         }
     }
 

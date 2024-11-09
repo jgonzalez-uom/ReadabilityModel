@@ -62,6 +62,7 @@ public class SimulationManager : MonoBehaviour
 
     [Header("Test Settings")]
     public string directoryName;
+    public string fileNamePrefix;
     public Tests[] tests;
     public Transform defaultTargetVehiclePrefab;
     public Transform defaultFillerVehiclePrefab;
@@ -268,6 +269,17 @@ public class SimulationManager : MonoBehaviour
                     }    
                     Debug.Log(debug);
                     int indexesLength = indexes.Count();
+                    Debug.Log(indexesLength);
+                    int combCount = 0;
+                    foreach (var ind in indexes)
+                    {
+                        foreach (var c in ind)
+                        {
+                            if (c == 1)
+                                combCount++;
+                        }
+                    }
+                    Debug.Log("Combination count: " + combCount);
 
                     //CameraPoint[] cameraPositions = new CameraPoint[tests[i].pedestrianViewPoints.Length + tests[i].driverViewPoints.Length];
                     //tests[i].pedestrianViewPoints.CopyTo(cameraPositions, 0);
@@ -282,6 +294,27 @@ public class SimulationManager : MonoBehaviour
 
                         progress = (float)(currentRoadSetup * indexesLength + cameraIndex) / (float)(indexesLength * tests[i].roadSetups.Length);
 
+
+                        int binInd = 0;
+                        for (int ind = 0; ind < tests[i].vehiclePositions.Length; ind++)
+                        {
+                            if (!tests[i].vehiclePositions[ind].fillerVehicle)
+                            {
+                                continue;
+                            }
+
+                            //if (ind == tp)
+                            //{
+                            //    occupiedPositions[ind] = true;
+                            //    binInd++;
+                            //    continue;
+                            //}
+
+
+                            occupiedPositions[ind] = (index.ElementAt(binInd) == 1);
+                            binInd++;
+                        }
+
                         for (int tp = 0; tp < tests[i].vehiclePositions.Length; tp++)
                         {
                             Debug.Log("New vehicle position");
@@ -289,33 +322,35 @@ public class SimulationManager : MonoBehaviour
                                 (currentRoadSetup * indexesLength * tests[i].vehiclePositions.Length)
                                 + (cameraIndex * tests[i].vehiclePositions.Length)
                                 + tp)
-                                / 
+                                /
                                 (float)(
-                                indexesLength 
-                                * tests[i].roadSetups.Length 
+                                indexesLength
+                                * tests[i].roadSetups.Length
                                 * tests[i].vehiclePositions.Length);
 
                             var t = tests[i].vehiclePositions[tp];
 
-                            int binInd = 0;
-                            for (int ind = 0; ind < tests[i].vehiclePositions.Length; ind++)
+                            if (!occupiedPositions[tp])
                             {
-                                if (!tests[i].vehiclePositions[ind].fillerVehicle)
-                                {
-                                    continue;
-                                }
+                                continue;
+                            }
 
-                                if (ind == tp)
+                            binInd = 0;
+                            for (int scInd = 0; scInd < tests[i].vehiclePositions.Length; scInd++)
+                            {
+                                if (tests[i].vehiclePositions[scInd].fillerVehicle)
                                 {
-                                    occupiedPositions[ind] = true;
+                                    if (scInd == tp)
+                                    {
+                                        fillerCars[binInd].gameObject.SetActive(false);
+                                    }
+                                    else
+                                    {
+                                        fillerCars[binInd].gameObject.SetActive(index.ElementAt(binInd) == 1);
+                                    }
+
                                     binInd++;
-                                    continue;
                                 }
-
-                                
-                                occupiedPositions[ind] = (index.ElementAt(binInd) == 1);
-                                fillerCars[binInd].gameObject.SetActive(occupiedPositions[ind]);
-                                binInd++;
                             }
 
                             ActiveTarget.HeatmapLogger.parentObject.transform.position = t.objectPosition.position;
@@ -453,7 +488,7 @@ public class SimulationManager : MonoBehaviour
                 {
                     OnDatapointSavingStart.Invoke();
                     yield return StartCoroutine(gridPointRecorderScript.SetDataPoints(ActiveTarget.HeatmapDisplay.GetPointDictionary()));
-                    gridPointRecorderScript.SaveFile(directoryName, savingFileName);
+                    gridPointRecorderScript.SaveFile(directoryName, fileNamePrefix + savingFileName + Application.version);
                     OnDatapointSavingFinished.Invoke();
                 }
 
@@ -490,9 +525,9 @@ public class SimulationManager : MonoBehaviour
         if (hideMeshesInPhotography)
             photographyManager.HideMeshes(ActiveTarget.HeatmapLogger.parentObject.transform);
 
-        Debug.Log("Saving photo to " + Application.persistentDataPath + "/" + directoryName + "/" + savingFileName + ".png");
+        Debug.Log("Saving photo to " + Application.persistentDataPath + "/" + directoryName + "/" + fileNamePrefix + savingFileName + ".png");
 
-        yield return StartCoroutine(photographyManager.TakePhotosCoroutine(Application.persistentDataPath + "/" + directoryName + "/", savingFileName, ".png"));
+        yield return StartCoroutine(photographyManager.TakePhotosCoroutine(Application.persistentDataPath + "/" + directoryName + "/", fileNamePrefix + savingFileName, ".png"));
     }
 
     private void SaveCurrentPoints(HeatmapDisplay displayManager)

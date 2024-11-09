@@ -27,6 +27,9 @@ public class HeatmapSender : MonoBehaviour
 
     public LayerMask layersHit;
 
+    public delegate void MyDelegate();
+    public static MyDelegate OnCapture;
+
     private void Start()
     {
         if (camera == null) 
@@ -36,6 +39,7 @@ public class HeatmapSender : MonoBehaviour
     public void CameraViewHeat()
     {
         StartCoroutine(CameraViewHeatCoroutine());
+        OnCapture.Invoke();
     }
 
     IEnumerator CameraViewHeatCoroutine()
