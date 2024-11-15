@@ -66,12 +66,13 @@ PrefabInstance:
     - target: {fileID: 8824482494223561586, guid: 940dfa8d98d634749a4d3b62f4990c23,
         type: 3}
       propertyPath: m_Name
-      value: FillerMotorcycle Variant
+      value: FillerMotorcycle
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8336809595764608798, guid: 940dfa8d98d634749a4d3b62f4990c23, type: 3}
     m_RemovedGameObjects:
     - {fileID: 1866681337705054740, guid: 940dfa8d98d634749a4d3b62f4990c23, type: 3}
+    - {fileID: 1647680708789271843, guid: 940dfa8d98d634749a4d3b62f4990c23, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 940dfa8d98d634749a4d3b62f4990c23, type: 3}
