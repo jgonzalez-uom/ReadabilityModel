@@ -27,14 +27,20 @@ public class QuickScreenshot : MonoBehaviour
         if (Input.GetKeyDown(key))
         {
             string fileName = System.DateTime.UtcNow.ToString("HHmmss_ddMMyyyy") + transform.name;
-
-            if (ScreenshotMethod == method.TargetTexture)
-                StartCoroutine(TakePhotosCoroutine(Application.persistentDataPath + "/", fileName, ".png"));
-            else
-                ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/" + fileName + ".png");
-
-            Debug.Log("Screenshot taken: " + fileName);
+            TakeScreenshot(fileName);
         }
+    }
+
+    public void TakeScreenshot(string fileName)
+    {
+        
+
+        if (ScreenshotMethod == method.TargetTexture)
+            StartCoroutine(TakePhotosCoroutine(Application.persistentDataPath + "/", fileName, ".png"));
+        else
+            ScreenCapture.CaptureScreenshot(Application.persistentDataPath + "/" + fileName + ".png");
+
+        Debug.Log("Screenshot taken: " + fileName);
     }
 
     public IEnumerator TakePhotosCoroutine(string path, string fileName, string extension)
