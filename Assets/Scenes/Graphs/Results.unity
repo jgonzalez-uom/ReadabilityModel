@@ -237,17 +237,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   screenshooter: {fileID: 1947922142}
   images:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8429669782143374110}
+  - {fileID: 8429669782143374109}
+  - {fileID: 8429669782143374108}
+  - {fileID: 8429669782143374107}
+  - {fileID: 8429669782143374106}
+  - {fileID: 8429669782143374105}
+  - {fileID: 8429669782143374104}
+  - {fileID: 8429669782143374103}
+  - {fileID: 8429669782143374102}
   sprites:
-  - name: MinibusAllResults50%
+  - name: MinibusAllResults50p
     displayName: Minibus (Normalized)
     sprites:
     - {fileID: 21300000, guid: 4bf55791726ffe04f8543f1eb22526ed, type: 3}
@@ -262,7 +262,7 @@ MonoBehaviour:
     dimensions: {x: 580, y: 580}
     minValue: 0
     maxValue: "\u226550%"
-  - name: MotorcycleAllResults50%
+  - name: MotorcycleAllResults50p
     displayName: Motorcycle (Normalized)
     sprites:
     - {fileID: 21300000, guid: 782b6f0334ca6bf4e8e0daaf28170fa9, type: 3}
@@ -277,7 +277,7 @@ MonoBehaviour:
     dimensions: {x: 500, y: 500}
     minValue: 0
     maxValue: "\u226550%"
-  - name: SedanAllResults50%
+  - name: SedanAllResults50p
     displayName: Sedan (Normalized)
     sprites:
     - {fileID: 21300000, guid: 18c8e7e23fa3d714ebd3b89d3dcb2292, type: 3}
@@ -292,7 +292,7 @@ MonoBehaviour:
     dimensions: {x: 270, y: 270}
     minValue: 0
     maxValue: "\u226550%"
-  - name: SUVAllResults50%
+  - name: SUVAllResults50p
     displayName: SUV (Normalized)
     sprites:
     - {fileID: 21300000, guid: 471c9c1713e48a34ab21664f57f63600, type: 3}
@@ -307,7 +307,7 @@ MonoBehaviour:
     dimensions: {x: 550, y: 550}
     minValue: 0
     maxValue: "\u226550%"
-  - name: CarryallAllResults50%
+  - name: CarryallAllResults50p
     displayName: Carryall Car (Normalized)
     sprites:
     - {fileID: 21300000, guid: a133166985408ec4986005460b5ee5c9, type: 3}
@@ -322,7 +322,7 @@ MonoBehaviour:
     dimensions: {x: 350, y: 350}
     minValue: 0
     maxValue: "\u226550%"
-  - name: SingleDeckerBusAllResults50%
+  - name: SingleDeckerBusAllResults50p
     displayName: Single Decker Bus (Normalized)
     sprites:
     - {fileID: 21300000, guid: dafa4300a6fb3b84182b2a90f6a7ac6f, type: 3}
@@ -337,7 +337,7 @@ MonoBehaviour:
     dimensions: {x: 260, y: 260}
     minValue: 0
     maxValue: "\u226550%"
-  - name: DoubleDeckerAllResults50%
+  - name: DoubleDeckerAllResults50p
     displayName: Double Decker Bus (Normalized)
     sprites:
     - {fileID: 21300000, guid: 4d89341520c87384ca83e73e7e016700, type: 3}
@@ -352,7 +352,7 @@ MonoBehaviour:
     dimensions: {x: 350, y: 350}
     minValue: 0
     maxValue: "\u226550%"
-  - name: FourwheelerAllResults50%
+  - name: FourwheelerAllResults50p
     displayName: Four Wheel Truck (Normalized)
     sprites:
     - {fileID: 21300000, guid: f03b37782818026489af9fc438558feb, type: 3}
@@ -367,7 +367,7 @@ MonoBehaviour:
     dimensions: {x: 550, y: 550}
     minValue: 0
     maxValue: "\u226550%"
-  - name: MovingTruckAllResults50%
+  - name: MovingTruckAllResults50p
     displayName: Moving Truck (Normalized)
     sprites:
     - {fileID: 21300000, guid: c9a314a4ac8b10a4591be0ae89fd6c4a, type: 3}
@@ -382,7 +382,7 @@ MonoBehaviour:
     dimensions: {x: 570, y: 570}
     minValue: 0
     maxValue: "\u226550%"
-  - name: PanelVanAllResults50%
+  - name: PanelVanAllResults50p
     displayName: Panel Van (Normalized)
     sprites:
     - {fileID: 21300000, guid: 0a43850729498bc45b4b0af139acb096, type: 3}
@@ -397,7 +397,7 @@ MonoBehaviour:
     dimensions: {x: 600, y: 600}
     minValue: 0
     maxValue: "\u226550%"
-  - name: SmartCarAllResults50%
+  - name: SmartCarAllResults50p
     displayName: Smart Car (Normalized)
     sprites:
     - {fileID: 21300000, guid: 4d32f5ec00dff734ab416e1f33e7dbbf, type: 3}
@@ -412,7 +412,7 @@ MonoBehaviour:
     dimensions: {x: 280, y: 280}
     minValue: 0
     maxValue: "\u226550%"
-  - name: StationWagonAllResults50%
+  - name: StationWagonAllResults50p
     displayName: Station Wagon (Normalized)
     sprites:
     - {fileID: 21300000, guid: 613afb8f205136542a8cfbae2036551e, type: 3}
@@ -427,7 +427,7 @@ MonoBehaviour:
     dimensions: {x: 650, y: 650}
     minValue: 0
     maxValue: "\u226550%"
-  - name: ToplessConvertibleAllResults50%
+  - name: ToplessConvertibleAllResults50p
     displayName: Topless Convertible (Normalized)
     sprites:
     - {fileID: 21300000, guid: 3c03c64450d3db640bd920fffbc4bf1b, type: 3}
@@ -442,7 +442,7 @@ MonoBehaviour:
     dimensions: {x: 650, y: 650}
     minValue: 0
     maxValue: "\u226550%"
-  - name: MotorhomeAllResults50%
+  - name: MotorhomeAllResults50p
     displayName: Motorhome (Normalized)
     sprites:
     - {fileID: 21300000, guid: 59953a87fe37ea64b937db5b16877d2a, type: 3}
@@ -457,6 +457,306 @@ MonoBehaviour:
     dimensions: {x: 400, y: 400}
     minValue: 0
     maxValue: "\u226550%"
+  - name: PickUpAllResults50p
+    displayName: Pick Up Truck (Normalized)
+    sprites:
+    - {fileID: 21300000, guid: 654f908619f11234d8dd75c3ef30eac9, type: 3}
+    - {fileID: 21300000, guid: 6fbbb9d7a1e5d224794a39d169a79326, type: 3}
+    - {fileID: 21300000, guid: bf23a454f0490f84a9e9866a70d423fc, type: 3}
+    - {fileID: 21300000, guid: b5931a2e2e64110478533340b39aedab, type: 3}
+    - {fileID: 21300000, guid: 720822281b7ab1941ac3068d959710b0, type: 3}
+    - {fileID: 21300000, guid: 2fac8b0a75786d24aa5879dc62b31176, type: 3}
+    - {fileID: 21300000, guid: ab699c2c1e3716047add4320698c84b1, type: 3}
+    - {fileID: 21300000, guid: 5bd94f3afaa5d504cb93c89eb019ed87, type: 3}
+    - {fileID: 21300000, guid: 651a306cc40263f439d04499514f3f5b, type: 3}
+    dimensions: {x: 550, y: 550}
+    minValue: 0
+    maxValue: "\u226550%"
+  startKey: 13
+  graphTitleDisplay: {fileID: 1506047306}
+  minValueDisplay: {fileID: 1831958998}
+  maxValueDisplay: {fileID: 2055889531}
+--- !u!1 &1016668662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1016668663}
+  - component: {fileID: 1016668664}
+  m_Layer: 0
+  m_Name: Absolute (136987)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1016668663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016668662}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1938038371}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1016668664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1016668662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce545814a3ea8243a2de26d66fc12c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  screenshooter: {fileID: 1947922142}
+  images:
+  - {fileID: 8429669782143374110}
+  - {fileID: 8429669782143374109}
+  - {fileID: 8429669782143374108}
+  - {fileID: 8429669782143374107}
+  - {fileID: 8429669782143374106}
+  - {fileID: 8429669782143374105}
+  - {fileID: 8429669782143374104}
+  - {fileID: 8429669782143374103}
+  - {fileID: 8429669782143374102}
+  sprites:
+  - name: MinibusAllResults136987
+    displayName: Minibus (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: 53156769c6640594e999b54b62bbb454, type: 3}
+    - {fileID: 21300000, guid: 34dc21949b496dc4588ec04e8f97745e, type: 3}
+    - {fileID: 21300000, guid: fb00cdd97bbca2b499148bd1d67aac2c, type: 3}
+    - {fileID: 21300000, guid: 94d0b6653bdd86c45a9b046487763fcd, type: 3}
+    - {fileID: 21300000, guid: 4171bbe293c0fd24db1d00af7d9dd0f0, type: 3}
+    - {fileID: 21300000, guid: 46a28d158a704e74db126192f1d7fcb3, type: 3}
+    - {fileID: 21300000, guid: e2b880e6fd238354b9589947c9abed86, type: 3}
+    - {fileID: 21300000, guid: 4531a2752240ca24fb0232c0e08dfc8d, type: 3}
+    - {fileID: 21300000, guid: 590635e18507d65429f46d97383c7994, type: 3}
+    dimensions: {x: 580, y: 580}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: MotorcycleAllResults136987
+    displayName: Motorcycle (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: 10bdf62bef9d54847a10c6632c33bbad, type: 3}
+    - {fileID: 21300000, guid: 59aa494a2216dc547bdc79a6e7ac1b34, type: 3}
+    - {fileID: 21300000, guid: 02a55dcada82c774b828e7d7eff1a0e7, type: 3}
+    - {fileID: 21300000, guid: 41c9c42a4c35f6843ac3ada401e4a938, type: 3}
+    - {fileID: 21300000, guid: 5cdc08368cc63a2438552ee8f80e64d2, type: 3}
+    - {fileID: 21300000, guid: 23152cf0f70b4214294a0463a07b5b50, type: 3}
+    - {fileID: 21300000, guid: 60505837a246f534b844c48bf1117355, type: 3}
+    - {fileID: 21300000, guid: 5d697198c3915cd4abd72a9433836808, type: 3}
+    - {fileID: 21300000, guid: 4edc731c1bc048a4091cdbbb5f7008b7, type: 3}
+    dimensions: {x: 500, y: 500}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: SedanAllResults136987
+    displayName: Sedan (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: a0e6012226f0a784080550a4382ceb03, type: 3}
+    - {fileID: 21300000, guid: 5a6f1beb80663f346b8b10862006e07c, type: 3}
+    - {fileID: 21300000, guid: db60db8515895a346a4ddf7dbddf023c, type: 3}
+    - {fileID: 21300000, guid: e7f336d1e3a1553428800aea08a357e0, type: 3}
+    - {fileID: 21300000, guid: b9c20800423d2924e8969014c430d20c, type: 3}
+    - {fileID: 21300000, guid: 1b448453f95e65c4f9c20bfec48f0ea8, type: 3}
+    - {fileID: 21300000, guid: e1c8410be86ce3c4c9a63d922eecfc5c, type: 3}
+    - {fileID: 21300000, guid: 18864852902736a4ca14e461995134e7, type: 3}
+    - {fileID: 21300000, guid: bfc9fcc196ce22440bbadb52f22441f3, type: 3}
+    dimensions: {x: 270, y: 270}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: SUVAllResults136987
+    displayName: SUV (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: fcdee2017bf34a841bf93b301a6392c1, type: 3}
+    - {fileID: 21300000, guid: a4502e16a50c42b46b3aac8fb896c2bc, type: 3}
+    - {fileID: 21300000, guid: 45a1312a89a76c3459b37b28de70210d, type: 3}
+    - {fileID: 21300000, guid: 8554df2d87f29c542915bbb3c55158ff, type: 3}
+    - {fileID: 21300000, guid: 9fa966001929a004f8e790af5bb5cc2b, type: 3}
+    - {fileID: 21300000, guid: 409a1c299fb547c42a52ec2e4b5d57e2, type: 3}
+    - {fileID: 21300000, guid: b72fd742961092c4a93d190307116519, type: 3}
+    - {fileID: 21300000, guid: 01323526becc9c847a28466b4e16a32c, type: 3}
+    - {fileID: 21300000, guid: f923bc5a1157d3a4b91d0a0213a3f9ff, type: 3}
+    dimensions: {x: 550, y: 550}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: CarryallAllResults136987
+    displayName: Carryall Car (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: 1cc171a057fa1b5458aaf17ba7c99357, type: 3}
+    - {fileID: 21300000, guid: a06a00221c496d045b2fa8f06f6bc4b2, type: 3}
+    - {fileID: 21300000, guid: 19cb5e6b4f461114bb2d04aafba5d6f7, type: 3}
+    - {fileID: 21300000, guid: 41b8548cdb967174e87d7f2b88147143, type: 3}
+    - {fileID: 21300000, guid: 35c21339238c29c40ace536f580c1952, type: 3}
+    - {fileID: 21300000, guid: 05a1eaf1384d4e24cbda06beeae9ab5d, type: 3}
+    - {fileID: 21300000, guid: 416af246daddb7b4b8afeeced58c796d, type: 3}
+    - {fileID: 21300000, guid: 3ff2bef91469a394faf3bb904255e90a, type: 3}
+    - {fileID: 21300000, guid: 8af13f7f7e0471145b4805dc12dcaf54, type: 3}
+    dimensions: {x: 350, y: 350}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: SingleDeckerBusAllResults136987
+    displayName: Single Decker Bus (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: ff655a376407017419462e28ad300ff7, type: 3}
+    - {fileID: 21300000, guid: aa352b0ad1235ff4da8e1c007431cc11, type: 3}
+    - {fileID: 21300000, guid: 8ea0a05971695654eb1b99d22ebe1945, type: 3}
+    - {fileID: 21300000, guid: ed773c6cb64c9b74fa62fb5e24320e53, type: 3}
+    - {fileID: 21300000, guid: 6786e6ddea33d2545aaf2b53ccaa32a9, type: 3}
+    - {fileID: 21300000, guid: d8bbd3aa7274f474fb6355a114a2f9d5, type: 3}
+    - {fileID: 21300000, guid: 573bba3d5bdb8794ebf513c61833a2d1, type: 3}
+    - {fileID: 21300000, guid: cbb4287fdde8bdc498b9c1c3d989ef25, type: 3}
+    - {fileID: 21300000, guid: 0a232faf5a20abc42bb6e3385a88e0fa, type: 3}
+    dimensions: {x: 260, y: 260}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: DoubleDeckerAllResults136987
+    displayName: Double Decker Bus (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: 5603c0cd221b9874bbfc8f43ccc8c06c, type: 3}
+    - {fileID: 21300000, guid: 9960a11e66534c8428dd93ff5a3bcbb6, type: 3}
+    - {fileID: 21300000, guid: a10a8bfa2b8a00e47882995641cddb43, type: 3}
+    - {fileID: 21300000, guid: f78c3b54a4e75ea46ba2123326f8aaad, type: 3}
+    - {fileID: 21300000, guid: abf6de0a01c0a084eb7de46dc0e8c512, type: 3}
+    - {fileID: 21300000, guid: 8413277be0fcbc747b21a136cd235847, type: 3}
+    - {fileID: 21300000, guid: 08bbd5f8824c2ee4985c1961364ded63, type: 3}
+    - {fileID: 21300000, guid: b454147d672a7f8469160e0e2b8e40eb, type: 3}
+    - {fileID: 21300000, guid: f9ff2d25a9d621848b29b04d996d20c4, type: 3}
+    dimensions: {x: 350, y: 350}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: FourwheelerAllResults136987
+    displayName: Four Wheel Truck (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: 454af43c1ac0dfb46b215937a0237f1c, type: 3}
+    - {fileID: 21300000, guid: 4067547c7cebd0a43a83fa738740e55b, type: 3}
+    - {fileID: 21300000, guid: 1daefdbc8bb771b4db0e635daf02141e, type: 3}
+    - {fileID: 21300000, guid: 62d3a24494e836b4b8d7ca5286764f41, type: 3}
+    - {fileID: 21300000, guid: 516d938792006fe4a890c63d4a54623e, type: 3}
+    - {fileID: 21300000, guid: 4c624fa39e18fd64b82c24ee593ff6fb, type: 3}
+    - {fileID: 21300000, guid: 1ae465aa0b36768469d3a7326edb31dc, type: 3}
+    - {fileID: 21300000, guid: db7e2d5bcc816f0428af70dc6f2f4ad2, type: 3}
+    - {fileID: 21300000, guid: 20aec191a411c4b4d930a16876daf502, type: 3}
+    dimensions: {x: 550, y: 550}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: MovingTruckAllResults136987
+    displayName: Moving Truck (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: 7d99b9078c13d1c4e87789669bdacb45, type: 3}
+    - {fileID: 21300000, guid: 2e53fb3c99398e64895d8ac8bedc3275, type: 3}
+    - {fileID: 21300000, guid: 5f396f144879ca74cb27f8359ba3a64c, type: 3}
+    - {fileID: 21300000, guid: 2b669db85ef2218438a3491258eb6c82, type: 3}
+    - {fileID: 21300000, guid: 4c58eee294b1dd94dbbdb69569072352, type: 3}
+    - {fileID: 21300000, guid: 1538b3cee2947544c995f136a5ac78ea, type: 3}
+    - {fileID: 21300000, guid: 718f7e0be6e4cfc4fa0a3990f76b10ff, type: 3}
+    - {fileID: 21300000, guid: 28245e8be31a9694dbb5f885fc4633fa, type: 3}
+    - {fileID: 21300000, guid: 3c69bba4a92e8eb43915a30d0f4321bd, type: 3}
+    dimensions: {x: 570, y: 570}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: PanelVanAllResults136987
+    displayName: Panel Van (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: 94129149cfd59f44eac97ee38f33ef4d, type: 3}
+    - {fileID: 21300000, guid: e20b18202fc08b44fa3686f60b430089, type: 3}
+    - {fileID: 21300000, guid: 220a2b8844cec0f45931c8beff6ce5be, type: 3}
+    - {fileID: 21300000, guid: 0ce79a2e4a8044449b3199256d5caf96, type: 3}
+    - {fileID: 21300000, guid: 31f878d005ac6444a9bb21cdf29c1d8f, type: 3}
+    - {fileID: 21300000, guid: a49c8f70908e3e245b5da3004f92e6bc, type: 3}
+    - {fileID: 21300000, guid: 16a0d375dd162df478f8d1d74523aa09, type: 3}
+    - {fileID: 21300000, guid: a6ee3d7b7681ccb4dbcfb1c0f6f2e39f, type: 3}
+    - {fileID: 21300000, guid: 5677a6b00d5729f4195aef736718e55f, type: 3}
+    dimensions: {x: 600, y: 600}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: SmartCarAllResults136987
+    displayName: Smart Car (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: f55a270f6ffbed340adf200015264fba, type: 3}
+    - {fileID: 21300000, guid: 28be60ce7400bd34badeff98e224ba1e, type: 3}
+    - {fileID: 21300000, guid: baed263408d6bad4597a3e0694308f6e, type: 3}
+    - {fileID: 21300000, guid: 00653bac853421f4bb8fb8b2f733028e, type: 3}
+    - {fileID: 21300000, guid: f40cb256f8127404d89185a2f5d328d8, type: 3}
+    - {fileID: 21300000, guid: 0e47fe47dc441b74992d5867924990db, type: 3}
+    - {fileID: 21300000, guid: e1f251ba6ef2b724f8dbd5c97bbfad37, type: 3}
+    - {fileID: 21300000, guid: caf84f86d0fd86843aa611b9dd1c6ee4, type: 3}
+    - {fileID: 21300000, guid: b104326fe53192f4fb0eba0e0dd1cbd6, type: 3}
+    dimensions: {x: 280, y: 280}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: StationWagonAllResults136987
+    displayName: Station Wagon (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: 4e8508ead921a444fa82f03e78988312, type: 3}
+    - {fileID: 21300000, guid: 5c88a93a21a05a643ab1541421ace99d, type: 3}
+    - {fileID: 21300000, guid: 976a6167325cb4c4eb01cd06dcf925c6, type: 3}
+    - {fileID: 21300000, guid: 1049c11fbab045a4d99dc64957cd5a51, type: 3}
+    - {fileID: 21300000, guid: 1c37a9874d34c3f4ca7faa23b0d44ed3, type: 3}
+    - {fileID: 21300000, guid: 60d8ac6f82ff82c4eb40c932b39e4fcd, type: 3}
+    - {fileID: 21300000, guid: 7fb8c2a093d78a84f9d382bd62d5a151, type: 3}
+    - {fileID: 21300000, guid: 8fba717e8bc119c4fbc60ffe0b388eaf, type: 3}
+    - {fileID: 21300000, guid: 69e689e864209164e847b8d32b16d529, type: 3}
+    dimensions: {x: 650, y: 650}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: ToplessConvertibleAllResults136987
+    displayName: Topless Convertible (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: d49f7621063d5ca41a15b50a2d5c5d26, type: 3}
+    - {fileID: 21300000, guid: 8335426ee8694cd40b601c57fe35861c, type: 3}
+    - {fileID: 21300000, guid: de35b5091704a8f4aaeef9c12d4ce18e, type: 3}
+    - {fileID: 21300000, guid: dc694fd8f41eeed47a8105920d6ba894, type: 3}
+    - {fileID: 21300000, guid: 9e5f68153d34bdf49ab9e07da9fab223, type: 3}
+    - {fileID: 21300000, guid: 6d42fe1b8b94172458203ab47e75ae97, type: 3}
+    - {fileID: 21300000, guid: 85fd2ff22868a054bb74ccee148b7f85, type: 3}
+    - {fileID: 21300000, guid: 348a0b80233698a48a538394fa9d6b44, type: 3}
+    - {fileID: 21300000, guid: d220dc806e39e8c49a1ffb7881fc11b6, type: 3}
+    dimensions: {x: 650, y: 650}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: MotorhomeAllResults136987
+    displayName: Motorhome (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: f07c6933fae92354481980c7432cc885, type: 3}
+    - {fileID: 21300000, guid: 369ffaefad1615f4d8899860d5df4778, type: 3}
+    - {fileID: 21300000, guid: f432f9ce9a84ac945a98d5c0d673e8f7, type: 3}
+    - {fileID: 21300000, guid: 3f59c823330d1034995beb3e32e1e74a, type: 3}
+    - {fileID: 21300000, guid: ff92214c3f2f5ce429521468244447a4, type: 3}
+    - {fileID: 21300000, guid: 552a5147907eb5041a4ee995c03e7b05, type: 3}
+    - {fileID: 21300000, guid: fda7d42568531084c81a3bf822838b70, type: 3}
+    - {fileID: 21300000, guid: 998d78772a215ef4f98de3471f34b693, type: 3}
+    - {fileID: 21300000, guid: 8faaba7ad171d8348a42af9c3d92ba52, type: 3}
+    dimensions: {x: 400, y: 400}
+    minValue: 0
+    maxValue: "\u2265136,987"
+  - name: PickUpAllResults136987
+    displayName: Pick Up Truck (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: a6484bee70cad2b449143d20204e160d, type: 3}
+    - {fileID: 21300000, guid: f671b003526fb7846af3b49f26cfc50b, type: 3}
+    - {fileID: 21300000, guid: 6238149fa22700f418478475bbf87c52, type: 3}
+    - {fileID: 21300000, guid: 8c093f7c5e4111e4f8414ed632b7c544, type: 3}
+    - {fileID: 21300000, guid: 097d19654fd5f5d4a94603f641d6ade6, type: 3}
+    - {fileID: 21300000, guid: 0047f03e2a1a74143918a754bac5df79, type: 3}
+    - {fileID: 21300000, guid: 81e651a58f02f0e47bdb29068426a6dc, type: 3}
+    - {fileID: 21300000, guid: 607b201dfebb4354186cbba8cdc29a89, type: 3}
+    - {fileID: 21300000, guid: 47f6c3aaa71f931469962151b2603188, type: 3}
+    dimensions: {x: 550, y: 550}
+    minValue: 0
+    maxValue: "\u2265136,987"
   startKey: 13
   graphTitleDisplay: {fileID: 1506047306}
   minValueDisplay: {fileID: 1831958998}
@@ -611,7 +911,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1724687683
 Transform:
   m_ObjectHideFlags: 0
@@ -861,6 +1161,21 @@ MonoBehaviour:
     dimensions: {x: 400, y: 400}
     minValue: 0
     maxValue: "\u2265100,000"
+  - name: PickUpAllResults
+    displayName: Pick Up Truck (Absolute)
+    sprites:
+    - {fileID: 21300000, guid: a6484bee70cad2b449143d20204e160d, type: 3}
+    - {fileID: 21300000, guid: f671b003526fb7846af3b49f26cfc50b, type: 3}
+    - {fileID: 21300000, guid: 6238149fa22700f418478475bbf87c52, type: 3}
+    - {fileID: 21300000, guid: 8c093f7c5e4111e4f8414ed632b7c544, type: 3}
+    - {fileID: 21300000, guid: 097d19654fd5f5d4a94603f641d6ade6, type: 3}
+    - {fileID: 21300000, guid: 0047f03e2a1a74143918a754bac5df79, type: 3}
+    - {fileID: 21300000, guid: 81e651a58f02f0e47bdb29068426a6dc, type: 3}
+    - {fileID: 21300000, guid: 607b201dfebb4354186cbba8cdc29a89, type: 3}
+    - {fileID: 21300000, guid: 47f6c3aaa71f931469962151b2603188, type: 3}
+    dimensions: {x: 550, y: 550}
+    minValue: 0
+    maxValue: "\u2265100,000"
   startKey: 13
   graphTitleDisplay: {fileID: 1506047306}
   minValueDisplay: {fileID: 1831958998}
@@ -913,6 +1228,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1724687683}
+  - {fileID: 1016668663}
   - {fileID: 307829028}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

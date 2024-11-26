@@ -38,12 +38,14 @@ public class AnalyticsScript : MonoBehaviour
     {
         string fileName = System.DateTime.UtcNow.ToString("HHmmddMMMMyyyy") + transform.name;
         string path = Application.persistentDataPath + "/" + fileName + ".png";
+        string output = string.Format("Total Captures: {0}", captureTotal);
 
         //Write some text to the test.txt file
 
         StreamWriter writer = new StreamWriter(path, true);
 
-        writer.WriteLine("Test");
+        writer.WriteLine(output);
+        Debug.Log(output);
 
         writer.Close();
     }
