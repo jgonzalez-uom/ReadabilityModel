@@ -41,9 +41,9 @@ Material:
     m_Floats:
     - _ColorThreshold: 10
     - _Float_Distance: 75
-    - _NormalThreshold: 0.5
+    - _NormalThreshold: 0.31
     - _OVERLAY: 1
-    - _OutlineThickness: 0.5
+    - _OutlineThickness: 0.56
     - _Outline_Thickness: 0.01
     - _QueueControl: 0
     - _QueueOffset: 0

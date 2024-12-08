@@ -1,0 +1,289 @@
+fileFormatVersion: 2
+guid: e932999ab3b6f574a960d9e009150eb4
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Others
+    second: {fileID: 2100000, guid: 089b91904145b2645a4059ce6eb87817, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: back fender
+    second: {fileID: 2100000, guid: e07205038a4b4c044a97a939b3f6d84c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: back_plate
+    second: {fileID: 2100000, guid: b62c26b30c066f24085de742b9678a4d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: back_window
+    second: {fileID: 2100000, guid: 1c2b4bc696078d64f94a9e47e6032b57, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: back_window_low_rim
+    second: {fileID: 2100000, guid: 681b790ae20b36449a0d1fc51b5ffb0a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: back_window_rail
+    second: {fileID: 2100000, guid: f7da844ae08ddae47820971942c5eef1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: center_braking_light
+    second: {fileID: 2100000, guid: 2a09e2e4f7ce51242a70999a2c145c28, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cowl_cover
+    second: {fileID: 2100000, guid: 4a5f48dc69b774c4d9462898b36c1ff7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: exhaust
+    second: {fileID: 2100000, guid: 37fecd504fb67db44895ec61ad862684, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: front_door
+    second: {fileID: 2100000, guid: 3024b1c3cdb917844b5a044cb0160715, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: front_fender
+    second: {fileID: 2100000, guid: b22ce0c0a661b9348ba1a66bc13a35d5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: front_plate
+    second: {fileID: 2100000, guid: 2bdbfc057722ecb4986a024f88012262, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: front_rail
+    second: {fileID: 2100000, guid: d46a8311de665194382f9c79c41eb625, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: front_wheel
+    second: {fileID: 2100000, guid: ec41c144716ddf446b68b6ef9c23c14c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: front_window
+    second: {fileID: 2100000, guid: 88f574f00962319458317bda4575734e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: grill
+    second: {fileID: 2100000, guid: 94fa7c2191bc92d4a946a6df1921bbdd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: headlights
+    second: {fileID: 2100000, guid: 5816fd9ce08c02d41ba0b5c57177ca75, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: high_front_bumper
+    second: {fileID: 2100000, guid: 7fa9fc3020fe8c24c8ba8224bd77998a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: high_rear_bumper
+    second: {fileID: 2100000, guid: 92731c94d29e6e141a5548f2377d6be5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hood
+    second: {fileID: 2100000, guid: 8352daef7124a6c4c987c86f95af0a52, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: low_back_bumper
+    second: {fileID: 2100000, guid: 0b28cbf40ba6b1d4da9845c45c832ddf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: low_front_bumper
+    second: {fileID: 2100000, guid: 28d4527069263544b8331146fe5d12aa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mirror
+    second: {fileID: 2100000, guid: 333d33014be545c4c8ed7ce165631f77, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rear_door
+    second: {fileID: 2100000, guid: 8747b265e638d6c47b8927cc006cd3ba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rear_wheel
+    second: {fileID: 2100000, guid: 50e27b7bfebe47848b566434829a0b84, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rear_window
+    second: {fileID: 2100000, guid: 7bd64a751be857a47b0db7a8e21caa07, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: rocker_panel
+    second: {fileID: 2100000, guid: 9cd9cf142ca02824088557e5c1620d74, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: roof_rim
+    second: {fileID: 2100000, guid: f6fbe40f6895d474597cb71edee952bb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: side_window_separator
+    second: {fileID: 2100000, guid: 6c80e2e565b77fe40b7bce46e28adee8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: solar_body
+    second: {fileID: 2100000, guid: d54f047ce07632f49a861003f7639e2b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: solar_bottom
+    second: {fileID: 2100000, guid: 62457f223fb6dfd4aab586e95bcae6b6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: solar_headlights
+    second: {fileID: 2100000, guid: d794f6ce8996486488deed169b00efbb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: solar_void
+    second: {fileID: 2100000, guid: b79fda5a263919f44a743c3dee53b935, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tail_lights
+    second: {fileID: 2100000, guid: 76ae15978091f334c99d983a1fe5594c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: trunk
+    second: {fileID: 2100000, guid: 8f3286824c3f3ad44a58046aed4125af, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: windshield
+    second: {fileID: 2100000, guid: 84b55b9a1e49d6a4bb0354f3406bf578, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
