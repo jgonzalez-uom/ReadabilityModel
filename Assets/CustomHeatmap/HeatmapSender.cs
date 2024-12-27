@@ -14,9 +14,9 @@ public class HeatmapSender : MonoBehaviour
     private float maxFrameLength = 0.016f;
 
     [Header("Rectangular Projection Settings")]
-    [Range(1, 160)]
+    [Range(1, 320)]
     public int resolutionX;
-    [Range(1, 160)]
+    [Range(1, 320)]
     public int resolutionY;
     public Camera camera;
     
@@ -24,6 +24,11 @@ public class HeatmapSender : MonoBehaviour
     public int angleCount = 10;
     [Range(1, 20)]
     public int rowCount = 2;
+
+    [Header("Additional Data Settings")]
+    public float minDistance = 0f;
+    [Tooltip("-1 for infinity")]
+    public float maxDistance = -1;
 
     public LayerMask layersHit;
 
@@ -109,8 +114,9 @@ public class HeatmapSender : MonoBehaviour
 
         Ray ray = camera.ScreenPointToRay(pos);
 
+        Vector3 origin = camera.transform.position + (ray.direction * minDistance);
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layersHit))
+        if (Physics.Raycast(origin, ray.direction, out hit, ((maxDistance < 0) ? Mathf.Infinity : (maxDistance - minDistance)), layersHit))
         {
             //Debug.Log(hit.transform.name);
             if (hit.transform.TryGetComponent<HeatmapReceiver>(out HeatmapReceiver heatmapReceiver))
@@ -118,7 +124,7 @@ public class HeatmapSender : MonoBehaviour
                 heatmapReceiver.AddPoint(hit.point);
 
                 if (DebugHitRays)
-                    Debug.DrawRay(ray.origin, ray.direction * (hit.point - ray.origin).magnitude, Color.red, rayDuration);
+                    Debug.DrawRay(origin, ray.direction * (hit.point - ray.origin).magnitude, Color.red, rayDuration);
                 //Debug.Log(hit.point);
 
                 return;
@@ -126,12 +132,12 @@ public class HeatmapSender : MonoBehaviour
 
 
             if (DebugMissedRays)
-                Debug.DrawRay(ray.origin, ray.direction * (hit.point - ray.origin).magnitude, Color.blue, rayDuration);
+                Debug.DrawRay(origin, ray.direction * (maxDistance - minDistance), Color.blue, rayDuration);
 
             return;
         }
 
         if (DebugMissedRays)
-            Debug.DrawRay(ray.origin, ray.direction * 10, Color.blue, rayDuration);
+            Debug.DrawRay(origin, ray.direction * (maxDistance - minDistance), Color.blue, rayDuration);
     }
 }

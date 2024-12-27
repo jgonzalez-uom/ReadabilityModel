@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PedestrianRoadSimulationScene.unity
     guid: e1381ebc231cf6a4cad2b1e9eddf80c2
+  - enabled: 1
+    path: Assets/Scenes/CustomRoadSimulationScene.unity
+    guid: c56dd48696e9189479a605c52a716bbe
   m_configObjects: {}
