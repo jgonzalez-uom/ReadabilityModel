@@ -235,7 +235,7 @@ public class CustomSimulationManager : MonoBehaviour
             }
             else
             {
-                Debug.LogError("Couldn't add " + f + " to the filler vehicle points. No such ID found.");
+                Debug.LogError("Couldn't add \"" + f + "\" to the filler vehicle points. No such ID found.");
             }
         }
 
@@ -359,6 +359,13 @@ public class CustomSimulationManager : MonoBehaviour
         yield return StartCoroutine(ActiveTarget.HeatmapSetup());
 
         int tvIndex = 0;
+        float denominatorProgress = (indexes.Count * activeFillerVehiclePoints.Count);
+
+        if (denominatorProgress == 0)
+        {
+            denominatorProgress = 0.1f;
+        }
+
         foreach (var index in indexes)
         {
             ActiveTarget.HeatmapLogger.parentObject.transform.position = activeVehiclePoints[index.vehiclePosition].vehiclePoint.position;
@@ -374,7 +381,8 @@ public class CustomSimulationManager : MonoBehaviour
                     temp += (b ? "1" : 0) + ",";
                 temp += ")";
                 //Debug.Log(string.Format("{0}-{1}", index.vehiclePosition, temp));
-                progress = (((tvIndex) * activeFillerVehiclePoints.Count) + fvIndex) / (indexes.Count * activeFillerVehiclePoints.Count);
+
+                progress = (((tvIndex) * activeFillerVehiclePoints.Count) + fvIndex) / denominatorProgress;
 
                 for (int fp = 0; fp < fL.Length; fp++)
                 {

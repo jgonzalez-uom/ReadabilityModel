@@ -22,6 +22,8 @@ public class CustomSimulationManagerUI : MonoBehaviour
 
     public TMP_InputField fileNameInput;
 
+    public TMP_InputField codeInput;
+
     public UnityEvent OnSimulationStart;
 
     [System.Serializable]
@@ -42,15 +44,27 @@ public class CustomSimulationManagerUI : MonoBehaviour
         maxRayDistance.text = maxRayDistance.text.Trim();
         vehicleAmountInput.text = vehicleAmountInput.text.Trim();
 
-        string fileName = string.Format("{0}_{1}_{2}_{3}x{4}_{5}_{6}_({7}to{8})", 
-            setupIDs.text, 
+        string fileName = string.Format("{0}_{1}_{2}x{3}_{4}_{5}_{6}_({7}to{8})_{9}", 
             vehicleID.text, 
             vehiclePositions.text, 
             vehicleAmountInput.text, 
             fillerID.text, 
             fillerPositions.text, 
             cameraPoints.text, 
+            setupIDs.text, 
             minRayDistance.text, 
+            maxRayDistance.text,
+            Application.version);
+
+        codeInput.text = string.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}",
+            setupIDs.text,
+            vehicleID.text,
+            vehiclePositions.text,
+            vehicleAmountInput.text,
+            fillerID.text,
+            fillerPositions.text,
+            cameraPoints.text,
+            minRayDistance.text,
             maxRayDistance.text);
 
         foreach (var c in Path.GetInvalidFileNameChars())
@@ -61,6 +75,23 @@ public class CustomSimulationManagerUI : MonoBehaviour
         fileNameInput.text = fileName;
 
         OnFileValidityChecked.Invoke(CheckIfPathIsValid(fileName));
+    }
+
+    public void LoadCode(string code)
+    {
+        codeInput.text = codeInput.text.Trim();
+
+        string[] values = code.Split("|");
+
+        setupIDs.text = values[0];
+        vehicleID.text = values[1];
+        vehiclePositions.text = values[2];
+        vehicleAmountInput.text = values[3];
+        fillerID.text = values[4];
+        fillerPositions.text = values[5];
+        cameraPoints.text = values[6];
+        minRayDistance.text = values[7];
+        maxRayDistance.text = values[8];
     }
 
     public void StartSimulation()

@@ -51,7 +51,7 @@ public class CameraPoint : MonoBehaviour
 
             foreach (int ind in directionInds)
             {
-                if (ind > directions.Length || ind < 0)
+                if (ind >= directions.Length || ind < 0)
                 {
                     Debug.Log("ERROR: WRONG DIRECTION AT " + transform.name + ": " + ind + " is not in range.");
                     continue;
