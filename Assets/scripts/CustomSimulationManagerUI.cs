@@ -96,7 +96,6 @@ public class CustomSimulationManagerUI : MonoBehaviour
 
     public void StartSimulation()
     {
-        //UIUpdated();
 
         if (!int.TryParse(vehicleAmountInput.text, out var vehicleAmount))
         {

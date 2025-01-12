@@ -85,9 +85,6 @@ public class VehicleDataDisplayManager : MonoBehaviour
 
         if (centerMesh)
         {
-            //ActiveTarget.HeatmapDisplay.referencePoint.transform.Translate(
-            //    vehicleTransformProperties.position - vehicleTransformParent.position
-            //    );
 
             vehicleTransformParent.position = new Vector3(vehicleTransformProperties.position.x, vehicleTransformParent.position.y, vehicleTransformProperties.position.z);
         }
@@ -107,7 +104,6 @@ public class VehicleDataDisplayManager : MonoBehaviour
     }
     IEnumerator SetVehicleGridPoints()
     { 
-        //gridPointRecorderScript.LoadFile(directoryName, fileName);
 
         OnDisplayStart.Invoke();
 

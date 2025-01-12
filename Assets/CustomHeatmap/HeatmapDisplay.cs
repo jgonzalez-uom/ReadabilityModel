@@ -37,46 +37,26 @@ public class HeatmapDisplay : MonoBehaviour
     public Gradient heatmapColors;
     public bool createNewSystemAlways = false;
     public ParticleSystem[] particleSystems;
+    public enum logPointFinding { UseDictionaryToFindPoint, CalculateGridPositionPoin};
+    public logPointFinding HowToFindGridPointForLogPoint;
 
     [Header("Brush Size")]
     public brushes brushType;
     [Range(0, 10)]
     public float brushSize = 1;
 
-
-
-    //private Vector3 boundDimensions = Vector3.zero;
-    //private Vector3Int gridDimensions = Vector3Int.zero;
     private int particleCount = 0;
     private int MAX_PARTICLE_PER_HEATMAP = int.MaxValue;
-    //private int[,,] dataGrid;
     private Dictionary<Vector3Int, long> gridValues = new Dictionary<Vector3Int, long>();
-    //private Vector3 minPoint;
-    //private Vector3 maxPoint;
+    private Dictionary<Vector3, Vector3Int> gridPositions = new Dictionary<Vector3, Vector3Int>();
     private long maxHeat = 0;
     private Vector3 localMinPoint = Vector3.zero;
     private float maxFrameLength = 0.016f;
     private float doubleRadiusSmallRadius = 0.00001f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //if (heatmapBoundBox == null && this.gameObject.TryGetComponent<Collider>(out heatmapBoundBox))
-        //{
-        //    readyToDisplay = true;
-        //}
-
-        //boundDimensions = calculateBoundDimensions(heatmapBoundBox);
-    }
 
     public void GenerateHeatmap(Vector3[] points)
     {
-
-
-        //Vector3[] pts = new Vector3[points.Length];
-        
-        //for (int i = 0; i < points.Length; i++) 
-        //    pts[i] = points[i];
 
         StartCoroutine(GenerateHeatmapCoroutine(points));
     }
@@ -122,12 +102,9 @@ public class HeatmapDisplay : MonoBehaviour
             {
                 internalMaxHeat = maxTempHeat;
             }
-            //Debug.Log("New value of max heat is " + maxHeat);
-            //string values = string.Empty;
 
             int endInd = Mathf.Clamp(keyInd + particleSystem.main.maxParticles, keyInd, pointKeys.Count);
 
-            //foreach (KeyValuePair<Vector3Int, long> pair in gridValues)
             for (; keyInd < endInd; keyInd++)
             {
                 if (index >= particles.Length)
@@ -145,7 +122,6 @@ public class HeatmapDisplay : MonoBehaviour
                 if (internalMaxHeat > 0)
                 {
                     colorValue = Mathf.InverseLerp(minVisibleHeat, internalMaxHeat, (float)gridValues[pointKeys[keyInd]]);
-                    //colorValue = (float)gridValues[pointKeys[keyInd]] / (float)internalMaxHeat;
                 }
                 else
                 {
@@ -158,16 +134,11 @@ public class HeatmapDisplay : MonoBehaviour
 
                 if (watch.ElapsedTicks > tickBudget)
                 {
-                    //Debug.Log(string.Format("Particle #{0} being displayed with value {1}.", index, pair.Value));
                     yield return null;
                     watch.Restart();
                 }
 
-                //values = string.Format("{0}, ({1} = {2})", values, pair.Key.ToString(), pair.Value.ToSafeString());
             }
-
-            //Debug.Log("Max heat recorder: " + maxHeat);
-            //Debug.Log(values);
 
             particleSystem.SetParticles(particles);
         }
@@ -284,9 +255,6 @@ public class HeatmapDisplay : MonoBehaviour
 
     public IEnumerator LoadDictionary(Vector3[] points, Collider collider)
     {
-        //CreateDictionary(heatmapBoundBox);
-
-        //HashSet<Vector3Int> uniqueVectors = new HashSet<Vector3Int>();
 
         var watch = new System.Diagnostics.Stopwatch();
 
@@ -305,11 +273,14 @@ public class HeatmapDisplay : MonoBehaviour
 
         foreach (var point in points)
         {
+
+
             List<Vector3Int> uniqueVectors = new List<Vector3Int>();
-            //Dictionary<Vector3Int, bool> uniqueVectors = new Dictionary<Vector3Int, bool>();
-            //Vector3 vec = (referencePoint.transform.TransformPoint(point - localMinPoint)) / (particleSpacing);
-            Vector3 vec = (referencePoint.transform.TransformPoint(point) - referencePoint.transform.TransformPoint(localMinPoint)) / (particleSpacing);
+            Vector3 vec;
+
+            vec = (point - localMinPoint) / (particleSpacing);
             vec = new Vector3(Mathf.Abs(vec.x), Math.Abs(vec.y), Mathf.Abs(vec.z));
+
 
             Vector3Int index = new Vector3Int(Mathf.RoundToInt(vec.x), Mathf.RoundToInt(vec.y), Mathf.RoundToInt(vec.z));
 
@@ -324,10 +295,11 @@ public class HeatmapDisplay : MonoBehaviour
                     for (int z = minBound; z < maxBound; z++)
                     {
                         Vector3Int tempInd = index + new Vector3Int(x, y, z);
-
+                        
+                        
                         if (!gridValues.ContainsKey(tempInd))
                         {
-                            //Debug.LogWarning("INDEX NOT FOUND: " + index.ToString() + "\nLOCAL POSITION: " + point.ToString());
+                            Debug.LogWarning("INDEX NOT FOUND: " + index.ToString() + "\nLOCAL POSITION: " + point.ToString());
 
                             continue;
                         }
@@ -339,13 +311,8 @@ public class HeatmapDisplay : MonoBehaviour
 
                         if (allowDuplicatesWhenLoadingData)
                             gridValues[tempInd]++;
-                        //else
-                        //else if (!uniqueVectors.ContainsKey(tempInd))
                         else if (uniqueVectors.FindIndex(x => x == tempInd) == -1)
-                        {
-                            //uniqueVectors.Add(tempInd, true);
                             uniqueVectors.Add(tempInd);
-                        }
 
                         if (DEBUG)
                             Debug.Log(string.Format("{0} new value is {1}", tempInd.ToString(), gridValues[tempInd]));
@@ -368,9 +335,7 @@ public class HeatmapDisplay : MonoBehaviour
             if (!allowDuplicatesWhenLoadingData)
             {
                 foreach (var tempInd in uniqueVectors)
-                //foreach (KeyValuePair<Vector3Int, bool> tempInd in uniqueVectors)
                 {
-                    //gridValues[tempInd.Key]++;
                     gridValues[tempInd]++;
                 }
             }
@@ -525,7 +490,14 @@ public class HeatmapDisplay : MonoBehaviour
                     {
                         Vector3Int vector3Int = new Vector3Int(x, y, z);
                         gridValues.Add(vector3Int, 0);
+                        gridPositions.Add(tempPos, vector3Int);
                         particleCount++;
+
+                        //Debugging grid
+                        //GameObject temp = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                        //temp.transform.localScale = Vector3.one * 0.1f;
+                        //temp.transform.parent = referencePoint.transform;
+                        //temp.transform.SetPositionAndRotation(tempPos, Quaternion.identity);
 
                         if (particleCount > MAX_PARTICLE_PER_HEATMAP)
                         {
@@ -641,7 +613,6 @@ public class HeatmapDisplay : MonoBehaviour
 
         foreach (KeyValuePair<Vector3Int , long> pair in from)
         {
-            Debug.Log(string.Format("Setting {0} to {1}", pair.Key, pair.Value));
             gridValues.Add(pair.Key, pair.Value);
         }
     }

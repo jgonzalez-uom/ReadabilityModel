@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The quick brown fox jumps over the lazy dog
+  m_text: SMALL,US|Carryall|S_5,S_6,S_7|2|Carryall|S_1,S_2,S_3,S_4,S_5,S_6,S_7|C-3;D-3,4;E-3,4,5;F-3,4,5;G-3,4,5;H-3,4,5;I-3,4,5;J-4,5|0|5
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 19.25
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -108,7 +108,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 0
+  m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 4
   m_linkedTextComponent: {fileID: 0}
@@ -305,3 +305,4 @@ MonoBehaviour:
   button: {fileID: 7505417301852376725}
   text: {fileID: 8380527762014952531}
   fileName: 
+  fullName: 

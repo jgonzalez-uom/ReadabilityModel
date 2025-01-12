@@ -10,10 +10,6 @@ public class CameraPoint : MonoBehaviour
 
     [Header("Valid Directions")]
     public Transform[] directions;
-    //public bool front = true;
-    //public bool right = true;
-    //public bool back = true;
-    //public bool left = true;
 
     [HideInInspector]
     public bool processing = false;
@@ -76,7 +72,6 @@ public class CameraPoint : MonoBehaviour
                 if (displayEachFrame)
                     yield return null;
 
-                //camera.transform.rotation = Quaternion.LookRotation(this.transform.InverseTransformVector(dir), this.transform.up);
             }
 
 
@@ -126,8 +121,6 @@ public class CameraPoint : MonoBehaviour
 
                 if (displayEachFrame)
                     yield return null;
-
-                //camera.transform.rotation = Quaternion.LookRotation(this.transform.InverseTransformVector(dir), this.transform.up);
             }
 
 

@@ -15,7 +15,6 @@ public class HeatmapLogger : MonoBehaviour
     private int currentInd = 0;
 
     //MOVE THIS TO THE MANAGER
-    //public Vector3[] points;
     public List<Vector3> points = new List<Vector3>();
 
     // Start is called before the first frame update
@@ -23,8 +22,6 @@ public class HeatmapLogger : MonoBehaviour
     {
         if (parentObject == null)
             parentObject = this.transform.parent.gameObject;
-
-        //points = new Vector3[maxPoints];
 
         foreach (HeatmapReceiver r in parentObject.GetComponentsInChildren<HeatmapReceiver>())
         {
@@ -34,21 +31,14 @@ public class HeatmapLogger : MonoBehaviour
 
     public void LogPoint(Vector3 pt)
     {
-        //if (currentInd >= points.Length)
-        //    return;
         if (points.Count >= maxPoints)
             return;
-        //Debug.Log("Added point " + pt.ToString()); 
+
         points.Add(pt);
-        //points[currentInd++] = pt;
-        //print(points[currentInd]);
-        //currentInd++;
     }
 
     public void ClearPointCache()
     {
-        //points = new Vector3[maxPoints];
-        //currentInd = 0;
         points.Clear();
     }
 
@@ -113,10 +103,6 @@ public class HeatmapLogger : MonoBehaviour
             newPoints[currentInd++] = ParseVector3(s);
         }
 
-        //points = new Vector3[currentInd];
-        //for (int i = 0; i < currentInd; i++)
-        //    points[i] = newPoints[i];
-
         for (int i = 0; i < currentInd; i++)
             points.Add(newPoints[i]);
     }
@@ -134,7 +120,6 @@ public class HeatmapLogger : MonoBehaviour
         }
 
         Vector3 result = new Vector3(float.Parse(values[0]), float.Parse(values[1]), float.Parse(values[2]));
-        //Debug.Log("Parsed: " + result.ToString());
         return result;
     }
 }

@@ -118,14 +118,12 @@ public class HeatmapSender : MonoBehaviour
 
         if (Physics.Raycast(origin, ray.direction, out hit, ((maxDistance < 0) ? Mathf.Infinity : (maxDistance - minDistance)), layersHit))
         {
-            //Debug.Log(hit.transform.name);
             if (hit.transform.TryGetComponent<HeatmapReceiver>(out HeatmapReceiver heatmapReceiver))
             {
                 heatmapReceiver.AddPoint(hit.point);
 
                 if (DebugHitRays)
                     Debug.DrawRay(origin, ray.direction * (hit.point - ray.origin).magnitude, Color.red, rayDuration);
-                //Debug.Log(hit.point);
 
                 return;
             }

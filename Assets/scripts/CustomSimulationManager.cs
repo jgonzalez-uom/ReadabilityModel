@@ -87,7 +87,6 @@ public class CustomSimulationManager : MonoBehaviour
     //Dictionaries
     private Dictionary<string, CameraPointItem> cameraPointsDictionary = new Dictionary<string, CameraPointItem>();
     private Dictionary<string, VehiclePoint> vehiclePointsDictionary = new Dictionary<string, VehiclePoint>();
-    //private Dictionary<string, VehiclePoint> fillerVehiclePointsDictionary = new Dictionary<string, VehiclePoint>();
     private Dictionary<string, Setup> setupsDictionary = new Dictionary<string, Setup>();
     private Dictionary<string, VehiclePrefab> vehiclePrefabsDictionary = new Dictionary<string, VehiclePrefab>();
     private Dictionary<string, VehiclePrefab> fillerVehiclePrefabsDictionary = new Dictionary<string, VehiclePrefab>();
@@ -132,17 +131,6 @@ public class CustomSimulationManager : MonoBehaviour
 
             vehiclePointsDictionary.Add(vp.id, vp);
         }
-
-        //foreach (var s in setups)
-        //{
-        //    if (setupsDictionary.ContainsKey(s.id))
-        //    {
-        //        Debug.Log("Duplicate Setup ID: " + s.id);
-        //        continue;
-        //    }
-
-        //    setupsDictionary.Add(s.id, s);
-        //}
 
         foreach (var vpr in vehiclePrefabs)
         {
@@ -305,66 +293,14 @@ public class CustomSimulationManager : MonoBehaviour
 
         progress = 0;
 
-        /*List<Transform> fillerCars = new List<Transform>();
-
-        IEnumerable<IEnumerable<int>> indexes = new List<List<int>>();
-
-
-        if (fillerCars.Count > 0)
-        {
-            indexes = Permutations.GetPermutationsWithRept(new List<int> { 0, 1 }, fillerCars.Count);
-        }
-        else
-        {
-            List<List<int>> temp = new List<List<int>>
-            {
-                new List<int>()
-            };
-            temp[0].Add(1);
-            indexes = temp;
-        }
-
-        string debug = "";
-        foreach (var x in indexes)
-        {
-            debug += "{";
-            foreach (var y in x)
-            {
-                debug += y + ",";
-            }
-            debug += "},";
-        }
-        Debug.Log(debug);
-        int indexesLength = indexes.Count();
-        Debug.Log(indexesLength);
-        int combCount = 0;
-        foreach (var ind in indexes)
-        {
-            foreach (var c in ind)
-            {
-                if (c == 1)
-                    combCount++;
-            }
-        }
-        Debug.Log("Combination count: " + combCount);
-
-        //CameraPoint[] cameraPositions = new CameraPoint[tests[i].pedestrianViewPoints.Length + tests[i].driverViewPoints.Length];
-        //tests[i].pedestrianViewPoints.CopyTo(cameraPositions, 0);
-        //tests[i].driverViewPoints.CopyTo(cameraPositions, tests[i].pedestrianViewPoints.Length);*/
-
         var indexes = CalculatePermutations(activeVehiclePoints.Count, activeFillerVehiclePoints.Count, numberOfVehicles-1);
-
-        Debug.Log(indexes.Count);
 
         yield return StartCoroutine(ActiveTarget.HeatmapSetup());
 
-        int tvIndex = 0;
-        float denominatorProgress = (indexes.Count * activeFillerVehiclePoints.Count);
+        yield return null;
 
-        if (denominatorProgress == 0)
-        {
-            denominatorProgress = 0.1f;
-        }
+        int tvIndex = 0;
+        float denominatorProgress = (indexes.Count * activeFillerVehiclePoints.Count) + 1;
 
         foreach (var index in indexes)
         {
@@ -372,15 +308,12 @@ public class CustomSimulationManager : MonoBehaviour
             ActiveTarget.HeatmapLogger.parentObject.transform.rotation = activeVehiclePoints[index.vehiclePosition].vehiclePoint.rotation;
 
             int fvIndex = 0;
-            //Debug.Log(index.fillerPermutations.Count);
             foreach (var fL in index.fillerPermutations)
             {
-                //Debug.Log("New layout");
                 string temp = "(";
                 foreach (var b in fL)
                     temp += (b ? "1" : 0) + ",";
                 temp += ")";
-                //Debug.Log(string.Format("{0}-{1}", index.vehiclePosition, temp));
 
                 progress = (((tvIndex) * activeFillerVehiclePoints.Count) + fvIndex) / denominatorProgress;
 
@@ -388,7 +321,7 @@ public class CustomSimulationManager : MonoBehaviour
                 {
                     spawnedFillerVehicles[activeFillerVehiclePoints[fp].id].gameObject.SetActive(fL[fp]);
                 }
-                //Debug.Log(activeCameraPoints.Count);
+
                 foreach (var cp in activeCameraPoints)
                 {
                     if (watch.ElapsedTicks > tickBudget)
@@ -399,12 +332,9 @@ public class CustomSimulationManager : MonoBehaviour
 
                     ActiveTarget.HeatmapLogger.ClearPointCache();
 
-                    //Debug.Log(validDirectionsPerPoint[cp.id].Length);
-
                     yield return StartCoroutine(cp.cameraPoint.CycleThroughCameras(shotCamera, validDirectionsPerPoint[cp.id]));
 
                     yield return StartCoroutine(ActiveTarget.LoadCurrentPointsIntoMatrix());
-
                 }
 
                 fvIndex++;
@@ -420,7 +350,7 @@ public class CustomSimulationManager : MonoBehaviour
         ActiveTarget.HeatmapLogger.parentObject.transform.rotation = banishmentPoint.rotation;
 
 
-        //yield return StartCoroutine(ActiveTarget.DisplayHeatmap());
+        yield return StartCoroutine(ActiveTarget.DisplayHeatmap());
 
         if (savePointsAfterSimulation)
         {
@@ -439,7 +369,6 @@ public class CustomSimulationManager : MonoBehaviour
 
         OnProgress.Invoke(1);
 
-        //Destroy(ActiveTarget.HeatmapLogger.parentObject);
 
         OnProgressCompleted.Invoke();
 
@@ -460,33 +389,16 @@ public class CustomSimulationManager : MonoBehaviour
 
     List<VehiclePermutation> CalculatePermutations(int vehiclePosLength, int fillerPosLength, int fillerAmount)
     {
-        //string baseString = string.Format("{0},{1}", new string('0', vehiclePosLength.ToString().Length), new string('0', fillerPosLength));
 
         List<VehiclePermutation> result = new List<VehiclePermutation>();
         int vpi = 0;
-        Debug.Log(string.Format("{0},{1}", vehiclePosLength, fillerPosLength));
+
         for (int n = 0; n < vehiclePosLength; n++)
         {
             List<bool[]> fillerPermResult = new List<bool[]>();
 
             CalculatePermutationsRecursive(n, -1, fillerPosLength, new bool[fillerPosLength], ref fillerPermResult, fillerAmount);
 
-            //List<bool[]> fillerPermResult = new List<bool[]>();
-
-            //if (fillerAmount == 0)
-            //{
-            //    fillerPermResult.Add(new bool[fillerPosLength]);
-            //    //result.Add(new VehiclePermutation(n, fillerPermResult));
-            //}
-
-            //for (int f = 0; f < fillerPosLength; f++)
-            //{
-            //    //fillerPermResult = new List<bool[]>();
-            //    CalculatePermutationsRecursive(n, 0, fillerPosLength, new bool[fillerPosLength], ref fillerPermResult, fillerAmount-1);
-
-            //    //if (fillerAmount == 0)
-            //        //break;
-            //}
             result.Add(new VehiclePermutation(n, fillerPermResult));
         }
 
@@ -504,7 +416,6 @@ public class CustomSimulationManager : MonoBehaviour
                 thisPerm[i] = currentPerm[i];
             }
 
-            Debug.Log("Adding...");
             result.Add(thisPerm);
 
             return;
@@ -520,46 +431,6 @@ public class CustomSimulationManager : MonoBehaviour
             currentPerm[n] = false;
         }
     }
-
-    //void CalculatePermutationsRecursive(int vehiclePosInd, int fillerPosInd, int fillerPosLength, bool[] currentPerm, ref List<bool[]> result, int depthLeft)
-    //{
-    //    Debug.Log(activeFillerVehiclePoints[fillerPosInd].id + " : " + activeVehiclePoints[vehiclePosInd].id + " at " + depthLeft);
-    //    if (fillerPosInd >= fillerPosLength || activeFillerVehiclePoints[fillerPosInd].id == activeVehiclePoints[vehiclePosInd].id || depthLeft < 0)
-    //    {
-    //        Debug.Log("Returning early due to conflict with main vehicle or index out of range.");
-    //        return;
-    //    }
-
-    //    if (depthLeft == 0)
-    //    {
-    //        bool[] thisPerm = new bool[fillerPosLength];
-
-    //        for (int i = 0; i < fillerPosLength; i++)
-    //        {
-    //            thisPerm[i] = currentPerm[i];
-    //        }
-
-    //        Debug.Log("Adding...");
-    //        result.Add(thisPerm);
-
-    //        return;
-    //    }
-
-    //    currentPerm[fillerPosInd] = true;
-
-    //    for (int n = fillerPosInd+1; n < fillerPosLength; n++)
-    //    {
-    //        currentPerm[n] = true;
-    //        CalculatePermutationsRecursive(vehiclePosInd, n, fillerPosLength, currentPerm, ref result, depthLeft - 1);
-    //        currentPerm[n] = false;
-
-    //        Debug.Log("Digging");
-    //    }
-
-    //    currentPerm[fillerPosInd] = false;
-
-    //    return;
-    //}
 
     public void Execute()
     {

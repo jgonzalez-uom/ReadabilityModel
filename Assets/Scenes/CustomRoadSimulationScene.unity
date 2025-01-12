@@ -49479,6 +49479,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2916618472585308649, guid: ef3c5fc5c4becf742ba6faa4335c32dd,
         type: 3}
+      propertyPath: DebugHitRays
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2916618472585308649, guid: ef3c5fc5c4becf742ba6faa4335c32dd,
+        type: 3}
       propertyPath: DebugMissedRays
       value: 0
       objectReference: {fileID: 0}
