@@ -295,11 +295,14 @@ public class CustomSimulationManager : MonoBehaviour
 
         var indexes = CalculatePermutations(activeVehiclePoints.Count, activeFillerVehiclePoints.Count, numberOfVehicles-1);
 
+        int permutationCount = CountPermutations(indexes);
+        int permutationCounter = 0;
+
         yield return StartCoroutine(ActiveTarget.HeatmapSetup());
 
         yield return null;
 
-        int tvIndex = 0;
+        //int tvIndex = 0;
         float denominatorProgress = (indexes.Count * activeFillerVehiclePoints.Count) + 1;
 
         foreach (var index in indexes)
@@ -307,7 +310,7 @@ public class CustomSimulationManager : MonoBehaviour
             ActiveTarget.HeatmapLogger.parentObject.transform.position = activeVehiclePoints[index.vehiclePosition].vehiclePoint.position;
             ActiveTarget.HeatmapLogger.parentObject.transform.rotation = activeVehiclePoints[index.vehiclePosition].vehiclePoint.rotation;
 
-            int fvIndex = 0;
+            //int fvIndex = 0;
             foreach (var fL in index.fillerPermutations)
             {
                 string temp = "(";
@@ -315,7 +318,8 @@ public class CustomSimulationManager : MonoBehaviour
                     temp += (b ? "1" : 0) + ",";
                 temp += ")";
 
-                progress = (((tvIndex) * activeFillerVehiclePoints.Count) + fvIndex) / denominatorProgress;
+                //progress = (((tvIndex) * activeFillerVehiclePoints.Count) + fvIndex) / denominatorProgress;
+                progress = permutationCounter / permutationCount;
 
                 for (int fp = 0; fp < fL.Length; fp++)
                 {
@@ -337,10 +341,12 @@ public class CustomSimulationManager : MonoBehaviour
                     yield return StartCoroutine(ActiveTarget.LoadCurrentPointsIntoMatrix());
                 }
 
-                fvIndex++;
+                permutationCounter++;
+
+                //fvIndex++;
             }
 
-            tvIndex++;
+            //tvIndex++;
         }
 
         OnProgressCompleted.Invoke();
@@ -430,6 +436,18 @@ public class CustomSimulationManager : MonoBehaviour
             CalculatePermutationsRecursive(vehiclePosInd, n, fillerPosLength, currentPerm, ref result, depthLeft - 1);
             currentPerm[n] = false;
         }
+    }
+
+    private int CountPermutations(List<VehiclePermutation> perms)
+    {
+        int result = 0;
+
+        foreach (var p in perms)
+        {
+            result += p.fillerPermutations.Count;
+        }
+
+        return result;
     }
 
     public void Execute()

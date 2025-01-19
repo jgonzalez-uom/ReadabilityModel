@@ -8,16 +8,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 2207ca45df7a74448a02fee6e82c2a36
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RoadSimulationScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
     path: Assets/Scenes/VehicleDisplayScene.unity
     guid: 3a39e191dd9f2884ead205b0f4d599b8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/VehicleRoadSimulationScene.unity
     guid: e1aa760eb3b04cd458244c406ffbee34
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PedestrianRoadSimulationScene.unity
     guid: e1381ebc231cf6a4cad2b1e9eddf80c2
   - enabled: 1
