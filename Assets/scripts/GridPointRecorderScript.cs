@@ -139,15 +139,24 @@ public class GridPointRecorderScript : MonoBehaviour
         _saveFile = JsonUtility.FromJson<DataSavefile>(fileContent);
     }
 
-    public void LoadFiles(string directoryName, string[] fileNames)
+    public void LoadFiles(string directoryName, string[] fileNames, float[] weights = null)
     {
         if (!Directory.Exists(Application.persistentDataPath + "/" + directoryName + "/"))
         {
             Debug.LogError("Directory does not exist: " + Application.persistentDataPath + "/" + directoryName + "/");
         }
 
+        if (weights == null)
+        {
+            weights = new float[fileNames.Length];
+            for (int i = 0; i < weights.Length; i++)
+                weights[i] = 1;
+        }
+
         _saveFile = new DataSavefile();
         Dictionary<Vector3Int, long> keyValuePairs = new Dictionary<Vector3Int, long>();
+
+        int weightIndex = 0;
 
         foreach (string savingFileName in fileNames)
         {
@@ -165,11 +174,11 @@ public class GridPointRecorderScript : MonoBehaviour
             {
                 if (keyValuePairs.ContainsKey(pair.Key))
                 {
-                    keyValuePairs[pair.Key] += pair.Value;
+                    keyValuePairs[pair.Key] += (long)(pair.Value * weights[weightIndex]);
                 }
                 else
                 {
-                    keyValuePairs.Add(pair.Key, pair.Value);
+                    keyValuePairs.Add(pair.Key, (long)(pair.Value * weights[weightIndex]));
                 }
 
                 if (keyValuePairs[pair.Key] > _saveFile.maxValue)
@@ -177,6 +186,8 @@ public class GridPointRecorderScript : MonoBehaviour
                     _saveFile.maxValue = keyValuePairs[pair.Key];
                 }
             }
+
+            weightIndex++;
         }
 
         Debug.Log("Loading loaded file into object.");

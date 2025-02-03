@@ -9,6 +9,7 @@ public class FileLoadingButtonScript : MonoBehaviour
 {
     public Button button;
     public TextMeshProUGUI text;
+    public TMP_InputField weightInput;
     [HideInInspector]
     public string fileName;
     public string fullName;

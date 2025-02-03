@@ -118,13 +118,15 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
     public void LoadSelection()
     {
         string[] fileNames = new string[loadedFilesList.Count];
+        float[] weights = new float[loadedFilesList.Count];
         
         for (int n = 0; n < fileNames.Length; n++)
         {
             fileNames[n] = loadedFilesList[n].fullName;
+            weights[n] = (float.TryParse(loadedFilesList[n].weightInput.text, out var val)) ? val : 1;
         }
 
-        mainManager.gridPointRecorderScript.LoadFiles(mainManager.directoryName, fileNames);
+        mainManager.gridPointRecorderScript.LoadFiles(mainManager.directoryName, fileNames, weights);
     }
 
     public void LoadColorSettings()
