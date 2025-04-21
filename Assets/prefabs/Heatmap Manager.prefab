@@ -87,25 +87,25 @@ MonoBehaviour:
   allowDuplicatesWhenLoadingData: 0
   checkForInsideMesh: 1
   doubleRaycastDistance: 100
-  particleSize: 0.05
+  particleSize: 0.1
   particleSpacing: 0.03
-  particleMaterial: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  particleMaterial: {fileID: 2100000, guid: 6d16e3e5b0cfb32409b3ade9bd343f78, type: 2}
   minVisibleHeat: 0
   maxVisibleHeat: 2100000000
   useHighestValueFound: 1
   limitHighestValueFound: 1
   heatmapColors:
     serializedVersion: 2
-    key0: {r: 0, g: 0, b: 0.4716981, a: 1}
-    key1: {r: 0.4575472, g: 0.7830188, b: 1, a: 1}
-    key2: {r: 1, g: 1, b: 1, a: 0}
-    key3: {r: 1, g: 0.20123056, b: 0, a: 0}
-    key4: {r: 0.38679248, g: 0, b: 0, a: 0}
+    key0: {r: 0, g: 0, b: 0.262, a: 0.77254903}
+    key1: {r: 0, g: 0.85000014, b: 1, a: 1}
+    key2: {r: 0, g: 1, b: 0, a: 1}
+    key3: {r: 1, g: 1, b: 0, a: 0}
+    key4: {r: 1, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 16384
+    ctime1: 32440
     ctime2: 32768
     ctime3: 49151
     ctime4: 65535
@@ -113,22 +113,22 @@ MonoBehaviour:
     ctime6: 0
     ctime7: 0
     atime0: 0
-    atime1: 64841
-    atime2: 0
+    atime1: 279
+    atime2: 64841
     atime3: 0
     atime4: 0
     atime5: 0
     atime6: 0
     atime7: 0
-    m_Mode: 0
+    m_Mode: 2
     m_ColorSpace: -1
     m_NumColorKeys: 5
-    m_NumAlphaKeys: 2
+    m_NumAlphaKeys: 3
   createNewSystemAlways: 1
   particleSystems: []
   HowToFindGridPointForLogPoint: 0
   brushType: 0
-  brushSize: 0.06
+  brushSize: 0.03
 --- !u!65 &9161034720237431701
 BoxCollider:
   m_ObjectHideFlags: 0

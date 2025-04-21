@@ -299,7 +299,7 @@ public class HeatmapDisplay : MonoBehaviour
                         
                         if (!gridValues.ContainsKey(tempInd))
                         {
-                            Debug.LogWarning("INDEX NOT FOUND: " + index.ToString() + "\nLOCAL POSITION: " + point.ToString());
+                            //Debug.LogWarning("INDEX NOT FOUND: " + index.ToString() + "\nLOCAL POSITION: " + point.ToString());
 
                             continue;
                         }

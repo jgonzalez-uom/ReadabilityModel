@@ -319,7 +319,8 @@ public class CustomSimulationManager : MonoBehaviour
                 temp += ")";
 
                 //progress = (((tvIndex) * activeFillerVehiclePoints.Count) + fvIndex) / denominatorProgress;
-                progress = permutationCounter / permutationCount;
+                progress = (float)permutationCounter / permutationCount;
+                //Debug.Log(progress + " = " + permutationCounter + " / " + permutationCount);
 
                 for (int fp = 0; fp < fL.Length; fp++)
                 {
