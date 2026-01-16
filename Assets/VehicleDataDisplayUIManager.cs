@@ -36,6 +36,7 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
     [Header("Colors")]
     public TMP_InputField minValueField;
     public TMP_InputField maxValueField;
+    public TMP_Dropdown evaluationMode; 
 
     [Header("Info")]
     //public TMP_InputField nameInputField;
@@ -216,7 +217,7 @@ public class VehicleDataDisplayUIManager : MonoBehaviour
         {
             if (long.TryParse(maxValueField.text, out long MValue))
             {
-                StartCoroutine(mainManager.RefreshHeatmapDisplay(mValue, MValue));
+                StartCoroutine(mainManager.RefreshHeatmapDisplay(mValue, MValue, evaluationMode.value));
                 return;
             }
         }

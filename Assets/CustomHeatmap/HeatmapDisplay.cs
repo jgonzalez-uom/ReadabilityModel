@@ -33,7 +33,9 @@ public class HeatmapDisplay : MonoBehaviour
     public long minVisibleHeat = 0;
     public long maxVisibleHeat = 100000;
     public bool useHighestValueFound = false;
-    public bool limitHighestValueFound = true;
+    //public bool limitHighestValueFound = true;
+    public enum ValueEvaluationMode { Normalize, Truncate};
+    public ValueEvaluationMode valueEvaluationMode;
     public Gradient heatmapColors;
     public bool createNewSystemAlways = false;
     public ParticleSystem[] particleSystems;
@@ -98,7 +100,7 @@ public class HeatmapDisplay : MonoBehaviour
                 maxTempHeat = maxVisibleHeat;
             }
 
-            if (!useHighestValueFound || (limitHighestValueFound && internalMaxHeat > maxTempHeat))
+            if (!useHighestValueFound || (valueEvaluationMode == ValueEvaluationMode.Truncate && internalMaxHeat > maxTempHeat))
             {
                 internalMaxHeat = maxTempHeat;
             }
@@ -200,7 +202,7 @@ public class HeatmapDisplay : MonoBehaviour
                                      * ((maxFrameLength)));
             watch.Restart();
 
-            if (!useHighestValueFound || (maxHeat > maxVisibleHeat && limitHighestValueFound))
+            if (!useHighestValueFound || (valueEvaluationMode == ValueEvaluationMode.Normalize || maxHeat > maxVisibleHeat))
             {
                 maxHeat = maxVisibleHeat;
             }
@@ -624,6 +626,11 @@ public class HeatmapDisplay : MonoBehaviour
     public void SetMaxVisibleHeat(long to)
     {
         maxVisibleHeat = to;
+    }
+
+    public void SetEvaluationMode(int to)
+    {
+        valueEvaluationMode = (ValueEvaluationMode)to;
     }
 
     public void SetMaxHeat(long to)

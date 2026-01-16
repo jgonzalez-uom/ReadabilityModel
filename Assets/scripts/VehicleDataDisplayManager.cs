@@ -37,12 +37,13 @@ public class VehicleDataDisplayManager : MonoBehaviour
         fileName = to; 
     }
 
-    public IEnumerator RefreshHeatmapDisplay(long minValue, long maxValue)
+    public IEnumerator RefreshHeatmapDisplay(long minValue, long maxValue, int evaluationMode)
     {
         OnStartColorChange.Invoke();
 
         ActiveTarget.HeatmapDisplay.SetMinVisibleHeat(minValue);
         ActiveTarget.HeatmapDisplay.SetMaxVisibleHeat(maxValue);
+        ActiveTarget.HeatmapDisplay.SetEvaluationMode(evaluationMode);
 
         yield return ActiveTarget.HeatmapDisplay.DisplayHeatmap();
 
